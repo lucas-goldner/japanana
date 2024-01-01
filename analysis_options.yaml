@@ -25,9 +25,14 @@ analyzer:
 
 linter:
   rules:
+    always_put_control_body_on_new_line: false
     always_specify_types: false
     diagnostic_describe_all_properties: false
+    lines_longer_than_80_chars:
+      exclude:
+        - test/**
     public_member_api_docs: false
     prefer_double_quotes: false
     prefer_final_parameters: false
     prefer_relative_imports: false
+    unnecessary_final: false

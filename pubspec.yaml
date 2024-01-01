@@ -29,7 +29,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/data/Japanese Grammar Examples.md
     - assets/images/
+    - test/assets/data/Japanese Grammar Examples TestData.md
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
