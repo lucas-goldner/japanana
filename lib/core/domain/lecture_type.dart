@@ -1,4 +1,0 @@
-enum LectureType {
-  writing,
-  conversational,
-}

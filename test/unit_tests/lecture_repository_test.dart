@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hikou/core/data/lecture_import_service.dart';
 import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/core/domain/lecture_type.dart';
 
 import '../mocks/mock_lecture_import_service_mock.dart';
 

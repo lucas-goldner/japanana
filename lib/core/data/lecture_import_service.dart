@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/core/domain/lecture_type.dart';
 import 'package:hikou/gen/assets.gen.dart';
 
 enum ParagraphType {
@@ -74,6 +73,7 @@ class LectureImportService {
       };
 
   Paragraphs _extractParagraphs(List<String> lines) {
+    lines.add(ParagraphType.end.prefix);
     List<String> usages = _getLinesPerParagraph(
         lines, ParagraphType.usage.prefix, ParagraphType.example.prefix);
     List<String> examples = _getLinesPerParagraph(
@@ -91,7 +91,6 @@ class LectureImportService {
     String currentParagraph,
     String nextParagraph,
   ) {
-    lines.add(ParagraphType.end.prefix);
     final List<String> extractedLines = [];
     final currentParagraphIndex =
         lines.indexWhere((line) => line.trim().startsWith(currentParagraph));
@@ -117,6 +116,8 @@ class LectureImportService {
       }
     }
 
+    extractedLines
+        .removeWhere((element) => element == ParagraphType.end.prefix);
     return extractedLines;
   }
 }

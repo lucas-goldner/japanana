@@ -1,4 +1,7 @@
-import 'package:hikou/core/domain/lecture_type.dart';
+enum LectureType {
+  writing,
+  conversational,
+}
 
 class Lecture {
   Lecture({
