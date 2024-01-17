@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
-
 import 'package:hikou/core/presentation/hikou_theme.dart';
 import 'package:hikou/features/home/presentation/home.dart';
 

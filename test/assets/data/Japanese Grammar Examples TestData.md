@@ -15,6 +15,18 @@ Legend: ✍️ Writing specific, 🗣️ Talk specific
   - ...Because the bus didn't come
 - **Extras**: のです in writing.
 
+### いただきます, くださいます, やります
+
+- **Usage**:
+  - When the speaker receives something from someone of higher status -> いただきます
+  - When someone of higher status gives the speaker something -> くださいます
+  - When the recipient is someone of lower status, an animal or a plant -> やります but nowadays あげます is more used
+- **Examples**:
+  - もう一度考えてみます
+- **Translation**:
+  - I'll have another think about it
+- **Extras**: -てみたい can be used to express more reticently something one hopes for than when using -たい
+
 ### -ていただけませんか
 
 - **Usage**: More polite than てください to ask for something
@@ -48,18 +60,6 @@ Legend: ✍️ Writing specific, 🗣️ Talk specific
   - ローマ字が書けません
 - **Translation**:
   - I can only write Romaji
-
-### いただきます, くださいます, やります
-
-- **Usage**:
-  - When the speaker receives something from someone of higher status -> いただきます
-  - When someone of higher status gives the speaker something -> くださいます
-  - When the recipient is someone of lower status, an animal or a plant -> やります but nowadays あげます is more used
-- **Examples**:
-  - もう一度考えてみます
-- **Translation**:
-  - I'll have another think about it
-- **Extras**: -てみたい can be used to express more reticently something one hopes for than when using -たい
 
 ### N に V
 

@@ -3,6 +3,11 @@ import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/gen/assets.gen.dart';
 
 class LectureImportService {
+  List<String> splitBySections(String text) {
+    RegExp exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
+    return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
+  }
+
   Future<List<Lecture>> importLectures({
     String? assetsPath,
   }) async {
@@ -10,46 +15,52 @@ class LectureImportService {
         .loadString(assetsPath ?? Assets.data.japaneseGrammarExamples);
 
     final lectures = <Lecture>[];
-    markdownContent.split('\n').forEach((line) {
-      final _emptyTitle = "Empty";
-      Lecture lecture = Lecture(
-        title: _emptyTitle,
-        usages: [],
-        examples: [],
-        translation: [],
-      );
-
-      if (line.startsWith('###')) {
-        lecture = lecture.copyWith(title: line.replaceFirst('### ', ''));
-      }
-
-      // if (line.startsWith('- **Usage**:')) {
-      //   for (var i = markdownContent.indexOf(line);
-      //       i < markdownContent.length;
-      //       i++) {
-      //     final nextLine = markdownContent[i];
-      //     if (nextLine.startsWith('- **Examples**:')) {
-      //       break;
-      //     }
-      //     lecture = lecture!.copyWith(usages: [...lecture.usages, nextLine]);
-      //   }
-      //   final nextLine = markdownContent[markdownContent.indexOf(line)];
-
-      //   if (nextLine.startsWith('- **Examples**:')) {}
-
-      //   lecture = Lecture(
-      //     title: line,
-      //     usages: [],
-      //     examples: [],
-      //     translation: [],
-      //   );
-      // }
-
-      if (lecture.title != _emptyTitle) {
-        lectures.add(lecture);
-      }
-    });
+    List<String> sections = splitBySections(markdownContent);
+    for (final section in sections) {
+      lectures.add(transformLecture(section));
+    }
 
     return lectures;
+  }
+
+  Lecture transformLecture(String section) {
+    final lecture = Lecture(
+        title: "", usages: [], examples: [], translation: [], extras: []);
+
+    final lines = section.split("\n");
+    print(lines);
+    final title = lines.first.replaceAll("###", "").trim();
+    final usages = extractParagraphs(lines);
+    final examples = extractParagraphs(lines);
+    final ustranslationages = extractParagraphs(lines);
+    final extras = extractParagraphs(lines);
+
+    return lecture.copyWith(title: title, usages: usages);
+  }
+
+  List<String> extractParagraphs(List<String> lines) {
+    List<String> usages = [];
+    bool isDesiredSection = false;
+
+    for (final line in lines) {
+      if (line.trim().startsWith('- **Usage**:')) {
+        final usage = line.split('- **Usage**:').last.trim();
+        usages.add(usage);
+        break;
+      } else if (line.trim() == '- **Usage**:') {
+        isDesiredSection = true;
+        continue;
+      }
+
+      if (isDesiredSection) {
+        if (line.trim().startsWith('- ')) {
+          usages.add(line.trim().substring(2).trim());
+        } else if (line.trim().isEmpty) {
+          break;
+        }
+      }
+    }
+
+    return usages;
   }
 }
