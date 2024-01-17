@@ -6,18 +6,21 @@ enum ParagraphType {
   usage('- **Usage**:'),
   example('- **Examples**:'),
   translation("- **Translation**:"),
-  extra("- **Extras**:");
+  extra("- **Extras**:"),
+  end("_PARAGRAPH_END_");
 
   const ParagraphType(this.prefix);
   final String prefix;
 }
 
-class LectureImportService {
-  List<String> splitBySections(String text) {
-    RegExp exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
-    return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
-  }
+typedef Paragraphs = (
+  List<String> usages,
+  List<String> examples,
+  List<String> translations,
+  List<String> extras
+);
 
+class LectureImportService {
   Future<List<Lecture>> importLectures({
     String? assetsPath,
   }) async {
@@ -25,59 +28,74 @@ class LectureImportService {
         .loadString(assetsPath ?? Assets.data.japaneseGrammarExamples);
 
     final lectures = <Lecture>[];
-    List<String> sections = splitBySections(markdownContent);
+    List<String> sections = _splitBySections(_removeHeaders(markdownContent));
     for (final section in sections) {
-      lectures.add(transformLecture(section));
+      lectures.add(_transformLecture(section));
     }
 
     return lectures;
   }
 
-  Lecture transformLecture(String section) {
-    final lecture = Lecture(
-        title: "", usages: [], examples: [], translation: [], extras: []);
+  String _removeHeaders(String inputText) {
+    final lines = inputText.split('\n');
+    final filteredLines = lines
+        .where((line) => !(line.startsWith('##') && !line.startsWith('###')))
+        .toList();
+    return filteredLines.join('\n');
+  }
 
+  List<String> _splitBySections(String text) {
+    RegExp exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
+    return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
+  }
+
+  Lecture _transformLecture(String section) {
     final lines = section.split("\n");
     final title = lines.first.replaceAll("###", "").trim();
-    final (usages, examples, translations) = extractParagraphs(lines);
-
-    return lecture.copyWith(
+    final (usages, examples, translations, extras) = _extractParagraphs(lines);
+    print("title: $title");
+    return Lecture(
       title: title,
       usages: usages,
       examples: examples,
       translation: translations,
+      extras: extras,
     );
   }
 
-  (List<String> usages, List<String> examples, List<String> translations)
-      extractParagraphs(List<String> lines) {
-    List<String> usages = getLinesPerParagraph(
+  Paragraphs _extractParagraphs(List<String> lines) {
+    List<String> usages = _getLinesPerParagraph(
         lines, ParagraphType.usage.prefix, ParagraphType.example.prefix);
-    List<String> examples = getLinesPerParagraph(
+    List<String> examples = _getLinesPerParagraph(
         lines, ParagraphType.example.prefix, ParagraphType.translation.prefix);
-    List<String> translations = getLinesPerParagraph(
+    List<String> translations = _getLinesPerParagraph(
         lines, ParagraphType.translation.prefix, ParagraphType.extra.prefix);
+    List<String> extras = _getLinesPerParagraph(
+        lines, ParagraphType.extra.prefix, ParagraphType.end.prefix);
 
-    return (usages, examples, translations);
+    return (usages, examples, translations, extras);
   }
 
-  List<String> getLinesPerParagraph(
+  List<String> _getLinesPerParagraph(
     List<String> lines,
     String currentParagraph,
     String nextParagraph,
   ) {
+    lines.add(ParagraphType.end.prefix);
     final List<String> extractedLines = [];
     final currentParagraphIndex =
         lines.indexWhere((line) => line.trim().startsWith(currentParagraph));
 
     if (currentParagraphIndex != -1) {
+      bool isEndOfList = (currentParagraphIndex + 1) == lines.length;
       bool isNotMultiLine =
-          lines[currentParagraphIndex + 1].startsWith(nextParagraph);
+          lines[isEndOfList ? lines.length - 1 : currentParagraphIndex + 1]
+              .startsWith(nextParagraph);
 
       if (isNotMultiLine) {
-        final usage =
+        final line =
             lines[currentParagraphIndex].split(currentParagraph).last.trim();
-        extractedLines.add(usage);
+        extractedLines.add(line);
       } else {
         final nextParagraphIndex =
             lines.indexWhere((line) => line.trim().startsWith(nextParagraph));

@@ -179,8 +179,7 @@ Legend: ✍️ Writing specific, 🗣️ Talk specific
 - **Translation**:
   - 3D means dirty, difficult, and dangerous work.
   - 'PC' stands for 'persona computer.'
-- **Extras**:
-  - なのだ makes the statement more emphatic
+- **Extras**: なのだ makes the statement more emphatic
 
 ### -という-
 
@@ -271,3 +270,16 @@ Legend: ✍️ Writing specific, 🗣️ Talk specific
 - **Translation**:
   - That film doesn't look very interesting, does it?
   - This machine does not look that complicated
+
+### ということだ (reported speech)
+
+- **Usage**: S plain form + ということだ is a reported speech expression when reporting what someone else said or what people in general say
+- **Examples**
+    + 山田さんから電話がったのですが、約束の時間時少し遅れるということです。
+    + 近くにいたい人の話によると、トラックから急に荷物が落ちたということです。
+- **Translation**:
+    + Mr Yamada phoned, saying he would be a little bit late for the appointment.
+    + According to the bystanders, the load suddenly fell off the truck.
+- **Extras**:
+    + can also be in the form of とのことです ✍️
+    + ということですね can be used when repeating what someone just has said in order to confirm it: はい、分かりました。３０分ほど遅れるということですね。Yes, I understand. You'll be about thirty minutes late, right?
