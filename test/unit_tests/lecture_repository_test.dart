@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hikou/core/data/lecture_import_service.dart';
 import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
+import 'package:hikou/core/domain/lecture_type.dart';
 
 import '../mocks/mock_lecture_import_service_mock.dart';
 
@@ -83,10 +84,10 @@ void main() {
       final lectures = await lectureRepository.fetchLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
-      expect(firstLecture.translation,
+      expect(firstLecture.translations,
           ['Is it raining?', '...Because the bus didn\'t come']);
-      expect(secondLecture.translation, ['I\'ll have another think about it']);
-      expect(thirdLecture.translation,
+      expect(secondLecture.translations, ['I\'ll have another think about it']);
+      expect(thirdLecture.translations,
           ['Would you be so kind as to introduce me to a good teacher?']);
     });
 
@@ -111,6 +112,19 @@ void main() {
         '+ can also be in the form of とのことです ✍️',
         '+ ということですね can be used when repeating what someone just has said in order to confirm it: はい、分かりました。３０分ほど遅れるということですね。Yes, I understand. You\'ll be about thirty minutes late, right?'
       ]);
+    });
+
+    test('Test lectures types', () async {
+      final lectureRepository = await setupMockLectureImportService();
+      final lectures = await lectureRepository.fetchLectures();
+      final writingLectures = lectures
+          .where((lecture) => lecture.type == LectureType.writing)
+          .toList();
+      final conversationalLectures = lectures
+          .where((lecture) => lecture.type == LectureType.writing)
+          .toList();
+      expect(writingLectures.length, 1);
+      expect(conversationalLectures.length, 1);
     });
   });
 }

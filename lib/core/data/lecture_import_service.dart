@@ -1,5 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:hikou/core/domain/lecture.dart';
+import 'package:hikou/core/domain/lecture_type.dart';
 import 'package:hikou/gen/assets.gen.dart';
 
 enum ParagraphType {
@@ -52,16 +53,25 @@ class LectureImportService {
   Lecture _transformLecture(String section) {
     final lines = section.split("\n");
     final title = lines.first.replaceAll("###", "").trim();
+    final lectureType = _getLectureType(title);
     final (usages, examples, translations, extras) = _extractParagraphs(lines);
-    print("title: $title");
+
     return Lecture(
       title: title,
       usages: usages,
       examples: examples,
-      translation: translations,
+      translations: translations,
       extras: extras,
+      type: lectureType,
     );
   }
+
+  // Legend: ✍️ Writing specific, 🗣️ Talk specific
+  LectureType? _getLectureType(String title) => switch (title) {
+        String s when s.contains("✍️") => LectureType.writing,
+        String s when s.contains("🗣️") => LectureType.conversational,
+        _ => null
+      };
 
   Paragraphs _extractParagraphs(List<String> lines) {
     List<String> usages = _getLinesPerParagraph(
