@@ -2,6 +2,16 @@ import 'package:flutter/services.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/gen/assets.gen.dart';
 
+enum ParagraphType {
+  usage('- **Usage**:'),
+  example('- **Examples**:'),
+  translation("- **Translation**:"),
+  extra("- **Extras**:");
+
+  const ParagraphType(this.prefix);
+  final String prefix;
+}
+
 class LectureImportService {
   List<String> splitBySections(String text) {
     RegExp exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
@@ -28,39 +38,57 @@ class LectureImportService {
         title: "", usages: [], examples: [], translation: [], extras: []);
 
     final lines = section.split("\n");
-    print(lines);
     final title = lines.first.replaceAll("###", "").trim();
-    final usages = extractParagraphs(lines);
-    final examples = extractParagraphs(lines);
-    final ustranslationages = extractParagraphs(lines);
-    final extras = extractParagraphs(lines);
+    final (usages, examples, translations) = extractParagraphs(lines);
 
-    return lecture.copyWith(title: title, usages: usages);
+    return lecture.copyWith(
+      title: title,
+      usages: usages,
+      examples: examples,
+      translation: translations,
+    );
   }
 
-  List<String> extractParagraphs(List<String> lines) {
-    List<String> usages = [];
-    bool isDesiredSection = false;
+  (List<String> usages, List<String> examples, List<String> translations)
+      extractParagraphs(List<String> lines) {
+    List<String> usages = getLinesPerParagraph(
+        lines, ParagraphType.usage.prefix, ParagraphType.example.prefix);
+    List<String> examples = getLinesPerParagraph(
+        lines, ParagraphType.example.prefix, ParagraphType.translation.prefix);
+    List<String> translations = getLinesPerParagraph(
+        lines, ParagraphType.translation.prefix, ParagraphType.extra.prefix);
 
-    for (final line in lines) {
-      if (line.trim().startsWith('- **Usage**:')) {
-        final usage = line.split('- **Usage**:').last.trim();
-        usages.add(usage);
-        break;
-      } else if (line.trim() == '- **Usage**:') {
-        isDesiredSection = true;
-        continue;
-      }
+    return (usages, examples, translations);
+  }
 
-      if (isDesiredSection) {
-        if (line.trim().startsWith('- ')) {
-          usages.add(line.trim().substring(2).trim());
-        } else if (line.trim().isEmpty) {
-          break;
-        }
+  List<String> getLinesPerParagraph(
+    List<String> lines,
+    String currentParagraph,
+    String nextParagraph,
+  ) {
+    final List<String> extractedLines = [];
+    final currentParagraphIndex =
+        lines.indexWhere((line) => line.trim().startsWith(currentParagraph));
+
+    if (currentParagraphIndex != -1) {
+      bool isNotMultiLine =
+          lines[currentParagraphIndex + 1].startsWith(nextParagraph);
+
+      if (isNotMultiLine) {
+        final usage =
+            lines[currentParagraphIndex].split(currentParagraph).last.trim();
+        extractedLines.add(usage);
+      } else {
+        final nextParagraphIndex =
+            lines.indexWhere((line) => line.trim().startsWith(nextParagraph));
+        final reachesEndOfLines = nextParagraphIndex == -1;
+        final linesInBetween = lines.sublist(currentParagraphIndex + 1,
+            reachesEndOfLines ? lines.length : nextParagraphIndex);
+        linesInBetween.forEach((element) =>
+            extractedLines.add(element.replaceAll("- ", "").trim()));
       }
     }
 
-    return usages;
+    return extractedLines;
   }
 }
