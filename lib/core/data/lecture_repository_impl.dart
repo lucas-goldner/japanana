@@ -21,7 +21,7 @@ typedef Paragraphs = (
   List<String> extras
 );
 
-class LectureImportService implements LectureRepository {
+class LectureRepositoryImpl implements LectureRepository {
   @override
   Future<List<Lecture>> fetchLectures({
     String? assetsPath,

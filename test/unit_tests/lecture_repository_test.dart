@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hikou/core/data/lecture_import_service.dart';
+import 'package:hikou/core/data/lecture_repository_impl.dart';
 import 'package:hikou/core/domain/lecture.dart';
 
 void main() {
@@ -9,7 +9,7 @@ void main() {
   });
 
   group("Test get lectures from repository", () {
-    final lectureImportService = LectureImportService();
+    final lectureImportService = LectureRepositoryImpl();
 
     Future<List<Lecture>> fetchMockedLectures() async =>
         lectureImportService.fetchLectures(
@@ -30,7 +30,7 @@ void main() {
     });
 
     test('Test ensure all lectures loads correctly all data', () async {
-      final lectureImportService = LectureImportService();
+      final lectureImportService = LectureRepositoryImpl();
       final lectures = await lectureImportService.fetchLectures();
       expect(lectures.length, 331);
     });

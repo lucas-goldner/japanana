@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hikou/core/data/lecture_import_service.dart';
+import 'package:hikou/core/data/lecture_repository_impl.dart';
 import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
 
@@ -15,5 +15,5 @@ class LectureNotifier extends Notifier<List<Lecture>> {
 
 final lectureNotifierProvider =
     NotifierProvider<LectureNotifier, List<Lecture>>(
-  () => LectureNotifier(LectureImportService()),
+  () => LectureNotifier(LectureRepositoryImpl()),
 );
