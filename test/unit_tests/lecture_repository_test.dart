@@ -1,10 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hikou/core/data/lecture_import_service.dart';
-import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
-
-import '../mocks/mock_lecture_import_service_mock.dart';
 
 void main() {
   setUp(() {
@@ -12,12 +9,12 @@ void main() {
   });
 
   group("Test get lectures from repository", () {
-    Future<LectureRepository> setupMockLectureImportService({
-      String? assetsPath,
-    }) async {
-      final mockLectureImportService = MockLectureImportService();
-      return LectureRepository(lectureProvider: mockLectureImportService);
-    }
+    final lectureImportService = LectureImportService();
+
+    Future<List<Lecture>> fetchMockedLectures() async =>
+        lectureImportService.fetchLectures(
+          assetsPath: 'test/assets/data/Japanese Grammar Examples TestData.md',
+        );
 
     (Lecture firstLecture, Lecture secondLecture, Lecture thirdLecture)
         getFirstThreeLectures(List<Lecture> lectures) {
@@ -28,22 +25,18 @@ void main() {
     }
 
     test('Test ensure all lectures loads correctly from test data', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       expect(lectures.length, 25);
     });
 
     test('Test ensure all lectures loads correctly all data', () async {
       final lectureImportService = LectureImportService();
-      final lectureRepository =
-          LectureRepository(lectureProvider: lectureImportService);
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await lectureImportService.fetchLectures();
       expect(lectures.length, 331);
     });
 
     test('Test lectures titles', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
       expect(firstLecture.title, 'んです');
@@ -52,8 +45,7 @@ void main() {
     });
 
     test('Test lectures usages', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
       expect(firstLecture.usages, [
@@ -69,8 +61,7 @@ void main() {
     });
 
     test('Test lectures examples', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
       expect(firstLecture.examples, ['雨が降っているんですか', 'バスが来なかったんです']);
@@ -79,8 +70,7 @@ void main() {
     });
 
     test('Test lectures translations', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
       expect(firstLecture.translations,
@@ -91,8 +81,7 @@ void main() {
     });
 
     test('Test lectures extras', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final (firstLecture, secondLecture, thirdLecture) =
           getFirstThreeLectures(lectures);
       final fifthLecture = lectures[4];
@@ -114,8 +103,7 @@ void main() {
     });
 
     test('Test lectures types', () async {
-      final lectureRepository = await setupMockLectureImportService();
-      final lectures = await lectureRepository.fetchLectures();
+      final lectures = await fetchMockedLectures();
       final writingLectures = lectures
           .where((lecture) => lecture.type == LectureType.writing)
           .toList();

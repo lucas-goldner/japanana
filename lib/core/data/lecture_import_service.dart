@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/gen/assets.gen.dart';
 
@@ -20,8 +21,9 @@ typedef Paragraphs = (
   List<String> extras
 );
 
-class LectureImportService {
-  Future<List<Lecture>> importLectures({
+class LectureImportService implements LectureRepository {
+  @override
+  Future<List<Lecture>> fetchLectures({
     String? assetsPath,
   }) async {
     final markdownContent = await rootBundle
