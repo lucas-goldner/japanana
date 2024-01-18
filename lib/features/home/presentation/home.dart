@@ -13,7 +13,7 @@ class Home extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Hey"),
+        title: Text("飛行"),
       ),
       body: Center(
         child: Column(

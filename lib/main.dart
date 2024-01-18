@@ -27,8 +27,10 @@ class _HikouAppState extends ConsumerState<HikouApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Hikou',
-        theme: theme,
+        theme: lightTheme,
+        darkTheme: darkTheme,
         home: const Home(),
       );
 }
