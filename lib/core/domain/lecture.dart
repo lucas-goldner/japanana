@@ -19,20 +19,4 @@ class Lecture {
   final List<String> translations;
   final List<String>? extras;
   final LectureType? type;
-
-  Lecture copyWith(
-          {String? title,
-          List<String>? usages,
-          List<String>? examples,
-          List<String>? translation,
-          List<String>? extras,
-          LectureType? type}) =>
-      Lecture(
-        title: title ?? this.title,
-        usages: usages ?? this.usages,
-        examples: examples ?? this.examples,
-        translations: translation ?? this.translations,
-        extras: extras ?? this.extras,
-        type: type ?? this.type,
-      );
 }
