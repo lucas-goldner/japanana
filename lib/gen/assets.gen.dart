@@ -9,6 +9,12 @@
 
 import 'package:flutter/widgets.dart';
 
+class $TestGen {
+  const $TestGen();
+
+  $TestAssetsGen get assets => const $TestAssetsGen();
+}
+
 class $AssetsDataGen {
   const $AssetsDataGen();
 
@@ -20,10 +26,45 @@ class $AssetsDataGen {
   List<String> get values => [japaneseGrammarExamples];
 }
 
+class $AssetsL10nGen {
+  const $AssetsL10nGen();
+
+  /// File path: assets/l10n/app_de.arb
+  String get appDe => 'assets/l10n/app_de.arb';
+
+  /// File path: assets/l10n/app_en.arb
+  String get appEn => 'assets/l10n/app_en.arb';
+
+  /// File path: assets/l10n/app_ja.arb
+  String get appJa => 'assets/l10n/app_ja.arb';
+
+  /// List of all assets
+  List<String> get values => [appDe, appEn, appJa];
+}
+
+class $TestAssetsGen {
+  const $TestAssetsGen();
+
+  $TestAssetsDataGen get data => const $TestAssetsDataGen();
+}
+
+class $TestAssetsDataGen {
+  const $TestAssetsDataGen();
+
+  /// File path: test/assets/data/Japanese Grammar Examples TestData.md
+  String get japaneseGrammarExamplesTestData =>
+      'test/assets/data/Japanese Grammar Examples TestData.md';
+
+  /// List of all assets
+  List<String> get values => [japaneseGrammarExamplesTestData];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsDataGen data = $AssetsDataGen();
+  static const $AssetsL10nGen l10n = $AssetsL10nGen();
+  static const $TestGen test = $TestGen();
 }
 
 class AssetGenImage {

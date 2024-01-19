@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hikou/core/application/lecture_provider.dart';
 import 'package:hikou/core/presentation/hikou_theme.dart';
-import 'package:hikou/features/home/presentation/home.dart';
+import 'package:hikou/core/router.dart';
 
 void main() => runApp(const ProviderScope(child: HikouApp()));
 
@@ -26,11 +27,13 @@ class _HikouAppState extends ConsumerState<HikouApp> {
       ref.read(lectureNotifierProvider.notifier).fetchLectures();
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
+  Widget build(BuildContext context) => MaterialApp.router(
+        routerConfig: router,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: false,
         title: 'Hikou',
         theme: lightTheme,
         darkTheme: darkTheme,
-        home: const Home(),
       );
 }

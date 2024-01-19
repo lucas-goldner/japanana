@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 final ThemeData lightTheme = ThemeData(
   colorScheme: colorSchemeLight,
   useMaterial3: true,
+  listTileTheme: ListTileThemeData(
+    minVerticalPadding: 16,
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(
   colorScheme: colorSchemeDark,
   useMaterial3: true,
+  listTileTheme: ListTileThemeData(
+    minVerticalPadding: 16,
+  ),
 );
 
 const ColorScheme colorSchemeLight = ColorScheme(
