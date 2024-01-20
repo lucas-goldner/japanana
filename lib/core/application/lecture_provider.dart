@@ -13,9 +13,9 @@ class LectureNotifier extends Notifier<List<Lecture>> {
 
   void fetchLectures() async => state = await _repository.fetchLectures();
 
-  Future<List<Lecture>> getLecturesForReviewOption(
+  List<Lecture> getLecturesForReviewOption(
     ReviewOptions option,
-  ) async =>
+  ) =>
       state.where((lecture) => lecture.types.contains(option)).toList();
 }
 

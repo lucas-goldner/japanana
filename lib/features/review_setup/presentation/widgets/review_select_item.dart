@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/router.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
@@ -17,7 +18,7 @@ class ReviewSelectItem extends StatelessWidget {
         title: Text(
           key: K.getReviewSelectItemTitleForReviewOption(reviewOption),
           reviewOption.getLocalizedTitle(context),
-          style: Theme.of(context).textTheme.headlineSmall,
+          style: context.textTheme.headlineSmall,
           maxLines: 3,
         ),
         trailing: IconButton(

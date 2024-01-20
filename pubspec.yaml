@@ -18,6 +18,7 @@ dependencies:
   go_router: ^13.0.1
   hooks_riverpod: ^2.4.9
   intl: any
+  swipe_cards: ^2.0.0+1
 
 dev_dependencies:
   all_lint_rules_community: ^0.0.3
