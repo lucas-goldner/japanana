@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hikou/core/key.dart';
+import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/router.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 

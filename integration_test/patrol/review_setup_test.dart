@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hikou/core/key.dart';
+import 'package:hikou/core/keys.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 import 'package:hikou/features/review_setup/presentation/widgets/review_select_item.dart';
 import 'package:hikou/main.dart';

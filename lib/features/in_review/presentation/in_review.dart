@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hikou/core/key.dart';
+import 'package:hikou/core/keys.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 
 class InReview extends StatelessWidget {
