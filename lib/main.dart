@@ -24,7 +24,7 @@ class _HikouAppState extends ConsumerState<HikouApp> {
   }
 
   Future<void> _loadApp(WidgetRef ref) async =>
-      ref.read(lectureNotifierProvider.notifier).fetchLectures();
+      ref.read(lectureProvider.notifier).fetchLectures();
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(

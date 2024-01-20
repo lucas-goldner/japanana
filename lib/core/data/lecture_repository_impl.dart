@@ -31,8 +31,8 @@ class LectureRepositoryImpl implements LectureRepository {
 
     final lectures = <Lecture>[];
     List<String> sections = _splitBySections(_removeHeaders(markdownContent));
-    for (final section in sections) {
-      lectures.add(_transformLecture(section));
+    for (final (index, section) in sections.indexed) {
+      lectures.add(_transformLecture(section, index));
     }
 
     return lectures;
@@ -51,10 +51,16 @@ class LectureRepositoryImpl implements LectureRepository {
     return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
   }
 
-  Lecture _transformLecture(String section) {
+  Lecture _transformLecture(String section, int currentLectureIndex) {
     final lines = section.split("\n");
     final title = lines.first.replaceAll("###", "").trim();
-    final lectureType = _getLectureType(title);
+    final List<LectureType> lectureTypes = [];
+    final contentLectureType = _getContentBasedLectureType(title);
+    if (contentLectureType != null) lectureTypes.add(contentLectureType);
+    final categorizedLectureType =
+        _getCategorizedLectureType(currentLectureIndex);
+    if (categorizedLectureType != null)
+      lectureTypes.add(categorizedLectureType);
     final (usages, examples, translations, extras) = _extractParagraphs(lines);
 
     return Lecture(
@@ -63,14 +69,21 @@ class LectureRepositoryImpl implements LectureRepository {
       examples: examples,
       translations: translations,
       extras: extras,
-      type: lectureType,
+      types: lectureTypes,
     );
   }
 
   // Legend: ✍️ Writing specific, 🗣️ Talk specific
-  LectureType? _getLectureType(String title) => switch (title) {
+  LectureType? _getContentBasedLectureType(String title) => switch (title) {
         String s when s.contains("✍️") => LectureType.writing,
         String s when s.contains("🗣️") => LectureType.conversational,
+        _ => null
+      };
+
+  LectureType? _getCategorizedLectureType(int indexOfLecture) =>
+      switch (indexOfLecture) {
+        int i when i > 67 => LectureType.n3,
+        int i when i <= 67 => LectureType.n4,
         _ => null
       };
 

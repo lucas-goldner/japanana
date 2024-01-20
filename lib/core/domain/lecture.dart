@@ -1,6 +1,8 @@
 enum LectureType {
   writing,
   conversational,
+  n3,
+  n4,
 }
 
 class Lecture {
@@ -10,7 +12,7 @@ class Lecture {
     required this.examples,
     required this.translations,
     this.extras,
-    this.type,
+    required this.types,
   });
 
   final String title;
@@ -18,5 +20,5 @@ class Lecture {
   final List<String> examples;
   final List<String> translations;
   final List<String>? extras;
-  final LectureType? type;
+  final List<LectureType> types;
 }

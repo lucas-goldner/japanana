@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
 
-enum ReviewOptions { n3, n4, conversational, writing }
+typedef ReviewOptions = LectureType;
 
 extension ReviewOptionsExtension on ReviewOptions {
   String getLocalizedTitle(BuildContext context) => switch (this) {

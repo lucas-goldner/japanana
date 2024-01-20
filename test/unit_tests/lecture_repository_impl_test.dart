@@ -102,16 +102,34 @@ void main() {
       ]);
     });
 
-    test('Test lectures types', () async {
+    test('Test lectures content based types', () async {
       final lectures = await fetchMockedLectures();
       final writingLectures = lectures
-          .where((lecture) => lecture.type == LectureType.writing)
+          .where((lecture) => lecture.types.contains(LectureType.writing))
           .toList();
       final conversationalLectures = lectures
-          .where((lecture) => lecture.type == LectureType.writing)
+          .where(
+              (lecture) => lecture.types.contains(LectureType.conversational))
           .toList();
       expect(writingLectures.length, 1);
       expect(conversationalLectures.length, 1);
+    });
+
+    test('Test lectures categorized based types', () async {
+      final lectureImportService = LectureRepositoryImpl();
+      final lectures = await lectureImportService.fetchLectures();
+      final n4Lectures = lectures
+          .where((lecture) => lecture.types.contains(LectureType.n4))
+          .toList();
+      final n3Lectures = lectures
+          .where((lecture) => lecture.types.contains(LectureType.n3))
+          .toList();
+      expect(n3Lectures.length, 263);
+      expect(n4Lectures.length, 68);
+      expect(n4Lectures.last.title, "謙譲語");
+      expect(n3Lectures.first.title,
+          "Vてform + てもらえませんか/ていただけませんか/てもらえないでしょうか/ていただけないでしょうか");
+      expect(n3Lectures.last.title, "Sentenceっけ 🗣️");
     });
   });
 }
