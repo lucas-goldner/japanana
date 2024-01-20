@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:hikou/features/in_review/presentation/in_review.dart';
+import 'package:hikou/features/review_setup/domain/review_options.dart';
 import 'package:hikou/features/review_setup/presentation/review_setup.dart';
 
 enum AppRoutes {
@@ -19,7 +20,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.inReview.path,
-      builder: (context, state) => InReview(),
+      builder: (context, state) => InReview(state.extra as ReviewOptions),
     ),
   ],
 );

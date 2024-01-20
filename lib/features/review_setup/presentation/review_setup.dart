@@ -15,15 +15,17 @@ class ReviewSetup extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: theme.colorScheme.inversePrimary,
         title: Text(
+          key: const Key('review_setup_app_title'),
           t!.appTitle,
           style: theme.textTheme.headlineLarge,
         ),
       ),
-      body: ListView.builder(
+      body: ListView.separated(
         itemCount: ReviewOptions.values.length,
         itemBuilder: (context, index) => ReviewSelectItem(
-          ReviewOptions.values[index].getLocalizedTitle(context),
+          ReviewOptions.values[index],
         ),
+        separatorBuilder: (context, index) => const Divider(),
       ),
     );
   }

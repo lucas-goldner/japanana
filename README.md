@@ -18,5 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 Run integration tests:
 
 ```bash
-patrol test -t integration_test/patrol/ -d 'iPhone 15'
+patrol test -t integration_test/patrol -d 'iPhone 15'
 ```
