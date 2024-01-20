@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hikou/core/key.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 import 'package:hikou/features/review_setup/presentation/widgets/review_select_item.dart';
 import 'package:hikou/main.dart';
@@ -13,7 +14,7 @@ void main() {
       await $.pumpWidgetAndSettle(
         ProviderScope(child: const HikouApp()),
       );
-      expect($(#review_setup_app_title).visible, equals(true));
+      expect($(K.reviewSetupAppTitle).visible, equals(true));
       expect($(ReviewSelectItem), findsNWidgets(ReviewOptions.values.length));
       expect($(Divider), findsNWidgets(ReviewOptions.values.length - 1));
     },

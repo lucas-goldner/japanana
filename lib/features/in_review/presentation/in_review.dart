@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hikou/core/key.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 
 class InReview extends StatelessWidget {
@@ -13,7 +14,7 @@ class InReview extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: theme.colorScheme.inversePrimary,
         title: Text(
-          key: Key('in_review_app_title_${reviewOption.name}'),
+          key: K.getInReviewAppTitleForReviewOption(reviewOption),
           reviewOption.getLocalizedTitle(context),
           style: theme.textTheme.headlineSmall,
         ),

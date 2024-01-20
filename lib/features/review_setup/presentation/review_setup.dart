@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:hikou/core/key.dart';
 import 'package:hikou/features/review_setup/domain/review_options.dart';
 import 'package:hikou/features/review_setup/presentation/widgets/review_select_item.dart';
 
@@ -15,7 +16,7 @@ class ReviewSetup extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: theme.colorScheme.inversePrimary,
         title: Text(
-          key: const Key('review_setup_app_title'),
+          key: K.reviewSetupAppTitle,
           t!.appTitle,
           style: theme.textTheme.headlineLarge,
         ),
