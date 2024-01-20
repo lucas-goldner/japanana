@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hikou/core/application/lecture_provider.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
