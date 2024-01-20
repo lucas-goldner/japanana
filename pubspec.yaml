@@ -26,7 +26,17 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  patrol: ^3.4.0
   riverpod_lint: ^2.3.7
+
+patrol:
+  app_name: Hikou
+  android:
+    package_name: com.example.hikou
+  ios:
+    bundle_id: com.lucas-goldner.hikou
+  macos:
+    bundle_id: com.example.macos.hikou
 
 flutter:
   generate: true

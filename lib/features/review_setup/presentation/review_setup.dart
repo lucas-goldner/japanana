@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:hikou/features/review_setup/data/review_options.dart';
+import 'package:hikou/features/review_setup/domain/review_options.dart';
 import 'package:hikou/features/review_setup/presentation/widgets/review_select_item.dart';
 
 class ReviewSetup extends StatelessWidget {
