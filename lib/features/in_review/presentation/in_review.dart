@@ -35,33 +35,31 @@ class _InReviewState extends ConsumerState<InReview> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colorScheme.inversePrimary,
-        title: Text(
-          key: K.getInReviewAppTitleForReviewOption(widget.reviewOption),
-          widget.reviewOption.getLocalizedTitle(context),
-          style: context.textTheme.headlineSmall,
-        ),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: SwipeCards(
-              matchEngine: matchEngine,
-              itemBuilder: (BuildContext context, int index) => LectureCard(
-                lectures[index],
-              ),
-              onStackFinished: () {},
-              itemChanged: (SwipeItem item, int index) {},
-              upSwipeAllowed: false,
-              fillSpace: false,
-            ),
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          backgroundColor: context.colorScheme.inversePrimary,
+          title: Text(
+            key: K.getInReviewAppTitleForReviewOption(widget.reviewOption),
+            widget.reviewOption.getLocalizedTitle(context),
+            style: context.textTheme.headlineSmall,
           ),
-        ],
-      ),
-    );
-  }
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: SwipeCards(
+                matchEngine: matchEngine,
+                itemBuilder: (BuildContext context, int index) => LectureCard(
+                  lectures[index],
+                ),
+                onStackFinished: () {},
+                itemChanged: (SwipeItem item, int index) {},
+                upSwipeAllowed: false,
+                fillSpace: false,
+              ),
+            ),
+          ],
+        ),
+      );
 }
