@@ -26,16 +26,16 @@ void main() {
       await $.pumpWidgetAndSettle(
         ProviderScope(child: const HikouApp()),
       );
-      expect($(#review_setup_app_title).visible, equals(true));
+      expect($(K.reviewSetupAppTitle).visible, equals(true));
       final n3GrammarOption =
-          $(Key("review_select_item_title_${ReviewOptions.n3.name}"));
+          $(K.getReviewSelectItemTitleForReviewOption(ReviewOptions.n3));
       expect(n3GrammarOption.visible, equals(true));
       await n3GrammarOption.tap();
       final inReviewTitleKey =
-          $(Key("in_review_app_title_${ReviewOptions.n3.name}"));
+          $(K.getInReviewAppTitleForReviewOption(ReviewOptions.n3));
       expect(inReviewTitleKey.visible, equals(true));
       await $.tap($(BackButton));
-      expect($(#review_setup_app_title).visible, equals(true));
+      expect($(K.reviewSetupAppTitle).visible, equals(true));
     },
   );
 }

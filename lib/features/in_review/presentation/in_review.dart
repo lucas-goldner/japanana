@@ -49,6 +49,7 @@ class _InReviewState extends ConsumerState<InReview> {
             Padding(
               padding: const EdgeInsets.all(8),
               child: SwipeCards(
+                key: K.inReviewCardStack,
                 matchEngine: matchEngine,
                 itemBuilder: (BuildContext context, int index) => LectureCard(
                   lectures[index],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
+import 'package:hikou/core/keys.dart';
 
 class LectureCard extends HookWidget {
   const LectureCard(this.lecture, {super.key});
@@ -10,10 +11,12 @@ class LectureCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = useState(false);
+    print(lecture.usages);
 
     return GestureDetector(
       onTapDown: (_) => expanded.value = true,
       child: Card(
+        key: K.lectureCard,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: SizedBox(
@@ -24,10 +27,12 @@ class LectureCard extends HookWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    key: K.lectureCardTitle,
                     lecture.title,
                     style: context.textTheme.headlineSmall,
                   ),
                   Visibility(
+                    key: K.lectureCardExpandedContent,
                     visible: expanded.value,
                     maintainState: true,
                     maintainSize: true,
