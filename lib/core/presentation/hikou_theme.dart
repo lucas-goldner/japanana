@@ -6,6 +6,13 @@ final ThemeData lightTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     minVerticalPadding: 16,
   ),
+  extensions: [
+    LinearPercentIndicatorColors(
+      backgroundColor: colorSchemeLight.onBackground,
+      progressLabelTextColor: colorSchemeLight.onPrimary,
+      progressColor: colorSchemeLight.inversePrimary,
+    )
+  ],
 );
 
 final ThemeData darkTheme = ThemeData(
@@ -14,6 +21,13 @@ final ThemeData darkTheme = ThemeData(
   listTileTheme: ListTileThemeData(
     minVerticalPadding: 16,
   ),
+  extensions: [
+    LinearPercentIndicatorColors(
+      backgroundColor: colorSchemeLight.background,
+      progressLabelTextColor: colorSchemeLight.primary,
+      progressColor: colorSchemeLight.inversePrimary,
+    )
+  ],
 );
 
 const ColorScheme colorSchemeLight = ColorScheme(
@@ -83,3 +97,47 @@ const ColorScheme colorSchemeDark = ColorScheme(
   inversePrimary: Color(0xffDAA520),
   surfaceTint: Color(0xffFAE36B),
 );
+
+@immutable
+class LinearPercentIndicatorColors
+    extends ThemeExtension<LinearPercentIndicatorColors> {
+  const LinearPercentIndicatorColors({
+    required this.progressLabelTextColor,
+    required this.progressColor,
+    required this.backgroundColor,
+  });
+
+  final Color? progressLabelTextColor;
+  final Color? progressColor;
+  final Color? backgroundColor;
+
+  @override
+  LinearPercentIndicatorColors copyWith({
+    Color? progressLabelTextColor,
+    Color? progressColor,
+    Color? backgroundColor,
+  }) =>
+      LinearPercentIndicatorColors(
+          progressLabelTextColor:
+              progressLabelTextColor ?? this.progressLabelTextColor,
+          progressColor: progressColor ?? this.progressColor,
+          backgroundColor: backgroundColor ?? this.backgroundColor);
+
+  @override
+  LinearPercentIndicatorColors lerp(
+      LinearPercentIndicatorColors? other, double t) {
+    if (other is! LinearPercentIndicatorColors) {
+      return this;
+    }
+    return LinearPercentIndicatorColors(
+      progressLabelTextColor:
+          Color.lerp(progressLabelTextColor, other.progressLabelTextColor, t),
+      progressColor: Color.lerp(progressColor, other.progressColor, t),
+      backgroundColor: Color.lerp(backgroundColor, other.backgroundColor, t),
+    );
+  }
+
+  @override
+  String toString() =>
+      'LinearPercentIndicatorColors(progressLabelTextColor: $progressLabelTextColor, progressColor: $progressColor, backgroundColor: $backgroundColor)';
+}
