@@ -1,11 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hikou/core/application/lecture_provider.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/presentation/hikou_theme.dart';
 import 'package:hikou/core/presentation/widgets/lecture_card.dart';
+import 'package:hikou/core/router.dart';
 import 'package:hikou/features/review_selection/domain/review_sections.dart';
 import 'package:hikou/features/review_setup/domain/review_setup_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,17 +25,30 @@ class InReview extends StatefulHookConsumerWidget {
 }
 
 class _InReviewState extends ConsumerState<InReview> {
-  late final List<Lecture> lectures;
+  List<Lecture> lectures = [];
   late final MatchEngine matchEngine;
+  late final ReviewSetupOptions options;
+
+  void _onNope(Lecture lecture) {
+    if (options.repeatOnFalseCard) matchEngine..rewindMatch();
+  }
 
   @override
   void initState() {
+    options = widget.reviewOption.$2;
     lectures = ref
         .read(lectureProvider.notifier)
         .getLecturesForReviewOption(widget.reviewOption.$1);
+    if (options.randomize) lectures.shuffle();
     matchEngine = MatchEngine(
-        swipeItems:
-            lectures.map((e) => SwipeItem(content: LectureCard(e))).toList());
+        swipeItems: lectures
+            .map(
+              (lecture) => SwipeItem(
+                content: LectureCard(lecture),
+                nopeAction: () => _onNope(lecture),
+              ),
+            )
+            .toList());
     super.initState();
   }
 
@@ -60,9 +77,8 @@ class _InReviewState extends ConsumerState<InReview> {
               itemBuilder: (BuildContext context, int index) =>
                   LectureCard(lectures[index]),
               onStackFinished: () {},
-              itemChanged: (SwipeItem item, int index) {
-                reviewProgress.value = index;
-              },
+              itemChanged: (SwipeItem item, int index) =>
+                  reviewProgress.value = index,
               upSwipeAllowed: false,
               fillSpace: false,
             ),
@@ -75,9 +91,9 @@ class _InReviewState extends ConsumerState<InReview> {
               animateFromLastPercent: true,
               lineHeight: 20.0,
               animationDuration: 1250,
-              percent: (reviewProgress.value / lectures.length),
+              percent: ((reviewProgress.value + 1) / lectures.length),
               center: Text(
-                "${reviewProgress.value} / ${lectures.length}",
+                "${(reviewProgress.value + 1)} / ${lectures.length}",
                 style: context.textTheme.labelLarge?.copyWith(
                   color: linearPercentIndicatorExt.progressLabelTextColor,
                 ),
