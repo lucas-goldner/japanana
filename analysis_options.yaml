@@ -6,6 +6,7 @@ analyzer:
     - "test/.test_coverage.dart"
     - "bin/cache/**"
     - "lib/generated_plugin_registrant.dart"
+    - "integration_test/test_bundle.dart"
 
   language:
     strict-casts: true

@@ -132,4 +132,48 @@ void main() {
       expect(n3Lectures.last.title, "Sentenceっけ 🗣️");
     });
   });
+
+  group("Test confirm formating some lectures are correctly imported", () {
+    Future<List<Lecture>> getLectures() async {
+      final lectureImportService = LectureRepositoryImpl();
+      return await lectureImportService.fetchLectures();
+    }
+
+    test('Test なさそう lecture is correctly imported', () async {
+      final lectures = await getLectures();
+      final nasaSouLecture = lectures
+          .where((lecture) => lecture.title.contains('なさそう negative'))
+          .first;
+      expect(nasaSouLecture.title, 'なさそう negative (looks like そうです)');
+      expect(nasaSouLecture.usages, [
+        "Indicates something does not appear to be A or is not thought to be A"
+      ]);
+      expect(nasaSouLecture.examples,
+          ['+ あの映画はあまり面白くなさそうですね', '+ この機会はそんなに複雑じゃなさそうです']);
+      expect(nasaSouLecture.translations, [
+        '+ That film doesn\'t look very interesting, does it?',
+        '+ This machine does not look that complicated'
+      ]);
+      expect(nasaSouLecture.extras?.length, 0);
+      expect(nasaSouLecture.types, [LectureType.n3]);
+    });
+
+    test('Test なさそう lecture is correctly imported', () async {
+      final lectures = await getLectures();
+      final nasaSouLecture = lectures
+          .where((lecture) => lecture.title.contains('そうもない negative'))
+          .first;
+      expect(nasaSouLecture.title, 'そうもない negative (I heard そうです)');
+      expect(nasaSouLecture.usages,
+          ["Indicates the prediction that V will probably not occur"]);
+      expect(nasaSouLecture.examples,
+          ['+ 今日は仕事がたくさんあるので、５時に帰れそうもありません。', '+ この雨はまだやみそうもないですね。']);
+      expect(nasaSouLecture.translations, [
+        '+ I have a lot of work to do today, so it doesn\'t look like I\'ll be able to leave at five.',
+        '+ This rain doesn\'t look like it\'s stopping yet, does it?'
+      ]);
+      expect(nasaSouLecture.extras?.length, 0);
+      expect(nasaSouLecture.types, [LectureType.n3]);
+    });
+  });
 }
