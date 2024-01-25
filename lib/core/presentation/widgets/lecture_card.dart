@@ -11,7 +11,6 @@ class LectureCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = useState(false);
-    print(lecture.usages);
 
     return GestureDetector(
       onTapDown: (_) => expanded.value = true,
