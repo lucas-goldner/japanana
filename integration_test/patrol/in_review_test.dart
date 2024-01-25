@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hikou/core/keys.dart';
-import 'package:hikou/features/review_setup/domain/review_options.dart';
+import 'package:hikou/features/review_selection/domain/review_sections.dart';
 import 'package:hikou/main.dart';
 import 'package:patrol/patrol.dart';
 
@@ -12,10 +12,10 @@ void main() {
     );
     expect($(K.reviewSetupAppTitle).visible, equals(true));
     final n3GrammarOption =
-        $(K.getReviewSelectItemTitleForReviewOption(ReviewOptions.n3));
+        $(K.getReviewSelectionItemTitleForReviewOption(ReviewSections.n3));
     expect(n3GrammarOption.visible, equals(true));
     await n3GrammarOption.tap();
-    expect($(K.getInReviewAppTitleForReviewOption(ReviewOptions.n3)).visible,
+    expect($(K.getInReviewAppTitleForReviewOption(ReviewSections.n3)).visible,
         equals(true));
   }
 

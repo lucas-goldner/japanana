@@ -3,20 +3,20 @@ import 'package:go_router/go_router.dart';
 import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/router.dart';
-import 'package:hikou/features/review_setup/domain/review_options.dart';
+import 'package:hikou/features/review_selection/domain/review_sections.dart';
 
-class ReviewSelectItem extends StatelessWidget {
-  const ReviewSelectItem(this.reviewOption, {super.key});
-  final ReviewOptions reviewOption;
+class ReviewSelectionItem extends StatelessWidget {
+  const ReviewSelectionItem(this.reviewOption, {super.key});
+  final ReviewSections reviewOption;
 
   void _startReview(BuildContext context) =>
-      context.push(AppRoutes.inReview.path, extra: reviewOption);
+      context.push(AppRoutes.reviewSetup.path, extra: reviewOption);
 
   @override
   Widget build(BuildContext context) => ListTile(
         onTap: () => _startReview(context),
         title: Text(
-          key: K.getReviewSelectItemTitleForReviewOption(reviewOption),
+          key: K.getReviewSelectionItemTitleForReviewOption(reviewOption),
           reviewOption.getLocalizedTitle(context),
           style: context.textTheme.headlineSmall,
           maxLines: 3,

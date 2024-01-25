@@ -4,5 +4,8 @@
   "n3Grammar": "N3 Grammatik",
   "n4Grammar": "N4 Grammatik",
   "conversational": "Grammatik für Konversation",
-  "writing": "Grammatik wichtig für Texte schreiben"
+  "writing": "Grammatik wichtig für Texte schreiben",
+  "randomizeCards": "Zufällige Karten",
+  "repeatFailedCards": "Karten bei Fehler wiederholen",
+  "startReview": "Lerneinheit starten"
 }

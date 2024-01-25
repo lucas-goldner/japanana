@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hikou/core/data/lecture_repository_impl.dart';
 import 'package:hikou/core/data/lecture_repository.dart';
 import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/features/review_setup/domain/review_options.dart';
+import 'package:hikou/features/review_selection/domain/review_sections.dart';
 
 class LectureNotifier extends Notifier<List<Lecture>> {
   LectureNotifier(this._repository);
@@ -14,7 +14,7 @@ class LectureNotifier extends Notifier<List<Lecture>> {
   void fetchLectures() async => state = await _repository.fetchLectures();
 
   List<Lecture> getLecturesForReviewOption(
-    ReviewOptions option,
+    ReviewSections option,
   ) =>
       state.where((lecture) => lecture.types.contains(option)).toList();
 }

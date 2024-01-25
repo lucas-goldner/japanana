@@ -4,5 +4,8 @@
   "n3Grammar": "N3関して文法",
   "n4Grammar": "N4関して文法",
   "conversational": "会話には使っている文法",
-  "writing": "作文にいい文法"
+  "writing": "作文にいい文法",
+  "randomizeCards": "カードをシャッフル",
+  "repeatFailedCards": "間違ったカードを繰り返す",
+  "startReview": "復習を始める"
 }

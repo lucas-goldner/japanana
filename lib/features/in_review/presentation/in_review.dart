@@ -6,14 +6,15 @@ import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/presentation/hikou_theme.dart';
 import 'package:hikou/core/presentation/widgets/lecture_card.dart';
-import 'package:hikou/features/review_setup/domain/review_options.dart';
+import 'package:hikou/features/review_selection/domain/review_sections.dart';
+import 'package:hikou/features/review_setup/domain/review_setup_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class InReview extends StatefulHookConsumerWidget {
   const InReview(this.reviewOption, {super.key});
-  final ReviewOptions reviewOption;
+  final (ReviewSections, ReviewSetupOptions) reviewOption;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _InReviewState();
@@ -27,7 +28,7 @@ class _InReviewState extends ConsumerState<InReview> {
   void initState() {
     lectures = ref
         .read(lectureProvider.notifier)
-        .getLecturesForReviewOption(widget.reviewOption);
+        .getLecturesForReviewOption(widget.reviewOption.$1);
     matchEngine = MatchEngine(
         swipeItems:
             lectures.map((e) => SwipeItem(content: LectureCard(e))).toList());
@@ -44,8 +45,8 @@ class _InReviewState extends ConsumerState<InReview> {
       appBar: AppBar(
         backgroundColor: context.colorScheme.inversePrimary,
         title: Text(
-          key: K.getInReviewAppTitleForReviewOption(widget.reviewOption),
-          widget.reviewOption.getLocalizedTitle(context),
+          key: K.getInReviewAppTitleForReviewOption(widget.reviewOption.$1),
+          widget.reviewOption.$1.getLocalizedTitle(context),
           style: context.textTheme.headlineSmall,
         ),
       ),
