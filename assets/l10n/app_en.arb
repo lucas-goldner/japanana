@@ -10,5 +10,9 @@
   "writing": "Grammar useful for writing",
   "randomizeCards": "Randomize cards",
   "repeatFailedCards": "Repeat failed cards",
-  "startReview": "Start review"
+  "startReview": "Start review",
+  "usages": "Usages",
+  "examples": "Examples",
+  "translations": "Translations",
+  "extras": "Extras"
 }

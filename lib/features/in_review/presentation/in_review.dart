@@ -1,15 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hikou/core/application/lecture_provider.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
 import 'package:hikou/core/presentation/hikou_theme.dart';
 import 'package:hikou/core/presentation/widgets/lecture_card.dart';
-import 'package:hikou/core/router.dart';
 import 'package:hikou/features/review_selection/domain/review_sections.dart';
 import 'package:hikou/features/review_setup/domain/review_setup_options.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

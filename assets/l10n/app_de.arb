@@ -7,5 +7,9 @@
   "writing": "Grammatik wichtig für Texte schreiben",
   "randomizeCards": "Zufällige Karten",
   "repeatFailedCards": "Karten bei Fehler wiederholen",
-  "startReview": "Lerneinheit starten"
+  "startReview": "Lerneinheit starten",
+  "usages": "Brauchweise",
+  "examples": "Beispiele",
+  "translations": "Übersetzungen",
+  "extras": "Extras"
 }

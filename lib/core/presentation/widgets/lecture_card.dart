@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
+import 'package:hikou/core/presentation/widgets/lecture_card_expandable_content.dart';
 
 class LectureCard extends HookWidget {
   const LectureCard(this.lecture, {super.key});
@@ -10,10 +11,10 @@ class LectureCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final expanded = useState(false);
+    final expanded = useState(0);
 
     return GestureDetector(
-      onTapDown: (_) => expanded.value = true,
+      onTapDown: (_) => expanded.value == 2 ? 2 : expanded.value++,
       child: Card(
         key: K.lectureCard,
         child: Padding(
@@ -32,7 +33,7 @@ class LectureCard extends HookWidget {
                   ),
                   Visibility(
                     key: K.lectureCardExpandedContent,
-                    visible: expanded.value,
+                    visible: expanded.value >= 1,
                     maintainState: true,
                     maintainSize: true,
                     maintainAnimation: true,
@@ -41,45 +42,43 @@ class LectureCard extends HookWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Divider(height: 12),
-                        ...lecture.usages
-                            .map(
-                              (example) => Text(
-                                example,
-                                style: context.textTheme.bodyLarge!
-                                    .copyWith(fontWeight: FontWeight.bold),
+                        LectureCardExpandableContent(
+                          itemsToDisplay: lecture.usages,
+                          label: context.l10n.usages,
+                          upperPadding: lecture.usages.length != 0,
+                        ),
+                        LectureCardExpandableContent(
+                          itemsToDisplay: lecture.examples,
+                          label: context.l10n.examples,
+                          upperPadding: lecture.examples.length != 0,
+                        ),
+                        Visibility(
+                          key: K.lectureCardExpandedContent,
+                          visible: expanded.value >= 2,
+                          maintainState: true,
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              LectureCardExpandableContent(
+                                itemsToDisplay: lecture.translations,
+                                label: context.l10n.translations,
+                                upperPadding: lecture.translations.length != 0,
                               ),
-                            )
-                            .toList(),
-                        SizedBox(height: 20),
-                        ...lecture.examples
-                            .map(
-                              (example) => Text(
-                                example,
-                                style: context.textTheme.bodyLarge,
+                              LectureCardExpandableContent(
+                                itemsToDisplay: lecture.extras ?? [],
+                                label: context.l10n.extras,
+                                upperPadding: lecture.extras != null ||
+                                    lecture.extras?.length != 0,
                               ),
-                            )
-                            .toList(),
-                        SizedBox(height: 20),
-                        ...lecture.translations
-                            .map(
-                              (example) => Text(
-                                example,
-                                style: context.textTheme.bodyLarge,
-                              ),
-                            )
-                            .toList(),
-                        SizedBox(height: 20),
-                        ...(lecture.extras ?? [])
-                            .map(
-                              (example) => Text(
-                                example,
-                                style: context.textTheme.bodyLarge,
-                              ),
-                            )
-                            .toList(),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

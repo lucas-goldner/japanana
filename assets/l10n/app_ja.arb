@@ -7,5 +7,9 @@
   "writing": "作文にいい文法",
   "randomizeCards": "カードをシャッフル",
   "repeatFailedCards": "間違ったカードを繰り返す",
-  "startReview": "復習を始める"
+  "startReview": "復習を始める",
+  "usages": "使い方",
+  "examples": "例",
+  "translations": "翻訳",
+  "extras": "ボーナス"
 }
