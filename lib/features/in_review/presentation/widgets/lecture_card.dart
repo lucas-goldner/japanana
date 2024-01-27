@@ -15,71 +15,74 @@ class LectureCard extends HookWidget {
 
     return GestureDetector(
       onTapDown: (_) => expanded.value == 2 ? 2 : expanded.value++,
-      child: Card(
-        key: K.lectureCard,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.5,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    key: K.lectureCardTitle,
-                    lecture.title,
-                    style: context.textTheme.headlineSmall,
-                  ),
-                  Visibility(
-                    key: K.getReviewLectureCardExpandedContent(1),
-                    visible: expanded.value >= 1,
-                    maintainState: true,
-                    maintainSize: true,
-                    maintainAnimation: true,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Divider(height: 12),
-                        LectureCardExpandableContent(
-                          itemsToDisplay: lecture.usages,
-                          label: context.l10n.usages,
-                          upperPadding: lecture.usages.length != 0,
-                        ),
-                        LectureCardExpandableContent(
-                          itemsToDisplay: lecture.examples,
-                          label: context.l10n.examples,
-                          upperPadding: lecture.examples.length != 0,
-                        ),
-                        Visibility(
-                          key: K.getReviewLectureCardExpandedContent(2),
-                          visible: expanded.value >= 2,
-                          maintainState: true,
-                          maintainSize: true,
-                          maintainAnimation: true,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              LectureCardExpandableContent(
-                                itemsToDisplay: lecture.translations,
-                                label: context.l10n.translations,
-                                upperPadding: lecture.translations.length != 0,
-                              ),
-                              LectureCardExpandableContent(
-                                itemsToDisplay: lecture.extras ?? [],
-                                label: context.l10n.extras,
-                                upperPadding: lecture.extras != null ||
-                                    lecture.extras?.length != 0,
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+      child: SelectionArea(
+        child: Card(
+          key: K.lectureCard,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SizedBox(
+              height: MediaQuery.sizeOf(context).height * 0.5,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      key: K.lectureCardTitle,
+                      lecture.title,
+                      style: context.textTheme.headlineSmall,
                     ),
-                  ),
-                ],
+                    Visibility(
+                      key: K.getReviewLectureCardExpandedContent(1),
+                      visible: expanded.value >= 1,
+                      maintainState: true,
+                      maintainSize: true,
+                      maintainAnimation: true,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Divider(height: 12),
+                          LectureCardExpandableContent(
+                            itemsToDisplay: lecture.usages,
+                            label: context.l10n.usages,
+                            upperPadding: lecture.usages.length != 0,
+                          ),
+                          LectureCardExpandableContent(
+                            itemsToDisplay: lecture.examples,
+                            label: context.l10n.examples,
+                            upperPadding: lecture.examples.length != 0,
+                          ),
+                          Visibility(
+                            key: K.getReviewLectureCardExpandedContent(2),
+                            visible: expanded.value >= 2,
+                            maintainState: true,
+                            maintainSize: true,
+                            maintainAnimation: true,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                LectureCardExpandableContent(
+                                  itemsToDisplay: lecture.translations,
+                                  label: context.l10n.translations,
+                                  upperPadding:
+                                      lecture.translations.length != 0,
+                                ),
+                                LectureCardExpandableContent(
+                                  itemsToDisplay: lecture.extras ?? [],
+                                  label: context.l10n.extras,
+                                  upperPadding: lecture.extras != null ||
+                                      lecture.extras?.length != 0,
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
