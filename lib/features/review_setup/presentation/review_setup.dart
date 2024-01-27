@@ -74,6 +74,7 @@ class ReviewSetup extends HookWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 40, left: 24, right: 24),
             child: ElevatedButton(
+              key: K.startReviewButton,
               onPressed: () => navigateToReview(context, reviewOptions.value),
               child: Text(
                 context.l10n.startReview.toUpperCase(),

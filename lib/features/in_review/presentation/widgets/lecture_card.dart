@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hikou/core/domain/lecture.dart';
 import 'package:hikou/core/extensions.dart';
 import 'package:hikou/core/keys.dart';
-import 'package:hikou/core/presentation/widgets/lecture_card_expandable_content.dart';
+import 'package:hikou/features/in_review/presentation/widgets/lecture_card_expandable_content.dart';
 
 class LectureCard extends HookWidget {
   const LectureCard(this.lecture, {super.key});
@@ -32,7 +32,7 @@ class LectureCard extends HookWidget {
                     style: context.textTheme.headlineSmall,
                   ),
                   Visibility(
-                    key: K.lectureCardExpandedContent,
+                    key: K.getReviewLectureCardExpandedContent(1),
                     visible: expanded.value >= 1,
                     maintainState: true,
                     maintainSize: true,
@@ -53,7 +53,7 @@ class LectureCard extends HookWidget {
                           upperPadding: lecture.examples.length != 0,
                         ),
                         Visibility(
-                          key: K.lectureCardExpandedContent,
+                          key: K.getReviewLectureCardExpandedContent(2),
                           visible: expanded.value >= 2,
                           maintainState: true,
                           maintainSize: true,

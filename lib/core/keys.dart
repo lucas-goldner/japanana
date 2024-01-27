@@ -12,10 +12,11 @@ class Keys {
   static Key getInReviewAppTitleForReviewOption(ReviewSections option) =>
       Key("in_review_app_title_${option.name}");
   static const reviewSetupAppTitle = Key('review_setup_app_title');
+  static const startReviewButton = Key('review_setup_start_review_button');
   static const reviewSelectionAppTitle = Key('review_selection_app_title');
   static const inReviewCardStack = Key('in_review_card_stack');
   static const lectureCard = Key('in_review_lecture_card');
   static const lectureCardTitle = Key('in_review_lecture_card_title');
-  static const lectureCardExpandedContent =
-      Key('in_review_lecture_card_expanded_content');
+  static Key getReviewLectureCardExpandedContent(int taps) =>
+      Key('in_review_lecture_card_expanded_content_${taps}');
 }
