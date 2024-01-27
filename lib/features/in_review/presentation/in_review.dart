@@ -83,12 +83,14 @@ class _InReviewState extends ConsumerState<InReview> {
           Padding(
             padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
             child: LinearPercentIndicator(
+              key: K.progressIndicator,
               animation: true,
               animateFromLastPercent: true,
               lineHeight: 20.0,
               animationDuration: 1250,
               percent: ((reviewProgress.value + 1) / lectures.length),
               center: Text(
+                key: K.progressIndicatorLabel,
                 "${(reviewProgress.value + 1)} / ${lectures.length}",
                 style: context.textTheme.labelLarge?.copyWith(
                   color: linearPercentIndicatorExt.progressLabelTextColor,

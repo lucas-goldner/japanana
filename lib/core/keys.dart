@@ -19,4 +19,7 @@ class Keys {
   static const lectureCardTitle = Key('in_review_lecture_card_title');
   static Key getReviewLectureCardExpandedContent(int taps) =>
       Key('in_review_lecture_card_expanded_content_${taps}');
+  static const progressIndicator = Key('in_review_progress_indicator');
+  static const progressIndicatorLabel =
+      Key('in_review_progress_indicator_label');
 }
