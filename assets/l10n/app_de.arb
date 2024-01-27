@@ -11,5 +11,16 @@
   "usages": "Brauchweise",
   "examples": "Beispiele",
   "translations": "Übersetzungen",
-  "extras": "Extras"
+  "extras": "Extras",
+  "congratsOnFinising": "Klasse du hast {review} beendet!",
+  "@congratsOnFinising": {
+    "description": "Congratulation message for finishing review",
+    "placeholders": {
+      "review": {
+        "type": "String",
+        "example": "N3 Grammar"
+      }
+    }
+  },
+  "startNextReview": "Nächste Lerneinheit starten"
 }

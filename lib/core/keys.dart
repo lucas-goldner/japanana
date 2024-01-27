@@ -22,4 +22,6 @@ class Keys {
   static const progressIndicator = Key('in_review_progress_indicator');
   static const progressIndicatorLabel =
       Key('in_review_progress_indicator_label');
+  static const startNextReviewButton =
+      Key('in_review_start_next_review_button');
 }

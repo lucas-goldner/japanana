@@ -11,5 +11,16 @@
   "usages": "使い方",
   "examples": "例",
   "translations": "翻訳",
-  "extras": "ボーナス"
+  "extras": "ボーナス",
+  "congratsOnFinising": "おめでとうございます！ {review}を済みました！",
+  "@congratsOnFinising": {
+    "description": "Congratulation message for finishing review",
+    "placeholders": {
+      "review": {
+        "type": "String",
+        "example": "N3 Grammar"
+      }
+    }
+  },
+  "startNextReview": "次の復習を始める"
 }

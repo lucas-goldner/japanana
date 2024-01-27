@@ -14,5 +14,16 @@
   "usages": "Usages",
   "examples": "Examples",
   "translations": "Translations",
-  "extras": "Extras"
+  "extras": "Extras",
+  "congratsOnFinising": "Congrats you finished {review}!",
+  "@congratsOnFinising": {
+    "description": "Congratulation message for finishing review",
+    "placeholders": {
+      "review": {
+        "type": "String",
+        "example": "N3 Grammar"
+      }
+    }
+  },
+  "startNextReview": "Start next review"
 }
