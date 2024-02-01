@@ -12,10 +12,13 @@ class LectureCard extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final expanded = useState(0);
+    final focus = useFocusNode();
 
-    return GestureDetector(
-      onTapDown: (_) => expanded.value == 2 ? 2 : expanded.value++,
-      child: SelectionArea(
+    return SelectionArea(
+      focusNode: focus,
+      child: GestureDetector(
+        onTapDown: (_) =>
+            {expanded.value == 2 ? 2 : expanded.value++, focus.unfocus()},
         child: Card(
           key: K.lectureCard,
           child: Padding(
@@ -38,6 +41,7 @@ class LectureCard extends HookWidget {
                       maintainState: true,
                       maintainSize: true,
                       maintainAnimation: true,
+                      maintainInteractivity: false,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
