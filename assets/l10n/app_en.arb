@@ -26,5 +26,8 @@
     }
   },
   "startNextReview": "Start next review",
-  "lectureList": "Lecture list"
+  "lectureList": "Lecture list",
+  "next": "Next",
+  "richtig": "Correct",
+  "falsch": "Wrong"
 }

@@ -23,5 +23,8 @@
     }
   },
   "startNextReview": "次の復習を始める",
-  "lectureList": "リスト"
+  "lectureList": "リスト",
+  "next": "次",
+  "richtig": "正しい",
+  "falsch": "間違った"
 }

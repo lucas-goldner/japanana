@@ -23,5 +23,8 @@
     }
   },
   "startNextReview": "Nächste Lerneinheit starten",
-  "lectureList": "Lerneinheitenliste"
+  "lectureList": "Lerneinheitenliste",
+  "next": "Nächstes",
+  "richtig": "Richtig",
+  "falsch": "Falsch"
 }
