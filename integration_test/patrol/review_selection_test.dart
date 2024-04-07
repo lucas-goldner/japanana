@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hikou/core/keys.dart';
-import 'package:hikou/features/review_selection/domain/review_sections.dart';
-import 'package:hikou/features/review_selection/presentation/widgets/review_selection_item.dart';
-import 'package:hikou/main.dart';
+import 'package:japanana/core/keys.dart';
+import 'package:japanana/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/features/review_selection/presentation/widgets/review_selection_item.dart';
+import 'package:japanana/main.dart';
 import 'package:patrol/patrol.dart';
 
 void main() {

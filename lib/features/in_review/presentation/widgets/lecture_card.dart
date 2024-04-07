@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/core/extensions.dart';
-import 'package:hikou/core/keys.dart';
-import 'package:hikou/features/in_review/presentation/widgets/lecture_card_expandable_content.dart';
+import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/keys.dart';
+import 'package:japanana/features/in_review/presentation/widgets/lecture_card_expandable_content.dart';
 
 class LectureCard extends HookWidget {
   const LectureCard(this.lecture, {super.key});

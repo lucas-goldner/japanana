@@ -1,9 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:hikou/features/in_review/presentation/in_review.dart';
-import 'package:hikou/features/review_selection/domain/review_sections.dart';
-import 'package:hikou/features/review_selection/presentation/review_selection.dart';
-import 'package:hikou/features/review_setup/domain/review_setup_options.dart';
-import 'package:hikou/features/review_setup/presentation/review_setup.dart';
+import 'package:japanana/features/in_review/presentation/in_review.dart';
+import 'package:japanana/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/features/review_selection/presentation/review_selection.dart';
+import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
+import 'package:japanana/features/review_setup/presentation/review_setup.dart';
 
 enum AppRoutes {
   reviewSelection("/reviewSelection"),

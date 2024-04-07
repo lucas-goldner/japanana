@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:hikou/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/features/review_selection/domain/review_sections.dart';
 
 typedef K = Keys;
 

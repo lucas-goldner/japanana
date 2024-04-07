@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hikou/core/extensions.dart';
+import 'package:japanana/core/extensions.dart';
 
 class ReviewSetupOption extends StatelessWidget {
   const ReviewSetupOption({

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hikou/core/extensions.dart';
-import 'package:hikou/core/keys.dart';
-import 'package:hikou/core/router.dart';
-import 'package:hikou/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/router.dart';
+import 'package:japanana/features/review_selection/domain/review_sections.dart';
 
 class ReviewSelectionItem extends StatelessWidget {
   const ReviewSelectionItem(this.reviewOption, {super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hikou/core/data/lecture_repository_impl.dart';
-import 'package:hikou/core/data/lecture_repository.dart';
-import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/core/data/lecture_repository_impl.dart';
+import 'package:japanana/core/data/lecture_repository.dart';
+import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/features/review_selection/domain/review_sections.dart';
 
 class LectureNotifier extends Notifier<List<Lecture>> {
   LectureNotifier(this._repository);

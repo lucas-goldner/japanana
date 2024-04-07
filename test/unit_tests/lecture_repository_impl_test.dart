@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hikou/core/data/lecture_repository_impl.dart';
-import 'package:hikou/core/domain/lecture.dart';
+import 'package:japanana/core/data/lecture_repository_impl.dart';
+import 'package:japanana/core/domain/lecture.dart';
 
 void main() {
   setUp(() {

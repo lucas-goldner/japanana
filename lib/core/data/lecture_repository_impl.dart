@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
-import 'package:hikou/core/data/lecture_repository.dart';
-import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/gen/assets.gen.dart';
+import 'package:japanana/core/data/lecture_repository.dart';
+import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/gen/assets.gen.dart';
 
 enum ParagraphType {
   usage('- **Usage**:'),

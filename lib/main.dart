@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hikou/core/application/lecture_provider.dart';
-import 'package:hikou/core/presentation/hikou_theme.dart';
-import 'package:hikou/core/router.dart';
+import 'package:japanana/core/application/lecture_provider.dart';
+import 'package:japanana/core/presentation/hikou_theme.dart';
+import 'package:japanana/core/router.dart';
 
 void main() => runApp(const ProviderScope(child: HikouApp()));
 

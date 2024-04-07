@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hikou/core/domain/lecture.dart';
-import 'package:hikou/core/extensions.dart';
+import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/core/extensions.dart';
 
 typedef ReviewSections = LectureType;
 
