@@ -36,8 +36,11 @@ class LectureList extends StatelessWidget {
               onTap: () => _navigateToLectureDetail(context, lecture),
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: context.colorScheme.inversePrimary,
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: context.colorScheme.primaryContainer,
+                    width: 2,
+                  ),
                 ),
                 child: SizedBox(
                   height: 100,
