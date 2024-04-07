@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/router.dart';
 
-class LectureList extends HookWidget {
+class LectureList extends StatelessWidget {
   const LectureList(this.lectures, {super.key});
   final List<Lecture> lectures;
+
+  void _navigateToLectureDetail(BuildContext context, Lecture lecture) =>
+      context.push(AppRoutes.lectureDetail.path, extra: lecture);
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +32,36 @@ class LectureList extends HookWidget {
             final index = lectureWithIndex.$1;
             final lecture = lectureWithIndex.$2;
 
-            return DecoratedBox(
-              decoration: BoxDecoration(
-                color: context.colorScheme.inversePrimary,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: SizedBox(
-                height: 100,
-                width: cardWidth,
+            return GestureDetector(
+              onTap: () => _navigateToLectureDetail(context, lecture),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.inversePrimary,
+                  borderRadius: BorderRadius.circular(20),
+                ),
                 child: SizedBox(
-                  width: cardTextWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "$index. ${lecture.title}",
-                          style: context.textTheme.headlineLarge,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Divider(),
-                        Text(
-                          "${lecture.usages.join(", ")}",
-                          style: context.textTheme.headlineSmall,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                  height: 100,
+                  width: cardWidth,
+                  child: SizedBox(
+                    width: cardTextWidth,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 12, top: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "$index. ${lecture.title}",
+                            style: context.textTheme.headlineLarge,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Divider(),
+                          Text(
+                            "${lecture.usages.join(", ")}",
+                            style: context.textTheme.headlineSmall,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

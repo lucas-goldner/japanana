@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/features/in_review/presentation/in_review.dart';
+import 'package:japanana/features/lecture_detail/presentation/lecture_detail.dart';
 import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
 import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
@@ -11,7 +12,8 @@ enum AppRoutes {
   reviewSelection("/reviewSelection"),
   reviewSetup("/reviewSetup"),
   inReview("/inReview"),
-  lectureList("/lectureList");
+  lectureList("/lectureList"),
+  lectureDetail("/lectureDetail");
 
   const AppRoutes(this.path);
   final String path;
@@ -36,6 +38,10 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutes.lectureList.path,
       builder: (context, state) => LectureList(state.extra as List<Lecture>),
+    ),
+    GoRoute(
+      path: AppRoutes.lectureDetail.path,
+      builder: (context, state) => LectureDetail(state.extra as Lecture),
     ),
   ],
 );
