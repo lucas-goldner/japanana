@@ -22,5 +22,6 @@
       }
     }
   },
-  "startNextReview": "次の復習を始める"
+  "startNextReview": "次の復習を始める",
+  "lectureList": "リスト"
 }

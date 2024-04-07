@@ -22,5 +22,6 @@
       }
     }
   },
-  "startNextReview": "Nächste Lerneinheit starten"
+  "startNextReview": "Nächste Lerneinheit starten",
+  "lectureList": "Lerneinheitenliste"
 }

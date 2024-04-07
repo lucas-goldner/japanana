@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 
 final ThemeData lightTheme = ThemeData(
+  appBarTheme: AppBarTheme(
+    backgroundColor: colorSchemeLight.inversePrimary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
+      ),
+    ),
+  ),
   colorScheme: colorSchemeLight,
   useMaterial3: true,
   listTileTheme: ListTileThemeData(
@@ -16,6 +25,15 @@ final ThemeData lightTheme = ThemeData(
 );
 
 final ThemeData darkTheme = ThemeData(
+  appBarTheme: AppBarTheme(
+    backgroundColor: colorSchemeDark.inversePrimary,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        bottomLeft: Radius.circular(20),
+        bottomRight: Radius.circular(20),
+      ),
+    ),
+  ),
   colorScheme: colorSchemeDark,
   useMaterial3: true,
   listTileTheme: ListTileThemeData(

@@ -25,5 +25,6 @@
       }
     }
   },
-  "startNextReview": "Start next review"
+  "startNextReview": "Start next review",
+  "lectureList": "Lecture list"
 }
