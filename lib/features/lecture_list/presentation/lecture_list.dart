@@ -14,7 +14,6 @@ class LectureList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cardWidth = MediaQuery.sizeOf(context).width;
-    final cardTextWidth = cardWidth * 0.8;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +23,7 @@ class LectureList extends StatelessWidget {
         ),
       ),
       body: ListWheelScrollView(
-        itemExtent: 100,
+        itemExtent: 150,
         squeeze: 0.9,
         diameterRatio: 3,
         children: lectures.indexed.map(
@@ -43,28 +42,25 @@ class LectureList extends StatelessWidget {
                   ),
                 ),
                 child: SizedBox(
-                  height: 100,
+                  height: 150,
                   width: cardWidth,
-                  child: SizedBox(
-                    width: cardTextWidth,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12, top: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "$index. ${lecture.title}",
-                            style: context.textTheme.headlineLarge,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Divider(),
-                          Text(
-                            "${lecture.usages.join(", ")}",
-                            style: context.textTheme.headlineSmall,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 12, top: 8, right: 12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "$index. ${lecture.title}",
+                          style: context.textTheme.headlineLarge,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Divider(),
+                        Text(
+                          "${lecture.usages.join(", ")}",
+                          style: context.textTheme.headlineSmall,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
                 ),

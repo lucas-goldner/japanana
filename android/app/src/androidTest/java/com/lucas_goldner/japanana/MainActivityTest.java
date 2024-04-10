@@ -1,6 +1,7 @@
-package com.example.hikou;
+package com.lucas_goldner.japanana;
 
 import androidx.test.platform.app.InstrumentationRegistry;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

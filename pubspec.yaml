@@ -34,7 +34,7 @@ dev_dependencies:
 patrol:
   app_name: Hikou
   android:
-    package_name: com.example.hikou
+    package_name: com.lucas_goldner.japanana
   ios:
     bundle_id: com.lucas-goldner.hikou
   macos:
