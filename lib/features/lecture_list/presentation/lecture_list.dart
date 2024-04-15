@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/features/lecture_list/presentation/widgets/lecture_list_card.dart';
+import 'package:kana_kit/kana_kit.dart';
 
 class LectureList extends HookWidget {
   const LectureList(this.lectures, {super.key});
@@ -28,10 +29,16 @@ class LectureList extends HookWidget {
     ValueNotifier<List<Lecture>> currentLectures,
     String query,
   ) {
+    const kanaKit = KanaKit();
+    final adjustedQuery = query.toLowerCase().trim();
+    final adjustedQueryAsKana = kanaKit.toKana(query.toLowerCase().trim());
+
     currentLectures.value = lectures
-        .where(
-          (lecture) => lecture.title.contains(query),
-        )
+        .where((lecture) =>
+            lecture.title.contains(adjustedQuery) ||
+            lecture.usages.join("").contains(adjustedQuery) ||
+            lecture.title.contains(adjustedQueryAsKana) ||
+            lecture.usages.join("").contains(adjustedQueryAsKana))
         .toList();
   }
 

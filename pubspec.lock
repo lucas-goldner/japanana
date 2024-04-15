@@ -421,6 +421,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.8.1"
+  kana_kit:
+    dependency: "direct main"
+    description:
+      name: kana_kit
+      sha256: "4a8f019d15aa5d369720b0c33b50e50009e4f65633ac94157075b3e46a98de0c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   leak_tracker:
     dependency: transitive
     description:
