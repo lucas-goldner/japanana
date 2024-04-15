@@ -26,12 +26,15 @@ class ReviewSelection extends ConsumerWidget {
             style: context.textTheme.headlineLarge,
           ),
           actions: [
-            IconButton(
-              icon: Icon(
-                Icons.list_alt_outlined,
-                color: context.colorScheme.secondaryContainer,
+            Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: IconButton(
+                icon: Icon(
+                  Icons.list_alt_outlined,
+                  color: context.colorScheme.secondaryContainer,
+                ),
+                onPressed: () => _navigateToLectureList(context, ref),
               ),
-              onPressed: () => _navigateToLectureList(context, ref),
             ),
           ],
         ),

@@ -1,19 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
-import 'package:japanana/core/router.dart';
+import 'package:japanana/features/lecture_list/presentation/widgets/lecture_list_card.dart';
 
-class LectureList extends StatelessWidget {
+class LectureList extends HookWidget {
   const LectureList(this.lectures, {super.key});
   final List<Lecture> lectures;
 
-  void _navigateToLectureDetail(BuildContext context, Lecture lecture) =>
-      context.push(AppRoutes.lectureDetail.path, extra: lecture);
+  void _onSearch(
+    ValueNotifier<List<Lecture>> currentLectures,
+    String query,
+    TextEditingController textEditingController,
+  ) {
+    if (query.isEmpty) {
+      _resetSearch(
+        currentLectures,
+        textEditingController,
+      );
+      return;
+    }
+
+    _queryForResults(currentLectures, query);
+  }
+
+  void _queryForResults(
+    ValueNotifier<List<Lecture>> currentLectures,
+    String query,
+  ) {
+    currentLectures.value = lectures
+        .where(
+          (lecture) => lecture.title.contains(query),
+        )
+        .toList();
+  }
+
+  void _resetSearch(
+    ValueNotifier<List<Lecture>> currentLectures,
+    TextEditingController textEditingController,
+  ) {
+    currentLectures.value = lectures;
+    textEditingController.clear();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cardWidth = MediaQuery.sizeOf(context).width;
+    final currentLectures = useState(lectures);
+    final searchQueryController = useTextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -21,53 +54,50 @@ class LectureList extends StatelessWidget {
           context.l10n.lectureList,
           style: context.textTheme.headlineLarge,
         ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 16,
+              horizontal: 8,
+            ),
+            child: SearchBar(
+              onChanged: (value) => _onSearch(
+                currentLectures,
+                value,
+                searchQueryController,
+              ),
+              controller: searchQueryController,
+              trailing: [
+                IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    color: context.colorScheme.secondaryContainer,
+                  ),
+                  onPressed: searchQueryController.text.isEmpty
+                      ? null
+                      : () => _resetSearch(
+                            currentLectures,
+                            searchQueryController,
+                          ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: ListWheelScrollView(
         itemExtent: 150,
         squeeze: 0.9,
         diameterRatio: 3,
-        children: lectures.indexed.map(
-          (lectureWithIndex) {
-            final index = lectureWithIndex.$1;
-            final lecture = lectureWithIndex.$2;
-
-            return GestureDetector(
-              onTap: () => _navigateToLectureDetail(context, lecture),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: context.colorScheme.primaryContainer,
-                    width: 2,
-                  ),
-                ),
-                child: SizedBox(
-                  height: 150,
-                  width: cardWidth,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12, top: 8, right: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "$index. ${lecture.title}",
-                          style: context.textTheme.headlineLarge,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        Divider(),
-                        Text(
-                          "${lecture.usages.join(", ")}",
-                          style: context.textTheme.headlineSmall,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        children: currentLectures.value.indexed
+            .map(
+              (lectureWithIndex) => LectureListCard(
+                lectureIndex: lectures.indexOf(lectureWithIndex.$2) + 1,
+                lecture: lectureWithIndex.$2,
               ),
-            );
-          },
-        ).toList(),
+            )
+            .toList(),
       ),
     );
   }

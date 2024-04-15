@@ -32,7 +32,7 @@ void main() {
     test('Test ensure all lectures loads correctly all data', () async {
       final lectureImportService = LectureRepositoryImpl();
       final lectures = await lectureImportService.fetchLectures();
-      expect(lectures.length, 331);
+      expect(lectures.length, 397);
     });
 
     test('Test lectures titles', () async {
@@ -124,12 +124,12 @@ void main() {
       final n3Lectures = lectures
           .where((lecture) => lecture.types.contains(LectureType.n3))
           .toList();
-      expect(n3Lectures.length, 263);
+      expect(n3Lectures.length, 329);
       expect(n4Lectures.length, 68);
       expect(n4Lectures.last.title, "謙譲語");
       expect(n3Lectures.first.title,
           "Vてform + てもらえませんか/ていただけませんか/てもらえないでしょうか/ていただけないでしょうか");
-      expect(n3Lectures.last.title, "Sentenceっけ 🗣️");
+      expect(n3Lectures.last.title, "一方だ");
     });
   });
 
