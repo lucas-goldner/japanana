@@ -17,8 +17,10 @@ class LectureCard extends HookWidget {
     return SelectionArea(
       focusNode: focus,
       child: GestureDetector(
-        onTapDown: (_) =>
-            {expanded.value == 2 ? 2 : expanded.value++, focus.unfocus()},
+        onTapDown: (_) => {
+          expanded.value == 2 ? 2 : expanded.value++,
+          focus.unfocus(),
+        },
         child: Card(
           key: K.lectureCard,
           child: Padding(

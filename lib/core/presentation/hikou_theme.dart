@@ -10,6 +10,15 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+    backgroundColor: WidgetStateProperty.all(colorSchemeLight.primaryContainer),
+    foregroundColor:
+        WidgetStateProperty.all(colorSchemeLight.onPrimaryContainer),
+  )),
+  cardTheme: CardTheme(
+    color: colorSchemeLight.surfaceContainerHighest,
+  ),
   colorScheme: colorSchemeLight,
   useMaterial3: true,
   listTileTheme: ListTileThemeData(
@@ -17,7 +26,7 @@ final ThemeData lightTheme = ThemeData(
   ),
   extensions: [
     LinearPercentIndicatorColors(
-      backgroundColor: colorSchemeLight.onBackground,
+      backgroundColor: colorSchemeLight.onSurface,
       progressLabelTextColor: colorSchemeLight.onPrimary,
       progressColor: colorSchemeLight.inversePrimary,
     )
@@ -34,6 +43,15 @@ final ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
+  cardTheme: CardTheme(
+    color: colorSchemeDark.onPrimaryContainer,
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+    backgroundColor:
+        WidgetStateProperty.all(colorSchemeDark.onPrimaryContainer),
+    foregroundColor: WidgetStateProperty.all(colorSchemeDark.primary),
+  )),
   colorScheme: colorSchemeDark,
   useMaterial3: true,
   listTileTheme: ListTileThemeData(
@@ -41,7 +59,7 @@ final ThemeData darkTheme = ThemeData(
   ),
   extensions: [
     LinearPercentIndicatorColors(
-      backgroundColor: colorSchemeLight.background,
+      backgroundColor: colorSchemeLight.surface,
       progressLabelTextColor: colorSchemeLight.primary,
       progressColor: colorSchemeLight.inversePrimary,
     )
@@ -66,11 +84,9 @@ const ColorScheme colorSchemeLight = ColorScheme(
   onError: Color(0xffFFFFFF),
   errorContainer: Color(0xffFFDAD6),
   onErrorContainer: Color(0xff410002),
-  background: Color(0xffFAE36B),
-  onBackground: Color(0xff171002),
   surface: Color(0xffF9DA3E),
   onSurface: Color(0xff171002),
-  surfaceVariant: Color(0xffF8D318),
+  surfaceContainerHighest: Color(0xffF8D318),
   onSurfaceVariant: Color(0xff171002),
   outline: Color(0xff171002),
   outlineVariant: Color(0xff171002),
@@ -100,11 +116,9 @@ const ColorScheme colorSchemeDark = ColorScheme(
   onError: Color(0xff690005),
   errorContainer: Color(0xff93000A),
   onErrorContainer: Color(0xffFFB4AB),
-  background: Color(0xff171002),
-  onBackground: Color(0xffFAE36B),
   surface: Color(0xff1A1A1A),
   onSurface: Color(0xffFAE36B),
-  surfaceVariant: Color(0xff2E2E2E),
+  surfaceContainerHighest: Color(0xff2E2E2E),
   onSurfaceVariant: Color(0xffFAE36B),
   outline: Color(0xffFAE36B),
   outlineVariant: Color(0xffF8D318),
