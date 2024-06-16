@@ -3,7 +3,6 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/features/in_review/presentation/in_review.dart';
 import 'package:japanana/features/lecture_detail/presentation/lecture_detail.dart';
 import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/review_setup.dart';
@@ -28,12 +27,12 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.reviewSetup.path,
-      builder: (context, state) => ReviewSetup(state.extra as ReviewSections),
+      builder: (context, state) => ReviewSetup(state.extra as LectureType),
     ),
     GoRoute(
       path: AppRoutes.inReview.path,
       builder: (context, state) =>
-          InReview(state.extra as (ReviewSections, ReviewSetupOptions)),
+          InReview(state.extra as (LectureType, ReviewSetupOptions)),
     ),
     GoRoute(
       path: AppRoutes.lectureList.path,

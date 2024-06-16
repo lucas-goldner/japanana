@@ -4,7 +4,6 @@ import 'package:japanana/core/data/lecture_repository_impl.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/main.dart';
 import 'package:patrol/patrol.dart';
 
@@ -15,14 +14,14 @@ void main() {
     );
     expect($(K.reviewSelectionAppTitle).visible, equals(true));
     final n3GrammarOption =
-        $(K.getReviewSelectionItemTitleForReviewOption(ReviewSections.n3));
+        $(K.getReviewSelectionItemTitleForReviewOption(LectureType.n3));
     expect(n3GrammarOption.visible, equals(true));
     await n3GrammarOption.tap();
     final reviewSetup = $(K.reviewSetupAppTitle);
     expect(reviewSetup.visible, equals(true));
     final startReviewSetupButton = $(K.startReviewButton);
     await startReviewSetupButton.tap();
-    expect($(K.getInReviewAppTitleForReviewOption(ReviewSections.n3)).visible,
+    expect($(K.getInReviewAppTitleForReviewOption(LectureType.n3)).visible,
         equals(true));
     return null;
   }

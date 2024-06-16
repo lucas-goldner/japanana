@@ -12,7 +12,6 @@ import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/data/json_model.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swipe_cards/swipe_cards.dart';
@@ -20,7 +19,7 @@ import 'package:flutter/services.dart' show rootBundle;
 
 class InReview extends StatefulHookConsumerWidget {
   const InReview(this.reviewOption, {super.key});
-  final (ReviewSections, ReviewSetupOptions) reviewOption;
+  final (LectureType, ReviewSetupOptions) reviewOption;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _InReviewState();

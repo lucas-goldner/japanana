@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/keys.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/review_selection_item.dart';
 import 'package:japanana/main.dart';
 import 'package:patrol/patrol.dart';
@@ -15,9 +15,8 @@ void main() {
         ProviderScope(child: const HikouApp()),
       );
       expect($(K.reviewSelectionAppTitle).visible, equals(true));
-      expect(
-          $(ReviewSelectionItem), findsNWidgets(ReviewSections.values.length));
-      expect($(Divider), findsNWidgets(ReviewSections.values.length - 1));
+      expect($(ReviewSelectionItem), findsNWidgets(LectureType.values.length));
+      expect($(Divider), findsNWidgets(LectureType.values.length - 1));
     },
   );
 
@@ -29,7 +28,7 @@ void main() {
       );
       expect($(K.reviewSelectionAppTitle).visible, equals(true));
       final n3GrammarOption =
-          $(K.getReviewSelectionItemTitleForReviewOption(ReviewSections.n3));
+          $(K.getReviewSelectionItemTitleForReviewOption(LectureType.n3));
       expect(n3GrammarOption.visible, equals(true));
       await n3GrammarOption.tap();
       final reviewSetup = $(K.reviewSetupAppTitle);
@@ -49,7 +48,7 @@ void main() {
       final selectionAppTitle = $(K.reviewSelectionAppTitle);
       expect(selectionAppTitle.visible, equals(true));
       final n3GrammarOption =
-          $(K.getReviewSelectionItemTitleForReviewOption(ReviewSections.n3));
+          $(K.getReviewSelectionItemTitleForReviewOption(LectureType.n3));
       expect(n3GrammarOption.visible, equals(true));
       await n3GrammarOption.tap();
       final reviewSetup = $(K.reviewSetupAppTitle);
@@ -57,7 +56,7 @@ void main() {
       final startReviewSetupButton = $(K.startReviewButton);
       await startReviewSetupButton.tap();
       final inReviewTitleKey =
-          $(K.getInReviewAppTitleForReviewOption(ReviewSections.n3));
+          $(K.getInReviewAppTitleForReviewOption(LectureType.n3));
       expect(inReviewTitleKey.visible, equals(true));
       await $.tap($(BackButton));
       expect(reviewSetup.visible, equals(true));

@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
+import 'package:japanana/core/domain/lecture.dart';
 
 typedef K = Keys;
 
 class Keys {
   const Keys();
 
-  static Key getReviewSelectionItemTitleForReviewOption(
-          ReviewSections option) =>
+  static Key getReviewSelectionItemTitleForReviewOption(LectureType option) =>
       Key("review_select_item_title_${option.name}");
-  static Key getInReviewAppTitleForReviewOption(ReviewSections option) =>
+  static Key getInReviewAppTitleForReviewOption(LectureType option) =>
       Key("in_review_app_title_${option.name}");
   static const reviewSetupAppTitle = Key('review_setup_app_title');
   static const startReviewButton = Key('review_setup_start_review_button');
