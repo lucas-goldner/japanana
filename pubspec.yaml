@@ -2,7 +2,7 @@ name: japanana
 description: "Flutter project to learn jp grammar."
 publish_to: "none"
 
-version: 1.0.1+6
+version: 0.1.0+1
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
@@ -37,7 +37,7 @@ patrol:
   android:
     package_name: com.lucas_goldner.japanana
   ios:
-    bundle_id: com.lucas-goldner.hikou
+    bundle_id: com.lucas-goldner.hikou-memory
   macos:
     bundle_id: com.example.macos.hikou
 
@@ -48,6 +48,7 @@ flutter:
     - assets/l10n/
     - assets/data/Japanese Grammar Examples.md
     - assets/images/
+    - assets/test_data/long_long_long.json
     - test/assets/data/Japanese Grammar Examples TestData.md
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

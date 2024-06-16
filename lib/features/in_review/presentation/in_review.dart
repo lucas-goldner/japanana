@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,11 +10,13 @@ import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
+import 'package:japanana/features/in_review/data/json_model.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
 import 'package:japanana/features/review_selection/domain/review_sections.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swipe_cards/swipe_cards.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class InReview extends StatefulHookConsumerWidget {
   const InReview(this.reviewOption, {super.key});
@@ -25,6 +30,7 @@ class _InReviewState extends ConsumerState<InReview> {
   List<Lecture> lectures = [];
   late final MatchEngine matchEngine;
   late final ReviewSetupOptions options;
+  Timer? _workTimer;
 
   void _onNope(Lecture lecture) {
     if (options.repeatOnFalseCard) matchEngine..rewindMatch();
@@ -49,12 +55,34 @@ class _InReviewState extends ConsumerState<InReview> {
     super.initState();
   }
 
+  void startWorking() {
+    _workTimer = Timer.periodic(Duration(seconds: 2), (Timer timer) async {
+      await work();
+    });
+  }
+
+  Future<void> work() async {
+    final String response =
+        await rootBundle.loadString('assets/test_data/long_long_long.json');
+    final json = const JsonDecoder().convert(response) as Map<String, dynamic>;
+    final objectsList = List<dynamic>.empty(growable: true);
+    final jsonData = json["data"] as List<dynamic>;
+    for (int i = 0; i <= 25; i++) {
+      objectsList.addAll(jsonData);
+    }
+    objectsList.map(JsonModel.fromJson).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final reviewProgress = useState(0);
     final done = useState(false);
     final linearPercentIndicatorExt =
         context.themeExtension<LinearPercentIndicatorColors>();
+
+    if (reviewProgress.value == 5) {
+      startWorking();
+    }
 
     return Scaffold(
       appBar: AppBar(
