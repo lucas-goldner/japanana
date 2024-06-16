@@ -19,6 +19,7 @@ enum AppRoutes {
 }
 
 final router = GoRouter(
+  restorationScopeId: "router",
   initialLocation: AppRoutes.reviewSelection.path,
   routes: [
     GoRoute(
@@ -27,7 +28,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.reviewSetup.path,
-      builder: (context, state) => ReviewSetup(state.extra as LectureType),
+      builder: (context, state) => ReviewSetup(state.extra as LectureType?),
     ),
     GoRoute(
       path: AppRoutes.inReview.path,

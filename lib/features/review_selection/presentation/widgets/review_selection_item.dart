@@ -6,7 +6,11 @@ import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/router.dart';
 
 class ReviewSelectionItem extends StatelessWidget {
-  const ReviewSelectionItem(this.reviewOption, {super.key});
+  const ReviewSelectionItem(
+    this.reviewOption, {
+    super.key,
+  });
+
   final LectureType reviewOption;
 
   void _startReview(BuildContext context) =>

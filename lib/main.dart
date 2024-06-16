@@ -28,6 +28,7 @@ class _HikouAppState extends ConsumerState<HikouApp> {
 
   @override
   Widget build(BuildContext context) => MaterialApp.router(
+        restorationScopeId: 'japanana',
         routerConfig: router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
