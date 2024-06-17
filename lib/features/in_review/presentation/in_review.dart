@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -8,40 +7,101 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
-import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
-import 'package:japanana/features/in_review/data/json_model.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
+import 'package:japanana/features/in_review/presentation/widgets/lecture_progress.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:swipe_cards/swipe_cards.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
-class InReview extends StatefulHookConsumerWidget {
+class InReview extends StatefulWidget {
   const InReview(this.reviewOption, {super.key});
-  final (LectureType, ReviewSetupOptions) reviewOption;
+  final (LectureType?, ReviewSetupOptions?)? reviewOption;
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _InReviewState();
+  State<InReview> createState() => _InReviewState();
 }
 
-class _InReviewState extends ConsumerState<InReview> {
-  List<Lecture> lectures = [];
-  late final MatchEngine matchEngine;
-  late final ReviewSetupOptions options;
-  Timer? _workTimer;
+class _InReviewState extends State<InReview> with RestorationMixin {
+  final RestorableEnum _restorableLectureType = RestorableEnum<LectureType>(
+    LectureType.writing,
+    values: LectureType.values,
+  );
 
-  void _onNope(Lecture lecture) {
-    if (options.repeatOnFalseCard) matchEngine..rewindMatch();
+  @override
+  String? get restorationId => "inReview";
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_restorableLectureType, 'inReviewLectureType');
   }
 
   @override
   void initState() {
-    options = widget.reviewOption.$2;
+    super.initState();
+    Future.delayed(
+      Duration(seconds: 1),
+      () => reviewSection(widget.reviewOption?.$1),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _restorableLectureType.dispose();
+  }
+
+  void reviewSection(LectureType? value) {
+    print("Writing now: $value");
+    if (value == null) return;
+    setState(() {
+      _restorableLectureType.value = value;
+    });
+  }
+
+  LectureType get reviewingLecture {
+    print("Restore value is" + _restorableLectureType.value.toString());
+    print("Parameter value is" + (widget.reviewOption?.$1?.name ?? ""));
+
+    return widget.reviewOption?.$1 ??
+        _restorableLectureType.value as LectureType;
+  }
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: _InReviewContent((
+          reviewingLecture,
+          widget.reviewOption?.$2 ??
+              ReviewSetupOptions(randomize: false, repeatOnFalseCard: false)
+        )),
+      );
+}
+
+class _InReviewContent extends StatefulHookConsumerWidget {
+  const _InReviewContent(this.reviewOption);
+  final (LectureType, ReviewSetupOptions) reviewOption;
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _InReviewContentState();
+}
+
+class _InReviewContentState extends ConsumerState<_InReviewContent> {
+  late final MatchEngine matchEngine;
+  late final ReviewSetupOptions _options;
+  List<Lecture> lectures = [];
+
+  void _onNope(lecture) {
+    if (_options.repeatOnFalseCard) matchEngine..rewindMatch();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _options = widget.reviewOption.$2;
     lectures = ref
         .read(lectureProvider.notifier)
         .getLecturesForReviewOption(widget.reviewOption.$1);
-    if (options.randomize) lectures.shuffle();
+    if (_options.randomize) lectures.shuffle();
     matchEngine = MatchEngine(
         swipeItems: lectures
             .map(
@@ -51,43 +111,33 @@ class _InReviewState extends ConsumerState<InReview> {
               ),
             )
             .toList());
-    super.initState();
   }
 
-  void startWorking() {
-    _workTimer = Timer.periodic(Duration(seconds: 2), (Timer timer) async {
-      await work();
+  void increaseProgress(
+    RestorationBucket restorationBucket,
+    ValueNotifier<int> reviewProgress,
+    int newValue,
+  ) {
+    restorationBucket.write("reviewProgressKey", newValue);
+    setState(() {
+      reviewProgress.value == newValue;
     });
-  }
-
-  Future<void> work() async {
-    final String response =
-        await rootBundle.loadString('assets/test_data/long_long_long.json');
-    final json = const JsonDecoder().convert(response) as Map<String, dynamic>;
-    final objectsList = List<dynamic>.empty(growable: true);
-    final jsonData = json["data"] as List<dynamic>;
-    for (int i = 0; i <= 25; i++) {
-      objectsList.addAll(jsonData);
-    }
-    objectsList.map(JsonModel.fromJson).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     final reviewProgress = useState(0);
+    final restorationBucket = RestorationScope.of(context);
+    final progress = restorationBucket.read<int>("reviewProgressKey") ?? 0;
     final done = useState(false);
-    final linearPercentIndicatorExt =
-        context.themeExtension<LinearPercentIndicatorColors>();
-
-    if (reviewProgress.value == 5) {
-      startWorking();
-    }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: context.colorScheme.inversePrimary,
         title: Text(
-          key: K.getInReviewAppTitleForReviewOption(widget.reviewOption.$1),
+          key: K.getInReviewAppTitleForReviewOption(
+            widget.reviewOption.$1,
+          ),
           widget.reviewOption.$1.getLocalizedTitle(context),
           style: context.textTheme.headlineSmall,
         ),
@@ -133,36 +183,19 @@ class _InReviewState extends ConsumerState<InReview> {
                   key: K.inReviewCardStack,
                   matchEngine: matchEngine,
                   itemBuilder: (BuildContext context, int index) =>
-                      LectureCard(lectures[index]),
+                      LectureCard(lectures[progress]),
                   onStackFinished: () => done.value = true,
-                  itemChanged: (SwipeItem item, int index) =>
-                      reviewProgress.value = index,
+                  itemChanged: (SwipeItem item, int index) => increaseProgress(
+                    restorationBucket,
+                    reviewProgress,
+                    index,
+                  ),
                   upSwipeAllowed: false,
                   fillSpace: false,
                 ),
               ),
               Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 40, left: 20, right: 20),
-                child: LinearPercentIndicator(
-                  key: K.progressIndicator,
-                  animation: true,
-                  animateFromLastPercent: true,
-                  lineHeight: 20.0,
-                  animationDuration: 1250,
-                  percent: ((reviewProgress.value + 1) / lectures.length),
-                  center: Text(
-                    key: K.progressIndicatorLabel,
-                    "${(reviewProgress.value + 1)} / ${lectures.length}",
-                    style: context.textTheme.labelLarge?.copyWith(
-                      color: linearPercentIndicatorExt.progressLabelTextColor,
-                    ),
-                  ),
-                  progressColor: linearPercentIndicatorExt.progressColor,
-                  backgroundColor: linearPercentIndicatorExt.backgroundColor,
-                  barRadius: Radius.circular(4.0),
-                ),
-              ),
+              LectureProgress(progress, lectures.length),
             ],
           ),
         ],

@@ -10,7 +10,8 @@ class LectureNotifier extends Notifier<List<Lecture>> {
   @override
   List<Lecture> build() => [];
 
-  void fetchLectures() async => state = await _repository.fetchLectures();
+  Future<void> fetchLectures() async =>
+      state = await _repository.fetchLectures();
 
   List<Lecture> getLecturesForReviewOption(
     LectureType option,

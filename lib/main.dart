@@ -5,10 +5,15 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
 
-void main() => runApp(const ProviderScope(child: HikouApp()));
+void main() {
+  final widgetsFlutterBinding = WidgetsFlutterBinding.ensureInitialized();
+  widgetsFlutterBinding.deferFirstFrame();
+  runApp(ProviderScope(child: HikouApp(widgetsFlutterBinding)));
+}
 
 class HikouApp extends ConsumerStatefulWidget {
-  const HikouApp({super.key});
+  const HikouApp(this.widgetsFlutterBinding, {super.key});
+  final WidgetsBinding widgetsFlutterBinding;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HikouAppState();
@@ -24,17 +29,28 @@ class _HikouAppState extends ConsumerState<HikouApp> {
   }
 
   Future<void> _loadApp(WidgetRef ref) async =>
-      ref.read(lectureProvider.notifier).fetchLectures();
+      await ref.read(lectureProvider.notifier).fetchLectures();
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-        restorationScopeId: 'japanana',
-        routerConfig: router,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        title: 'Hikou',
-        theme: lightTheme,
-        darkTheme: darkTheme,
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _loadApp(ref),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            widget.widgetsFlutterBinding.allowFirstFrame();
+
+            return MaterialApp.router(
+              restorationScopeId: 'japanana',
+              routerConfig: router,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              title: 'Hikou',
+              theme: lightTheme,
+              darkTheme: darkTheme,
+            );
+          }
+
+          return SizedBox.shrink();
+        },
       );
 }

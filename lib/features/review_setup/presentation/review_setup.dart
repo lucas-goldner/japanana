@@ -33,7 +33,9 @@ class _ReviewSetupState extends State<ReviewSetup> with RestorationMixin {
   void initState() {
     super.initState();
     Future.delayed(
-        Duration(seconds: 1), () => reviewSection(widget.reviewSection));
+      Duration(seconds: 1),
+      () => reviewSection(widget.reviewSection),
+    );
   }
 
   @override

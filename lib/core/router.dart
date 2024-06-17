@@ -33,7 +33,7 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutes.inReview.path,
       builder: (context, state) =>
-          InReview(state.extra as (LectureType, ReviewSetupOptions)),
+          InReview(state.extra as (LectureType?, ReviewSetupOptions?)?),
     ),
     GoRoute(
       path: AppRoutes.lectureList.path,
