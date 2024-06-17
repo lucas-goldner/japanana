@@ -9,62 +9,15 @@ import 'package:japanana/core/router.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
 
-class ReviewSetup extends StatefulWidget {
+class ReviewSetup extends HookWidget {
   const ReviewSetup(this.reviewSection, {super.key});
-  final LectureType? reviewSection;
+  final LectureType reviewSection;
 
-  @override
-  State<ReviewSetup> createState() => _ReviewSetupState();
-}
-
-class _ReviewSetupState extends State<ReviewSetup> with RestorationMixin {
-  final RestorableEnum _restorableLectureType =
-      RestorableEnum(LectureType.writing, values: LectureType.values);
-
-  @override
-  String? get restorationId => "reviewSetup";
-
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    registerForRestoration(_restorableLectureType, 'setupLectureType');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-        Duration(seconds: 1), () => reviewSection(widget.reviewSection));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _restorableLectureType.dispose();
-  }
-
-  void reviewSection(LectureType? value) {
-    if (value == null) return;
-    setState(() {
-      _restorableLectureType.value = value;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => _ReviewSetupContent(
-        widget.reviewSection ?? (_restorableLectureType.value as LectureType?),
+  void navigateToReview(BuildContext context, ReviewSetupOptions options) =>
+      context.push(
+        AppRoutes.inReview.path,
+        extra: (reviewSection, options),
       );
-}
-
-class _ReviewSetupContent extends HookWidget {
-  const _ReviewSetupContent(this.reviewSection);
-  final LectureType? reviewSection;
-
-  void navigateToReview(BuildContext context, ReviewSetupOptions options) {
-    context.push(
-      AppRoutes.inReview.path,
-      extra: (reviewSection, options),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +41,7 @@ class _ReviewSetupContent extends HookWidget {
             height: 20,
           ),
           Text(
-            reviewSection?.getLocalizedTitle(context) ?? "",
+            reviewSection.getLocalizedTitle(context),
             style: context.textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),

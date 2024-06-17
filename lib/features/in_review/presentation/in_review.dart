@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -29,7 +30,6 @@ class _InReviewState extends ConsumerState<InReview> {
   List<Lecture> lectures = [];
   late final MatchEngine matchEngine;
   late final ReviewSetupOptions options;
-  Timer? _workTimer;
 
   void _onNope(Lecture lecture) {
     if (options.repeatOnFalseCard) matchEngine..rewindMatch();
@@ -55,9 +55,10 @@ class _InReviewState extends ConsumerState<InReview> {
   }
 
   void startWorking() {
-    _workTimer = Timer.periodic(Duration(seconds: 2), (Timer timer) async {
-      await work();
-    });
+    print("START WORKING");
+    while (true) {
+      Isolate.run(work);
+    }
   }
 
   Future<void> work() async {
@@ -66,7 +67,7 @@ class _InReviewState extends ConsumerState<InReview> {
     final json = const JsonDecoder().convert(response) as Map<String, dynamic>;
     final objectsList = List<dynamic>.empty(growable: true);
     final jsonData = json["data"] as List<dynamic>;
-    for (int i = 0; i <= 25; i++) {
+    for (int i = 0; i <= 35; i++) {
       objectsList.addAll(jsonData);
     }
     objectsList.map(JsonModel.fromJson).toList();
