@@ -67,7 +67,7 @@ class _InReviewState extends ConsumerState<InReview> {
     final json = const JsonDecoder().convert(response) as Map<String, dynamic>;
     final objectsList = List<dynamic>.empty(growable: true);
     final jsonData = json["data"] as List<dynamic>;
-    for (int i = 0; i <= 35; i++) {
+    for (int i = 0; i <= 75; i++) {
       objectsList.addAll(jsonData);
     }
     objectsList.map(JsonModel.fromJson).toList();
