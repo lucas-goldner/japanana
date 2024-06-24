@@ -55,10 +55,12 @@ class _InReviewState extends ConsumerState<InReview> {
   }
 
   void startWorking() {
-    print("START WORKING");
-    while (true) {
-      Isolate.run(work);
-    }
+    Future.delayed(Duration(seconds: 1), () {
+       while (true) {
+        Isolate.run(work);
+      }
+    });
+  
   }
 
   Future<void> work() async {
