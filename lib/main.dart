@@ -5,16 +5,16 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
 
-void main() => runApp(const ProviderScope(child: HikouApp()));
+void main() => runApp(const ProviderScope(child: JapananaApp()));
 
-class HikouApp extends ConsumerStatefulWidget {
-  const HikouApp({super.key});
+class JapananaApp extends ConsumerStatefulWidget {
+  const JapananaApp({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HikouAppState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _JapananaAppState();
 }
 
-class _HikouAppState extends ConsumerState<HikouApp> {
+class _JapananaAppState extends ConsumerState<JapananaApp> {
   Future<void>? _appLoader;
 
   @override
@@ -32,7 +32,7 @@ class _HikouAppState extends ConsumerState<HikouApp> {
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         debugShowCheckedModeBanner: false,
-        title: 'Hikou',
+        title: 'Japanana',
         theme: lightTheme,
         darkTheme: darkTheme,
       );

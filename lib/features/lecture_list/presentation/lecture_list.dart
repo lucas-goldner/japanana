@@ -34,11 +34,13 @@ class LectureList extends HookWidget {
     final adjustedQueryAsKana = kanaKit.toKana(query.toLowerCase().trim());
 
     currentLectures.value = lectures
-        .where((lecture) =>
-            lecture.title.contains(adjustedQuery) ||
-            lecture.usages.join("").contains(adjustedQuery) ||
-            lecture.title.contains(adjustedQueryAsKana) ||
-            lecture.usages.join("").contains(adjustedQueryAsKana))
+        .where(
+          (lecture) =>
+              lecture.title.contains(adjustedQuery) ||
+              lecture.usages.join().contains(adjustedQuery) ||
+              lecture.title.contains(adjustedQueryAsKana) ||
+              lecture.usages.join().contains(adjustedQueryAsKana),
+        )
         .toList();
   }
 
@@ -62,7 +64,7 @@ class LectureList extends HookWidget {
           style: context.textTheme.headlineLarge,
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(80),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               vertical: 16,

@@ -10,6 +10,7 @@ class ReviewSetupOption extends StatelessWidget {
   });
   final String label;
   final bool value;
+  // ignore: avoid_positional_boolean_parameters
   final void Function(bool?)? onChanged;
 
   @override
@@ -24,7 +25,7 @@ class ReviewSetupOption extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Checkbox(
             materialTapTargetSize: MaterialTapTargetSize.padded,
             value: value,

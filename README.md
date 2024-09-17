@@ -2,6 +2,12 @@
 
 A new Flutter project to learn Japanese grammar.
 
+For running:
+
+```bash
+$ git submodule update --init --recursive
+```
+
 Run integration tests:
 
 ```bash

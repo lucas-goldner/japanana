@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/router.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
 
 class ReviewSelectionItem extends StatelessWidget {
   const ReviewSelectionItem(this.reviewOption, {super.key});
-  final ReviewSections reviewOption;
+  final LectureType reviewOption;
 
   void _startReview(BuildContext context) =>
       context.push(AppRoutes.reviewSetup.path, extra: reviewOption);

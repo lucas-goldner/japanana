@@ -18,22 +18,20 @@ class LectureCardExpandableContent extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (_upperPadding) SizedBox(height: 20),
-          if (itemsToDisplay.length != 0)
+          if (_upperPadding) const SizedBox(height: 20),
+          if (itemsToDisplay.isNotEmpty)
             Text(
-              "- ${label}:",
+              '- $label:',
               style: context.textTheme.labelMedium
                   ?.copyWith(fontWeight: FontWeight.bold),
             ),
-          SizedBox(height: 4),
-          ...itemsToDisplay
-              .map(
-                (example) => Text(
-                  example,
-                  style: context.textTheme.bodyLarge,
-                ),
-              )
-              .toList(),
+          const SizedBox(height: 4),
+          ...itemsToDisplay.map(
+            (example) => Text(
+              example,
+              style: context.textTheme.bodyLarge,
+            ),
+          ),
         ],
       );
 }

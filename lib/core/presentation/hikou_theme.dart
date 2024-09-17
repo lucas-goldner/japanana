@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 final ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: colorSchemeLight.inversePrimary,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(20),
         bottomRight: Radius.circular(20),
@@ -11,17 +11,19 @@ final ThemeData lightTheme = ThemeData(
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-    backgroundColor: WidgetStateProperty.all(colorSchemeLight.primaryContainer),
-    foregroundColor:
-        WidgetStateProperty.all(colorSchemeLight.onPrimaryContainer),
-  )),
+    style: ButtonStyle(
+      backgroundColor:
+          WidgetStateProperty.all(colorSchemeLight.primaryContainer),
+      foregroundColor:
+          WidgetStateProperty.all(colorSchemeLight.onPrimaryContainer),
+    ),
+  ),
   cardTheme: CardTheme(
     color: colorSchemeLight.surfaceContainerHighest,
   ),
   colorScheme: colorSchemeLight,
   useMaterial3: true,
-  listTileTheme: ListTileThemeData(
+  listTileTheme: const ListTileThemeData(
     minVerticalPadding: 16,
   ),
   extensions: [
@@ -29,14 +31,14 @@ final ThemeData lightTheme = ThemeData(
       backgroundColor: colorSchemeLight.onSurface,
       progressLabelTextColor: colorSchemeLight.onPrimary,
       progressColor: colorSchemeLight.inversePrimary,
-    )
+    ),
   ],
 );
 
 final ThemeData darkTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: colorSchemeDark.inversePrimary,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         bottomLeft: Radius.circular(20),
         bottomRight: Radius.circular(20),
@@ -47,14 +49,15 @@ final ThemeData darkTheme = ThemeData(
     color: colorSchemeDark.onPrimaryContainer,
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ButtonStyle(
-    backgroundColor:
-        WidgetStateProperty.all(colorSchemeDark.onPrimaryContainer),
-    foregroundColor: WidgetStateProperty.all(colorSchemeDark.primary),
-  )),
+    style: ButtonStyle(
+      backgroundColor:
+          WidgetStateProperty.all(colorSchemeDark.onPrimaryContainer),
+      foregroundColor: WidgetStateProperty.all(colorSchemeDark.primary),
+    ),
+  ),
   colorScheme: colorSchemeDark,
   useMaterial3: true,
-  listTileTheme: ListTileThemeData(
+  listTileTheme: const ListTileThemeData(
     minVerticalPadding: 16,
   ),
   extensions: [
@@ -62,7 +65,7 @@ final ThemeData darkTheme = ThemeData(
       backgroundColor: colorSchemeLight.surface,
       progressLabelTextColor: colorSchemeLight.primary,
       progressColor: colorSchemeLight.inversePrimary,
-    )
+    ),
   ],
 );
 
@@ -150,14 +153,17 @@ class LinearPercentIndicatorColors
     Color? backgroundColor,
   }) =>
       LinearPercentIndicatorColors(
-          progressLabelTextColor:
-              progressLabelTextColor ?? this.progressLabelTextColor,
-          progressColor: progressColor ?? this.progressColor,
-          backgroundColor: backgroundColor ?? this.backgroundColor);
+        progressLabelTextColor:
+            progressLabelTextColor ?? this.progressLabelTextColor,
+        progressColor: progressColor ?? this.progressColor,
+        backgroundColor: backgroundColor ?? this.backgroundColor,
+      );
 
   @override
   LinearPercentIndicatorColors lerp(
-      LinearPercentIndicatorColors? other, double t) {
+    LinearPercentIndicatorColors? other,
+    double t,
+  ) {
     if (other is! LinearPercentIndicatorColors) {
       return this;
     }
@@ -171,5 +177,6 @@ class LinearPercentIndicatorColors
 
   @override
   String toString() =>
+      // ignore: lines_longer_than_80_chars
       'LinearPercentIndicatorColors(progressLabelTextColor: $progressLabelTextColor, progressColor: $progressColor, backgroundColor: $backgroundColor)';
 }
