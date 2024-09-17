@@ -11,14 +11,30 @@ import 'package:japanana/features/review_selection/presentation/widgets/review_s
 class ReviewSelection extends ConsumerWidget {
   const ReviewSelection({super.key});
 
-  void _navigateToLectureList(BuildContext context, WidgetRef ref) =>
-      context.push(
+  @override
+  Widget build(BuildContext context, WidgetRef ref) =>
+      Builder(builder: (context) {
+        final lectures = ref.watch(lectureProvider);
+        return _ReviewSelection(lectures);
+      });
+}
+
+class _ReviewSelection extends StatefulWidget {
+  const _ReviewSelection(this.lectures);
+  final List<Lecture> lectures;
+
+  @override
+  State<_ReviewSelection> createState() => _ReviewSelectionState();
+}
+
+class _ReviewSelectionState extends State<_ReviewSelection> {
+  void _navigateToLectureList(BuildContext context) => context.push(
         AppRoutes.lectureList.path,
-        extra: ref.read(lectureProvider),
+        extra: widget.lectures,
       );
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: Text(
             key: K.reviewSelectionAppTitle,
@@ -33,7 +49,7 @@ class ReviewSelection extends ConsumerWidget {
                   Icons.list_alt_outlined,
                   color: context.colorScheme.secondaryContainer,
                 ),
-                onPressed: () => _navigateToLectureList(context, ref),
+                onPressed: () => _navigateToLectureList(context),
               ),
             ),
           ],

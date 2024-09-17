@@ -5,10 +5,15 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/presentation/hikou_theme.dart';
 import 'package:japanana/core/router.dart';
 
-void main() => runApp(const ProviderScope(child: JapananaApp()));
+void main() {
+  final widgetsFlutterBinding = WidgetsFlutterBinding.ensureInitialized()
+    ..deferFirstFrame();
+  runApp(ProviderScope(child: JapananaApp(widgetsFlutterBinding)));
+}
 
 class JapananaApp extends ConsumerStatefulWidget {
-  const JapananaApp({super.key});
+  const JapananaApp(this.widgetsFlutterBinding, {super.key});
+  final WidgetsBinding widgetsFlutterBinding;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _JapananaAppState();
@@ -27,13 +32,25 @@ class _JapananaAppState extends ConsumerState<JapananaApp> {
       ref.read(lectureProvider.notifier).fetchLectures();
 
   @override
-  Widget build(BuildContext context) => MaterialApp.router(
-        routerConfig: router,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        title: 'Japanana',
-        theme: lightTheme,
-        darkTheme: darkTheme,
+  Widget build(BuildContext context) => FutureBuilder(
+        future: _loadApp(ref),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            widget.widgetsFlutterBinding.allowFirstFrame();
+
+            return MaterialApp.router(
+              restorationScopeId: 'japanana',
+              routerConfig: router,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              debugShowCheckedModeBanner: false,
+              title: 'Japanana',
+              theme: lightTheme,
+              darkTheme: darkTheme,
+            );
+          }
+
+          return const SizedBox.shrink();
+        },
       );
 }

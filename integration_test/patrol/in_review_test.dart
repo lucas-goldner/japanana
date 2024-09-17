@@ -10,7 +10,7 @@ import 'package:patrol/patrol.dart';
 void main() {
   Future<void> goToInReviewScreen(PatrolIntegrationTester $) async {
     await $.pumpWidgetAndSettle(
-      const ProviderScope(child: JapananaApp()),
+      ProviderScope(child: JapananaApp($.tester.binding)),
     );
     expect($(K.reviewSelectionAppTitle).visible, equals(true));
     final n3GrammarOption =
