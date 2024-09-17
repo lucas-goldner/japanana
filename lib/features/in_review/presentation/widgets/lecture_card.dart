@@ -18,7 +18,7 @@ class LectureCard extends HookWidget {
       focusNode: focus,
       child: GestureDetector(
         onTapDown: (_) => {
-          expanded.value == 2 ? 2 : expanded.value++,
+          if (expanded.value == 2) 2 else expanded.value++,
           focus.unfocus(),
         },
         child: Card(
@@ -43,21 +43,20 @@ class LectureCard extends HookWidget {
                       maintainState: true,
                       maintainSize: true,
                       maintainAnimation: true,
-                      maintainInteractivity: false,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Divider(height: 12),
+                          const Divider(height: 12),
                           LectureCardExpandableContent(
                             itemsToDisplay: lecture.usages,
                             label: context.l10n.usages,
-                            upperPadding: lecture.usages.length != 0,
+                            upperPadding: lecture.usages.isNotEmpty,
                           ),
                           LectureCardExpandableContent(
                             itemsToDisplay: lecture.examples,
                             label: context.l10n.examples,
-                            upperPadding: lecture.examples.length != 0,
+                            upperPadding: lecture.examples.isNotEmpty,
                           ),
                           Visibility(
                             key: K.getReviewLectureCardExpandedContent(2),
@@ -72,18 +71,17 @@ class LectureCard extends HookWidget {
                                 LectureCardExpandableContent(
                                   itemsToDisplay: lecture.translations,
                                   label: context.l10n.translations,
-                                  upperPadding:
-                                      lecture.translations.length != 0,
+                                  upperPadding: lecture.translations.isNotEmpty,
                                 ),
                                 LectureCardExpandableContent(
                                   itemsToDisplay: lecture.extras ?? [],
                                   label: context.l10n.extras,
                                   upperPadding: lecture.extras != null ||
-                                      lecture.extras?.length != 0,
+                                      (lecture.extras?.isNotEmpty ?? false),
                                 ),
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),

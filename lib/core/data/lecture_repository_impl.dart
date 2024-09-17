@@ -6,9 +6,9 @@ import 'package:japanana/gen/assets.gen.dart';
 enum ParagraphType {
   usage('- **Usage**:'),
   example('- **Examples**:'),
-  translation("- **Translation**:"),
-  extra("- **Extras**:"),
-  end("_PARAGRAPH_END_");
+  translation('- **Translation**:'),
+  extra('- **Extras**:'),
+  end('_PARAGRAPH_END_');
 
   const ParagraphType(this.prefix);
   final String prefix;
@@ -30,7 +30,7 @@ class LectureRepositoryImpl implements LectureRepository {
         .loadString(assetsPath ?? Assets.data.japaneseGrammarExamples);
 
     final lectures = <Lecture>[];
-    List<String> sections = _splitBySections(_removeHeaders(markdownContent));
+    final sections = _splitBySections(_removeHeaders(markdownContent));
     for (final (index, section) in sections.indexed) {
       lectures.add(_transformLecture(section, index));
     }
@@ -47,20 +47,21 @@ class LectureRepositoryImpl implements LectureRepository {
   }
 
   List<String> _splitBySections(String text) {
-    RegExp exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
+    final exp = RegExp(r'###.*?(?=###|$)', dotAll: true);
     return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
   }
 
   Lecture _transformLecture(String section, int currentLectureIndex) {
-    final lines = section.split("\n");
-    final title = lines.first.replaceAll("###", "").trim();
-    final List<LectureType> lectureTypes = [];
+    final lines = section.split('\n');
+    final title = lines.first.replaceAll('###', '').trim();
+    final lectureTypes = <LectureType>[];
     final contentLectureType = _getContentBasedLectureType(title);
     if (contentLectureType != null) lectureTypes.add(contentLectureType);
     final categorizedLectureType =
         _getCategorizedLectureType(currentLectureIndex);
-    if (categorizedLectureType != null)
+    if (categorizedLectureType != null) {
       lectureTypes.add(categorizedLectureType);
+    }
     final (usages, examples, translations, extras) = _extractParagraphs(lines);
 
     return Lecture(
@@ -75,28 +76,40 @@ class LectureRepositoryImpl implements LectureRepository {
 
   // Legend: ✍️ Writing specific, 🗣️ Talk specific
   LectureType? _getContentBasedLectureType(String title) => switch (title) {
-        String s when s.contains("✍️") => LectureType.writing,
-        String s when s.contains("🗣️") => LectureType.conversational,
+        final String s when s.contains('✍️') => LectureType.writing,
+        final String s when s.contains('🗣️') => LectureType.conversational,
         _ => null
       };
 
   LectureType? _getCategorizedLectureType(int indexOfLecture) =>
       switch (indexOfLecture) {
-        int i when i > 67 => LectureType.n3,
-        int i when i <= 67 => LectureType.n4,
+        final int i when i > 67 => LectureType.n3,
+        final int i when i <= 67 => LectureType.n4,
         _ => null
       };
 
   Paragraphs _extractParagraphs(List<String> lines) {
     lines.add(ParagraphType.end.prefix);
-    List<String> usages = _getLinesPerParagraph(
-        lines, ParagraphType.usage.prefix, ParagraphType.example.prefix);
-    List<String> examples = _getLinesPerParagraph(
-        lines, ParagraphType.example.prefix, ParagraphType.translation.prefix);
-    List<String> translations = _getLinesPerParagraph(
-        lines, ParagraphType.translation.prefix, ParagraphType.extra.prefix);
-    List<String> extras = _getLinesPerParagraph(
-        lines, ParagraphType.extra.prefix, ParagraphType.end.prefix);
+    final usages = _getLinesPerParagraph(
+      lines,
+      ParagraphType.usage.prefix,
+      ParagraphType.example.prefix,
+    );
+    final examples = _getLinesPerParagraph(
+      lines,
+      ParagraphType.example.prefix,
+      ParagraphType.translation.prefix,
+    );
+    final translations = _getLinesPerParagraph(
+      lines,
+      ParagraphType.translation.prefix,
+      ParagraphType.extra.prefix,
+    );
+    final extras = _getLinesPerParagraph(
+      lines,
+      ParagraphType.extra.prefix,
+      ParagraphType.end.prefix,
+    );
 
     return (usages, examples, translations, extras);
   }
@@ -106,13 +119,13 @@ class LectureRepositoryImpl implements LectureRepository {
     String currentParagraph,
     String nextParagraph,
   ) {
-    final List<String> extractedLines = [];
+    final extractedLines = <String>[];
     final currentParagraphIndex =
         lines.indexWhere((line) => line.trim().startsWith(currentParagraph));
 
     if (currentParagraphIndex != -1) {
-      bool isEndOfList = (currentParagraphIndex + 1) == lines.length;
-      bool isNotMultiLine =
+      final isEndOfList = (currentParagraphIndex + 1) == lines.length;
+      final isNotMultiLine =
           lines[isEndOfList ? lines.length - 1 : currentParagraphIndex + 1]
               .startsWith(nextParagraph);
 
@@ -124,10 +137,13 @@ class LectureRepositoryImpl implements LectureRepository {
         final nextParagraphIndex =
             lines.indexWhere((line) => line.trim().startsWith(nextParagraph));
         final reachesEndOfLines = nextParagraphIndex == -1;
-        final linesInBetween = lines.sublist(currentParagraphIndex + 1,
-            reachesEndOfLines ? lines.length : nextParagraphIndex);
-        linesInBetween.forEach((element) =>
-            extractedLines.add(element.replaceAll("- ", "").trim()));
+        final linesInBetween = lines.sublist(
+          currentParagraphIndex + 1,
+          reachesEndOfLines ? lines.length : nextParagraphIndex,
+        );
+        for (final element in linesInBetween) {
+          extractedLines.add(element.replaceAll('- ', '').trim());
+        }
       }
     }
 

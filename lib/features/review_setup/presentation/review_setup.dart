@@ -1,27 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
+import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/router.dart';
-import 'package:japanana/features/review_selection/domain/review_sections.dart';
+
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
 
-class ReviewSetup extends HookWidget {
+class ReviewSetup extends StatefulWidget {
   const ReviewSetup(this.reviewSection, {super.key});
-  final ReviewSections reviewSection;
+  final LectureType? reviewSection;
 
-  void navigateToReview(BuildContext context, ReviewSetupOptions options) =>
-      context.push(
-        AppRoutes.inReview.path,
-        extra: (reviewSection, options),
+  @override
+  State<ReviewSetup> createState() => _ReviewSetupState();
+}
+
+class _ReviewSetupState extends State<ReviewSetup> with RestorationMixin {
+  final RestorableEnum _restorableLectureType =
+      RestorableEnum(LectureType.writing, values: LectureType.values);
+
+  @override
+  String? get restorationId => 'reviewSetup';
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_restorableLectureType, 'setupLectureType');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(
+      const Duration(seconds: 1),
+      () => reviewSection(widget.reviewSection),
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _restorableLectureType.dispose();
+  }
+
+  void reviewSection(LectureType? value) {
+    if (value == null) return;
+    setState(() {
+      _restorableLectureType.value = value;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => _ReviewSetupContent(
+        widget.reviewSection ?? (_restorableLectureType.value as LectureType?),
       );
+}
+
+class _ReviewSetupContent extends HookWidget {
+  const _ReviewSetupContent(this.reviewSection);
+  final LectureType? reviewSection;
+
+  void navigateToReview(BuildContext context, ReviewSetupOptions options) {
+    context.push(
+      AppRoutes.inReview.path,
+      extra: (reviewSection, options),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final reviewOptions = useState(
-      ReviewSetupOptions(randomize: false, repeatOnFalseCard: false),
+      const ReviewSetupOptions(randomize: false, repeatOnFalseCard: false),
     );
 
     return Scaffold(
@@ -36,11 +86,11 @@ class ReviewSetup extends HookWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Text(
-            reviewSection.getLocalizedTitle(context),
+            reviewSection?.getLocalizedTitle(context) ?? '',
             style: context.textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),
@@ -49,7 +99,7 @@ class ReviewSetup extends HookWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ReviewSetupOption(
@@ -58,7 +108,7 @@ class ReviewSetup extends HookWidget {
                   onChanged: (value) => reviewOptions.value =
                       reviewOptions.value.copyWith(randomize: value),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 ReviewSetupOption(
@@ -66,11 +116,11 @@ class ReviewSetup extends HookWidget {
                   value: reviewOptions.value.repeatOnFalseCard,
                   onChanged: (value) => reviewOptions.value =
                       reviewOptions.value.copyWith(repeatOnFalseCard: value),
-                )
+                ),
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(bottom: 40, left: 24, right: 24),
             child: ElevatedButton(

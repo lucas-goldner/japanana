@@ -40,13 +40,13 @@ class LectureListCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "$lectureIndex. ${lecture.title}",
+                  '$lectureIndex. ${lecture.title}',
                   style: context.textTheme.headlineLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
-                Divider(),
+                const Divider(),
                 Text(
-                  "${lecture.usages.join(", ")}",
+                  lecture.usages.join(', '),
                   style: context.textTheme.headlineSmall,
                   overflow: TextOverflow.ellipsis,
                 ),

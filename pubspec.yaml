@@ -33,7 +33,7 @@ dev_dependencies:
   riverpod_lint: ^2.3.7
 
 patrol:
-  app_name: Hikou
+  app_name: Japanana
   android:
     package_name: com.lucas_goldner.japanana
   ios:
@@ -47,7 +47,6 @@ flutter:
   assets:
     - assets/l10n/
     - assets/data/Japanese Grammar Examples.md
-    - assets/images/
     - test/assets/data/Japanese Grammar Examples TestData.md
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
