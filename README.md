@@ -1,4 +1,4 @@
-# 飛行 - Japanese Grammar
+# Japanana - Japanese Grammar
 
 A new Flutter project to learn Japanese grammar.
 
