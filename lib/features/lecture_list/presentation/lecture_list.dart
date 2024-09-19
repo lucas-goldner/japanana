@@ -63,8 +63,17 @@ class LectureList extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lectures = ref.read(lectureProvider);
-    final currentLectures = useState(lectures);
+    final showSavedLectures = useState(false);
+    final allLectures = ref.read(lectureProvider);
+    final savedLectures = ref
+        .read(lectureProvider)
+        .where((element) => element.types.contains(LectureType.remember))
+        .toList();
+    final lectures = showSavedLectures.value ? savedLectures : allLectures;
+    final currentAllLectures = useState(allLectures);
+    final currentSavedLectures = useState(savedLectures);
+    final currentLectures =
+        showSavedLectures.value ? currentSavedLectures : currentAllLectures;
     final searchQueryController = useTextEditingController();
 
     return Scaffold(
@@ -73,6 +82,15 @@ class LectureList extends HookConsumerWidget {
           context.l10n.lectureList,
           style: context.textTheme.headlineLarge,
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.save,
+              color: context.colorScheme.secondaryContainer,
+            ),
+            onPressed: () => showSavedLectures.value = !showSavedLectures.value,
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80),
           child: Padding(
