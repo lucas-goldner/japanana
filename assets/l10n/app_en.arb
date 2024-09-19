@@ -29,5 +29,7 @@
   "lectureList": "Lecture list",
   "next": "Next",
   "richtig": "Correct",
-  "falsch": "Wrong"
+  "falsch": "Wrong",
+  "remember": "Remember",
+  "rememberedSection": "Grammar to remember"
 }

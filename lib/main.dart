@@ -34,10 +34,6 @@ class _JapananaAppState extends ConsumerState<JapananaApp> {
     final preferencesRepo = SharedPreferencesRepositoryImpl(
       await SharedPreferences.getInstance(),
     );
-    await ref
-        .read(lectureProvider.notifier)
-        .fetchLectures(sharedPreferencesRepository: preferencesRepo);
-
     return preferencesRepo;
   }
 

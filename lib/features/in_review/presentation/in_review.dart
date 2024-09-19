@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -200,6 +198,18 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
                 ),
               ),
               const Spacer(),
+              ElevatedButton.icon(
+                onPressed: () {
+                  ref
+                      .read(lectureProvider.notifier)
+                      .putLectureInRememberChamber(
+                        lectures[widget.reviewProgress.value].id,
+                      );
+                },
+                label: Text(context.l10n.remember),
+                icon: const Icon(Icons.save),
+              ),
+              const SizedBox(height: 20),
               LectureProgress(widget.reviewProgress.value, lectures.length),
             ],
           ),

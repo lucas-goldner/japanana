@@ -11,49 +11,63 @@ import 'package:japanana/features/review_selection/presentation/widgets/review_s
 class ReviewSelection extends ConsumerWidget {
   const ReviewSelection({super.key});
 
+  Future<void> _fetchLectures(WidgetRef ref) async =>
+      ref.read(lectureProvider.notifier).fetchLectures();
+
   void _navigateToLectureList({
     required BuildContext context,
-    required List<Lecture> lectures,
   }) =>
       context.push(
         AppRoutes.lectureList.path,
-        extra: lectures,
       );
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final lectures = ref.watch(lectureProvider);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          key: K.reviewSelectionAppTitle,
-          context.l10n.appTitle,
-          style: context.textTheme.headlineLarge,
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 24),
-            child: IconButton(
-              icon: Icon(
-                Icons.list_alt_outlined,
-                color: context.colorScheme.secondaryContainer,
-              ),
-              onPressed: () => _navigateToLectureList(
-                context: context,
-                lectures: lectures,
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
+        appBar: AppBar(
+          title: Text(
+            key: K.reviewSelectionAppTitle,
+            context.l10n.appTitle,
+            style: context.textTheme.headlineLarge,
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: IconButton(
+                icon: Icon(
+                  Icons.list_alt_outlined,
+                  color: context.colorScheme.secondaryContainer,
+                ),
+                onPressed: () => _navigateToLectureList(
+                  context: context,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: ListView.separated(
-        itemCount: LectureType.values.length,
-        itemBuilder: (context, index) => ReviewSelectionItem(
-          LectureType.values[index],
+          ],
         ),
-        separatorBuilder: (context, index) => const Divider(),
-      ),
-    );
-  }
+        body: FutureBuilder<void>(
+          future: _fetchLectures(ref),
+          builder: (context, snapshot) {
+            final hasLecturesToRemember = ref
+                .watch(lectureProvider.notifier)
+                .hasLecturesInRememberChamper;
+            final lectureTypes = hasLecturesToRemember
+                ? LectureType.values.toList()
+                : (LectureType.values.toList()..remove(LectureType.remember));
+
+            return switch (snapshot.connectionState) {
+              ConnectionState.done => ListView.separated(
+                  itemCount: lectureTypes.length,
+                  itemBuilder: (context, index) => ReviewSelectionItem(
+                    lectureTypes[index],
+                  ),
+                  separatorBuilder: (context, index) => const Divider(),
+                ),
+              ConnectionState.none ||
+              ConnectionState.active ||
+              ConnectionState.waiting =>
+                const Center(child: CircularProgressIndicator())
+            };
+          },
+        ),
+      );
 }

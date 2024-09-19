@@ -19,6 +19,8 @@ class SharedPreferencesRepositoryImpl implements SharedPreferencesRepository {
     SharedPreferencesKey key,
     List<String> value,
   ) =>
-      preferences
-          .getStringList(SharedPreferencesKey.needToRememberLectures.name);
+      preferences.setStringList(
+        SharedPreferencesKey.needToRememberLectures.name,
+        Set<String>.from(value).toList(),
+      );
 }
