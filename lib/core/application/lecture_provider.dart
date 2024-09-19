@@ -58,6 +58,26 @@ class LectureNotifier extends Notifier<List<Lecture>> {
         )
         .toList();
   }
+
+  void banishLectureFromRememberChamber(String id) {
+    final savedIds = getLecturesOfRememberChamber()
+        .map((lecture) => lecture.id)
+        .toList()
+      ..removeWhere((element) => element == id);
+    ref.watch(sharedPreferencesProvider).writeListOfStringToSharedPreferences(
+          SharedPreferencesKey.needToRememberLectures,
+          savedIds,
+        );
+    state = state
+        .map(
+          (lecture) => savedIds.contains(lecture.id)
+              ? lecture
+              : lecture.copyWith(
+                  types: lecture.types..remove(LectureType.remember),
+                ),
+        )
+        .toList();
+  }
 }
 
 final lectureProvider = NotifierProvider<LectureNotifier, List<Lecture>>(

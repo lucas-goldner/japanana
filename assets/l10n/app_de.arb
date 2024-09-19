@@ -28,5 +28,6 @@
   "richtig": "Richtig",
   "falsch": "Falsch",
   "remember": "Speichern",
-  "rememberedSection": "Gespeicherte Grammatik"
+  "rememberedSection": "Gespeicherte Grammatik",
+  "forget": "Vergessen"
 }

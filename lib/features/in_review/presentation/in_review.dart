@@ -198,17 +198,30 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
                 ),
               ),
               const Spacer(),
-              ElevatedButton.icon(
-                onPressed: () {
-                  ref
-                      .read(lectureProvider.notifier)
-                      .putLectureInRememberChamber(
-                        lectures[widget.reviewProgress.value].id,
-                      );
-                },
-                label: Text(context.l10n.remember),
-                icon: const Icon(Icons.save),
-              ),
+              if (widget.reviewOption.$1 != LectureType.remember)
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ref
+                        .read(lectureProvider.notifier)
+                        .putLectureInRememberChamber(
+                          lectures[widget.reviewProgress.value].id,
+                        );
+                  },
+                  label: Text(context.l10n.remember),
+                  icon: const Icon(Icons.save),
+                )
+              else
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ref
+                        .read(lectureProvider.notifier)
+                        .banishLectureFromRememberChamber(
+                          lectures[widget.reviewProgress.value].id,
+                        );
+                  },
+                  label: Text(context.l10n.forget),
+                  icon: const Icon(Icons.remove_circle),
+                ),
               const SizedBox(height: 20),
               LectureProgress(widget.reviewProgress.value, lectures.length),
             ],

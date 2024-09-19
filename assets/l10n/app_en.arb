@@ -31,5 +31,6 @@
   "richtig": "Correct",
   "falsch": "Wrong",
   "remember": "Remember",
-  "rememberedSection": "Grammar to remember"
+  "rememberedSection": "Grammar to remember",
+  "forget": "Forget"
 }
