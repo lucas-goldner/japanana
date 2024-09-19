@@ -37,7 +37,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.lectureList.path,
-      builder: (context, state) => LectureList(state.extra! as List<Lecture>),
+      builder: (context, state) => const LectureList(),
     ),
     GoRoute(
       path: AppRoutes.lectureDetail.path,

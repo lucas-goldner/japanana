@@ -25,6 +25,7 @@ class LectureRepositoryImpl implements LectureRepository {
   @override
   Future<List<Lecture>> fetchLectures({
     String? assetsPath,
+    List<String>? lecturesToRememberIds,
   }) async {
     final markdownContent = await rootBundle
         .loadString(assetsPath ?? Assets.data.japaneseGrammarExamples);
@@ -32,7 +33,13 @@ class LectureRepositoryImpl implements LectureRepository {
     final lectures = <Lecture>[];
     final sections = _splitBySections(_removeHeaders(markdownContent));
     for (final (index, section) in sections.indexed) {
-      lectures.add(_transformLecture(section, index));
+      lectures.add(
+        _transformLecture(
+          section: section,
+          currentLectureIndex: index,
+          lecturesToRememberIds: lecturesToRememberIds,
+        ),
+      );
     }
 
     return lectures;
@@ -51,7 +58,11 @@ class LectureRepositoryImpl implements LectureRepository {
     return exp.allMatches(text).map((m) => m.group(0)!.trim()).toList();
   }
 
-  Lecture _transformLecture(String section, int currentLectureIndex) {
+  Lecture _transformLecture({
+    required String section,
+    required int currentLectureIndex,
+    List<String>? lecturesToRememberIds,
+  }) {
     final lines = section.split('\n');
     final title = lines.first.replaceAll('###', '').trim();
     final lectureTypes = <LectureType>[];
@@ -63,15 +74,40 @@ class LectureRepositoryImpl implements LectureRepository {
       lectureTypes.add(categorizedLectureType);
     }
     final (usages, examples, translations, extras) = _extractParagraphs(lines);
+    final id = _createId(
+      title: title,
+      currentLectureIndex: currentLectureIndex,
+      lectureTypes: lectureTypes,
+    );
 
     return Lecture(
+      id: id,
       title: title,
       usages: usages,
       examples: examples,
       translations: translations,
       extras: extras,
-      types: lectureTypes,
+      types: [
+        ...lectureTypes,
+        if (lecturesToRememberIds != null && lecturesToRememberIds.contains(id))
+          LectureType.remember,
+      ],
     );
+  }
+
+  String _createId({
+    required String title,
+    required int currentLectureIndex,
+    required List<LectureType> lectureTypes,
+  }) {
+    final sourceId =
+        lectureTypes.join(',') + title + currentLectureIndex.toString();
+
+    final shiftedId = String.fromCharCodes(
+      sourceId.codeUnits.map((char) => char + 10).toList(),
+    );
+
+    return shiftedId;
   }
 
   // Legend: ✍️ Writing specific, 🗣️ Talk specific

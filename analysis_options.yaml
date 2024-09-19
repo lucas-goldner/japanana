@@ -28,6 +28,7 @@ linter:
   rules:
     always_put_control_body_on_new_line: false
     always_specify_types: false
+    avoid_catches_without_on_clauses: false
     avoid_final_parameters: false
     discarded_futures: false
     diagnostic_describe_all_properties: false

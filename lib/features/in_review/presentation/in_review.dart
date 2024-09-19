@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,6 +24,7 @@ class _InReviewState extends State<InReview> with RestorationMixin {
     LectureType.writing,
     values: LectureType.values,
   );
+  final RestorableInt _reviewProgress = RestorableInt(0);
 
   @override
   String? get restorationId => 'inReview';
@@ -33,6 +32,7 @@ class _InReviewState extends State<InReview> with RestorationMixin {
   @override
   void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
     registerForRestoration(_restorableLectureType, 'inReviewLectureType');
+    registerForRestoration(_reviewProgress, 'reviewProgressKey');
   }
 
   @override
@@ -51,25 +51,19 @@ class _InReviewState extends State<InReview> with RestorationMixin {
   }
 
   void reviewSection(LectureType? value) {
-    print('Writing now: $value');
     if (value == null) return;
     setState(() {
       _restorableLectureType.value = value;
     });
   }
 
-  LectureType get reviewingLecture {
-    print('Restore value is${_restorableLectureType.value}');
-    print("Parameter value is${widget.reviewOption?.$1?.name ?? ""}");
-
-    return widget.reviewOption?.$1 ??
-        _restorableLectureType.value as LectureType;
-  }
+  LectureType get reviewingLecture =>
+      widget.reviewOption?.$1 ?? _restorableLectureType.value as LectureType;
 
   @override
   Widget build(BuildContext context) => Center(
         child: _InReviewContent(
-          (
+          reviewOption: (
             reviewingLecture,
             widget.reviewOption?.$2 ??
                 const ReviewSetupOptions(
@@ -77,13 +71,18 @@ class _InReviewState extends State<InReview> with RestorationMixin {
                   repeatOnFalseCard: false,
                 )
           ),
+          reviewProgress: _reviewProgress,
         ),
       );
 }
 
 class _InReviewContent extends StatefulHookConsumerWidget {
-  const _InReviewContent(this.reviewOption);
+  const _InReviewContent({
+    required this.reviewOption,
+    required this.reviewProgress,
+  });
   final (LectureType, ReviewSetupOptions) reviewOption;
+  final RestorableInt reviewProgress;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -120,12 +119,12 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
   }
 
   void increaseProgress(
-    RestorationBucket restorationBucket,
+    RestorableInt restorableProgress,
     ValueNotifier<int> reviewProgress,
     int newValue,
   ) {
-    restorationBucket.write('reviewProgressKey', newValue);
     setState(() {
+      restorableProgress.value = newValue;
       reviewProgress.value == newValue;
     });
   }
@@ -133,8 +132,6 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
   @override
   Widget build(BuildContext context) {
     final reviewProgress = useState(0);
-    final restorationBucket = RestorationScope.of(context);
-    final progress = restorationBucket.read<int>('reviewProgressKey') ?? 0;
     final done = useState(false);
 
     return Scaffold(
@@ -190,10 +187,10 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
                   key: K.inReviewCardStack,
                   matchEngine: matchEngine,
                   itemBuilder: (context, index) =>
-                      LectureCard(lectures[progress]),
+                      LectureCard(lectures[widget.reviewProgress.value]),
                   onStackFinished: () => done.value = true,
                   itemChanged: (item, index) => increaseProgress(
-                    restorationBucket,
+                    widget.reviewProgress,
                     reviewProgress,
                     index,
                   ),
@@ -201,7 +198,32 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
                 ),
               ),
               const Spacer(),
-              LectureProgress(progress, lectures.length),
+              if (widget.reviewOption.$1 != LectureType.remember)
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ref
+                        .read(lectureProvider.notifier)
+                        .putLectureInRememberChamber(
+                          lectures[widget.reviewProgress.value].id,
+                        );
+                  },
+                  label: Text(context.l10n.remember),
+                  icon: const Icon(Icons.save),
+                )
+              else
+                ElevatedButton.icon(
+                  onPressed: () {
+                    ref
+                        .read(lectureProvider.notifier)
+                        .banishLectureFromRememberChamber(
+                          lectures[widget.reviewProgress.value].id,
+                        );
+                  },
+                  label: Text(context.l10n.forget),
+                  icon: const Icon(Icons.remove_circle),
+                ),
+              const SizedBox(height: 20),
+              LectureProgress(widget.reviewProgress.value, lectures.length),
             ],
           ),
         ],

@@ -11,30 +11,18 @@ import 'package:japanana/features/review_selection/presentation/widgets/review_s
 class ReviewSelection extends ConsumerWidget {
   const ReviewSelection({super.key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) =>
-      Builder(builder: (context) {
-        final lectures = ref.watch(lectureProvider);
-        return _ReviewSelection(lectures);
-      });
-}
+  Future<void> _fetchLectures(WidgetRef ref) async =>
+      ref.read(lectureProvider.notifier).fetchLectures();
 
-class _ReviewSelection extends StatefulWidget {
-  const _ReviewSelection(this.lectures);
-  final List<Lecture> lectures;
-
-  @override
-  State<_ReviewSelection> createState() => _ReviewSelectionState();
-}
-
-class _ReviewSelectionState extends State<_ReviewSelection> {
-  void _navigateToLectureList(BuildContext context) => context.push(
+  void _navigateToLectureList({
+    required BuildContext context,
+  }) =>
+      context.push(
         AppRoutes.lectureList.path,
-        extra: widget.lectures,
       );
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
         appBar: AppBar(
           title: Text(
             key: K.reviewSelectionAppTitle,
@@ -49,17 +37,37 @@ class _ReviewSelectionState extends State<_ReviewSelection> {
                   Icons.list_alt_outlined,
                   color: context.colorScheme.secondaryContainer,
                 ),
-                onPressed: () => _navigateToLectureList(context),
+                onPressed: () => _navigateToLectureList(
+                  context: context,
+                ),
               ),
             ),
           ],
         ),
-        body: ListView.separated(
-          itemCount: LectureType.values.length,
-          itemBuilder: (context, index) => ReviewSelectionItem(
-            LectureType.values[index],
-          ),
-          separatorBuilder: (context, index) => const Divider(),
+        body: FutureBuilder<void>(
+          future: _fetchLectures(ref),
+          builder: (context, snapshot) {
+            final hasLecturesToRemember = ref
+                .watch(lectureProvider.notifier)
+                .hasLecturesInRememberChamper;
+            final lectureTypes = hasLecturesToRemember
+                ? LectureType.values.toList()
+                : (LectureType.values.toList()..remove(LectureType.remember));
+
+            return switch (snapshot.connectionState) {
+              ConnectionState.done => ListView.separated(
+                  itemCount: lectureTypes.length,
+                  itemBuilder: (context, index) => ReviewSelectionItem(
+                    lectureTypes[index],
+                  ),
+                  separatorBuilder: (context, index) => const Divider(),
+                ),
+              ConnectionState.none ||
+              ConnectionState.active ||
+              ConnectionState.waiting =>
+                const Center(child: CircularProgressIndicator())
+            };
+          },
         ),
       );
 }

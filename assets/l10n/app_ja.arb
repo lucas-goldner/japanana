@@ -26,5 +26,8 @@
   "lectureList": "リスト",
   "next": "次",
   "richtig": "正しい",
-  "falsch": "間違った"
+  "falsch": "間違った",
+  "remember": "保存",
+  "rememberedSection": "保存した文法",
+  "forget": "忘れる"
 }

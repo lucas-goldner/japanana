@@ -26,5 +26,8 @@
   "lectureList": "Lerneinheitenliste",
   "next": "Nächstes",
   "richtig": "Richtig",
-  "falsch": "Falsch"
+  "falsch": "Falsch",
+  "remember": "Speichern",
+  "rememberedSection": "Gespeicherte Grammatik",
+  "forget": "Vergessen"
 }
