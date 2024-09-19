@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
-import 'package:japanana/core/presentation/hikou_theme.dart';
+import 'package:japanana/core/presentation/japanana_theme.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LectureProgress extends StatelessWidget {

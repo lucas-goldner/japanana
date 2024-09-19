@@ -12,7 +12,7 @@ void main() {
     'Test review selection page has all widgets',
     ($) async {
       await $.pumpWidgetAndSettle(
-        ProviderScope(child: JapananaApp($.tester.binding)),
+        const ProviderScope(child: JapananaApp()),
       );
       expect($(K.reviewSelectionAppTitle).visible, equals(true));
       expect($(ReviewSelectionItem), findsNWidgets(LectureType.values.length));
@@ -24,7 +24,7 @@ void main() {
     'Test tap review selection page redirects to review setup page',
     ($) async {
       await $.pumpWidgetAndSettle(
-        ProviderScope(child: JapananaApp($.tester.binding)),
+        const ProviderScope(child: JapananaApp()),
       );
       expect($(K.reviewSelectionAppTitle).visible, equals(true));
       final n3GrammarOption =
@@ -43,7 +43,7 @@ void main() {
     'Test tap review selection page, setup and start review',
     ($) async {
       await $.pumpWidgetAndSettle(
-        ProviderScope(child: JapananaApp($.tester.binding)),
+        const ProviderScope(child: JapananaApp()),
       );
       final selectionAppTitle = $(K.reviewSelectionAppTitle);
       expect(selectionAppTitle.visible, equals(true));
