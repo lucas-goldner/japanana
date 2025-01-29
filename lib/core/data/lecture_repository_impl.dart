@@ -119,7 +119,8 @@ class LectureRepositoryImpl implements LectureRepository {
 
   LectureType? _getCategorizedLectureType(int indexOfLecture) =>
       switch (indexOfLecture) {
-        final int i when i > 67 => LectureType.n3,
+        final int i when i > 397 => LectureType.n2,
+        final int i when i > 67 && i <= 397 => LectureType.n3,
         final int i when i <= 67 => LectureType.n4,
         _ => null
       };

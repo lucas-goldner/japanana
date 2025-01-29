@@ -4,8 +4,9 @@
     "description": "The conventional newborn programmer greeting"
   },
   "appTitle": "Japanana",
-  "n3Grammar": "N3 related grammar",
-  "n4Grammar": "N4 related grammar",
+  "n2Grammar": "N2 grammar",
+  "n3Grammar": "N3 grammar",
+  "n4Grammar": "N4 grammar",
   "conversational": "Grammar used in conversation",
   "writing": "Grammar useful for writing",
   "randomizeCards": "Randomize cards",

@@ -1,8 +1,9 @@
 {
   "helloWorld": "こんにちは!",
   "appTitle": "Japanana",
-  "n3Grammar": "N3関して文法",
-  "n4Grammar": "N4関して文法",
+  "n2Grammar": "N2関してる文法",
+  "n3Grammar": "N3関してる文法",
+  "n4Grammar": "N4関してる文法",
   "conversational": "会話には使っている文法",
   "writing": "作文にいい文法",
   "randomizeCards": "カードをシャッフル",

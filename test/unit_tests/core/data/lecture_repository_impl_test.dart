@@ -131,18 +131,28 @@ void main() {
       final n3Lectures = lectures
           .where((lecture) => lecture.types.contains(LectureType.n3))
           .toList();
-      expect(n3Lectures.length, 329);
+      final n2Lectures = lectures
+          .where((lecture) => lecture.types.contains(LectureType.n2))
+          .toList();
+      expect(lectures.length, 428);
+      expect(n2Lectures.length, 30);
+      expect(n3Lectures.length, 330);
       expect(n4Lectures.length, 68);
       expect(n4Lectures.last.title, '謙譲語');
       expect(
         n3Lectures.first.title,
         'Vてform + てもらえませんか/ていただけませんか/てもらえないでしょうか/ていただけないでしょうか',
       );
-      expect(n3Lectures.last.title, '一方だ');
+      expect(n3Lectures.last.title, 'からこそ');
+      expect(
+        n2Lectures.first.title,
+        '一たて',
+      );
+      expect(n2Lectures.last.title, '-に先立って');
     });
   });
 
-  group('Test confirm formating some lectures are correctly imported', () {
+  group('Test confirm formatting some lectures are correctly imported', () {
     Future<List<Lecture>> getLectures() async {
       final lectureImportService = LectureRepositoryImpl();
       return lectureImportService.fetchLectures();

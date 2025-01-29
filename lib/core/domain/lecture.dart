@@ -4,11 +4,13 @@ import 'package:japanana/core/extensions.dart';
 enum LectureType {
   writing,
   conversational,
+  n2,
   n3,
   n4,
   remember;
 
   String getLocalizedTitle(BuildContext context) => switch (this) {
+        LectureType.n2 => context.l10n.n2Grammar,
         LectureType.n3 => context.l10n.n3Grammar,
         LectureType.n4 => context.l10n.n4Grammar,
         LectureType.conversational => context.l10n.conversational,

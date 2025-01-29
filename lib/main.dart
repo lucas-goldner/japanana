@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
 import 'package:japanana/core/data/shared_preferences_repository.dart';
 import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
