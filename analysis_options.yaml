@@ -23,6 +23,7 @@ analyzer:
     deprecated_member_use_from_same_package: ignore
     parameter_assignments: warning
     todo: ignore
+    library_private_types_in_public_api: ignore
 
 linter:
   rules:

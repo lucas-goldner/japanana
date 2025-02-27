@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
-import 'package:japanana/features/review_selection/presentation/widgets/app_name_announcement_banner.dart';
+import 'package:japanana/features/review_selection/presentation/widgets/app_name_banner.dart';
+import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
 
 class ReviewSelection extends ConsumerWidget {
   const ReviewSelection({super.key});
@@ -23,7 +24,7 @@ class ReviewSelection extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 32),
-              const AppNameAnnouncementBanner(),
+              const AppNameBanner(),
               const SizedBox(height: 32),
               Padding(
                 padding: const EdgeInsets.only(left: 20),
@@ -34,6 +35,8 @@ class ReviewSelection extends ConsumerWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 32),
+              const BookShelf(),
             ],
           ),
         ),

@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:japanana/core/extensions.dart';
 
-class AppNameAnnouncementBanner extends StatelessWidget {
-  const AppNameAnnouncementBanner({super.key});
+class AppNameBanner extends StatelessWidget {
+  const AppNameBanner({super.key});
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        child: Flexible(
-          child: Transform.scale(
-            scale: 1.2,
-            child: Transform.rotate(
-              angle: -0.05,
-              child: SizedBox(
-                height: 24,
-                child: ColoredBox(
-                  color: context.colorScheme.primary,
-                  child: Marquee(
-                    text: 'Japanana \u25B6\u25B6\u25B6',
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'NotoSansJP',
-                      color: context.colorScheme.secondary,
-                    ),
-                    blankSpace: 6,
+  Widget build(BuildContext context) => Flexible(
+        child: Transform.scale(
+          scale: 1.2,
+          child: Transform.rotate(
+            angle: -0.05,
+            child: SizedBox(
+              height: 24,
+              child: ColoredBox(
+                color: context.colorScheme.primary,
+                child: Marquee(
+                  text: 'Japanana \u25B6\u25B6\u25B6',
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSansJP',
+                    color: context.colorScheme.secondary,
                   ),
+                  blankSpace: 6,
                 ),
               ),
             ),

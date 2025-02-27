@@ -46,6 +46,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
+    - assets/images/
     - assets/l10n/
     - assets/data/Japanese Grammar Examples.md
     - test/assets/data/Japanese Grammar Examples TestData.md
