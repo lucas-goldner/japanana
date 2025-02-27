@@ -60,7 +60,7 @@ class _JapananaAppState extends ConsumerState<JapananaApp> {
                 debugShowCheckedModeBanner: false,
                 title: 'Japanana',
                 theme: lightTheme,
-                darkTheme: darkTheme,
+                // darkTheme: darkTheme,
               ),
             );
           }
