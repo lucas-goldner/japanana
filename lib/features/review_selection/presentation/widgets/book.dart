@@ -79,7 +79,6 @@ class _BookState extends State<Book> with SingleTickerProviderStateMixin {
 
   Widget _buildBookContent() => Stack(
         children: [
-          // Cover image
           SizedBox(
             width: _BookShelfState.coverWidth,
             height: _BookShelfState.fixedHeight,
@@ -88,7 +87,6 @@ class _BookState extends State<Book> with SingleTickerProviderStateMixin {
               fit: BoxFit.fill,
             ),
           ),
-          // Spine image
           Transform(
             transform: Matrix4.identity()
               ..rotateY(math.pi / 2)

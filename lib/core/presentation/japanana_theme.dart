@@ -4,6 +4,14 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: colorSchemeLight,
   textTheme: textTheme,
   scaffoldBackgroundColor: colorSchemeLight.surface,
+  iconButtonTheme: IconButtonThemeData(
+    style: ButtonStyle(
+      splashFactory: NoSplash.splashFactory,
+      side: WidgetStateProperty.all(
+        BorderSide.none,
+      ),
+    ),
+  ),
   extensions: [
     LinearPercentIndicatorColors(
       backgroundColor: colorSchemeLight.onSurface,
@@ -31,7 +39,11 @@ TextTheme _defaultTextTheme = ThemeData().textTheme.apply(
   fontFamilyFallback: ['NotoSansJP'],
 );
 
-TextTheme textTheme = _defaultTextTheme.copyWith();
+TextTheme textTheme = _defaultTextTheme.copyWith(
+  bodyLarge: _defaultTextTheme.bodyLarge?.copyWith(
+    fontFamily: _defaultTextTheme.notoSansJPFont,
+  ),
+);
 
 ColorScheme get _defaultColorScheme => ThemeData().colorScheme;
 

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/app_name_banner.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
+import 'package:japanana/features/review_selection/presentation/widgets/open_settings_button.dart';
+import 'package:japanana/features/review_selection/presentation/widgets/open_statistics_button.dart';
 
 class ReviewSelection extends ConsumerWidget {
   const ReviewSelection({super.key});
@@ -38,6 +40,31 @@ class ReviewSelection extends ConsumerWidget {
               const SizedBox(height: 32),
               const BookShelf(),
             ],
+          ),
+        ),
+        bottomNavigationBar: const SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: 32,
+              right: 32,
+              bottom: 20,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 80),
+                  child: OpenSettingsButton(),
+                ),
+                Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 12,
+                  ),
+                  child: OpenStatisticsButton(),
+                ),
+              ],
+            ),
           ),
         ),
       );
