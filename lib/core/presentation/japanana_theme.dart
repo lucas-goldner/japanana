@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:japanana/features/review_selection/presentation/style/books_theme.dart';
 
 final ThemeData lightTheme = ThemeData(
   colorScheme: colorSchemeLight,
@@ -13,6 +14,7 @@ final ThemeData lightTheme = ThemeData(
     ),
   ),
   extensions: [
+    BooksTheme(),
     LinearPercentIndicatorColors(
       backgroundColor: colorSchemeLight.onSurface,
       progressLabelTextColor: colorSchemeLight.onPrimary,
@@ -26,6 +28,7 @@ final ThemeData darkTheme = ThemeData(
   textTheme: textTheme,
   scaffoldBackgroundColor: colorSchemeLight.surface,
   extensions: [
+    BooksTheme(),
     LinearPercentIndicatorColors(
       backgroundColor: colorSchemeLight.surface,
       progressLabelTextColor: colorSchemeLight.primary,

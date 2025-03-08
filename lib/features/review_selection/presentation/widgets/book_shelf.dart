@@ -1,77 +1,16 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/presentation/japanana_theme.dart';
 
 part 'book.dart';
 
-final books = <BookData>[
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/1_stoic.png',
-    spineAsset: 'assets/images/1_stoic_spine.png',
-  ),
-  BookData(
-    coverAsset: 'assets/images/2_moon.png',
-    spineAsset: 'assets/images/2_moon_spine.png',
-  ),
-];
-
 class BookShelf extends StatefulWidget {
-  const BookShelf({super.key});
+  const BookShelf(this.lectureTypes, {super.key});
+
+  final List<LectureType> lectureTypes;
 
   @override
   State<BookShelf> createState() => _BookShelfState();
@@ -80,15 +19,29 @@ class BookShelf extends StatefulWidget {
 class _BookShelfState extends State<BookShelf> {
   static const double fixedHeight = 200;
   static const double spineWidth = fixedHeight * 0.09;
-  static const double coverWidth = fixedHeight * 0.55;
+  static const double coverWidth = fixedHeight * 0.7;
 
   @override
-  Widget build(BuildContext context) => Flexible(
-        flex: 3,
-        child: _BookCollection(
-          books: books,
+  Widget build(BuildContext context) {
+    final booksTheme = context.booksTheme;
+    return Flexible(
+      flex: 4,
+      child: _BookCollection(
+        books: List.generate(
+          widget.lectureTypes.length,
+          (index) {
+            final type = widget.lectureTypes[index];
+            final colors = booksTheme.lectureTypeColors[type];
+            return BookData(
+              lectureType: type,
+              primaryColor: colors?.primary ?? Colors.black,
+              secondaryColor: colors?.secondary ?? Colors.black,
+            );
+          },
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _BookCollection extends StatefulWidget {
@@ -179,7 +132,7 @@ class AnimatedBookWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AnimatedContainer(
         duration: duration,
-        width: isOpen ? 148 : _BookShelfState.spineWidth + 5,
+        width: isOpen ? 180 : _BookShelfState.spineWidth + 10,
         child: child,
       );
 }

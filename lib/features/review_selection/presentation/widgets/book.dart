@@ -2,12 +2,14 @@ part of 'book_shelf.dart';
 
 class BookData {
   BookData({
-    required this.coverAsset,
-    required this.spineAsset,
+    required this.lectureType,
+    required this.primaryColor,
+    required this.secondaryColor,
     this.isOpen = false,
   });
-  final String coverAsset;
-  final String spineAsset;
+  final LectureType lectureType;
+  final Color primaryColor;
+  final Color secondaryColor;
   bool isOpen;
 }
 
@@ -72,32 +74,124 @@ class _BookState extends State<Book> with SingleTickerProviderStateMixin {
               ..rotateY(_animation.value)
               ..translate(0.0),
             alignment: Alignment.centerLeft,
-            child: _buildBookContent(),
+            child: Stack(
+              children: [
+                _BookCover(widget.book),
+                Transform(
+                  transform: Matrix4.identity()
+                    ..rotateY(math.pi / 2)
+                    ..translate(-_BookShelfState.spineWidth),
+                  alignment: Alignment.centerLeft,
+                  child: _BookSpine(widget.book),
+                ),
+              ],
+            ),
           ),
         ),
       );
+}
 
-  Widget _buildBookContent() => Stack(
-        children: [
-          SizedBox(
-            width: _BookShelfState.coverWidth,
+class _BookCover extends HookWidget {
+  const _BookCover(this.book);
+
+  final BookData book;
+
+  @override
+  Widget build(BuildContext context) {
+    final animationController = useAnimationController(
+      duration: const Duration(seconds: 2), // Default to opening duration
+    );
+
+    final animation = Tween<double>(begin: 0, end: 1)
+        .chain(CurveTween(curve: Curves.easeInOut))
+        .animate(animationController);
+
+    useEffect(
+      () {
+        if (book.isOpen) {
+          animationController
+            ..duration = const Duration(seconds: 1)
+            ..forward();
+        } else {
+          animationController
+            ..duration = const Duration(milliseconds: 125)
+            ..reverse();
+        }
+        return null;
+      },
+      [book.isOpen],
+    );
+
+    return Stack(
+      children: [
+        SizedBox(
+          width: _BookShelfState.coverWidth,
+          height: _BookShelfState.fixedHeight,
+          child: ColoredBox(color: book.primaryColor),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: SizedBox(
+            width: 20,
             height: _BookShelfState.fixedHeight,
-            child: Image.asset(
-              widget.book.coverAsset,
-              fit: BoxFit.fill,
+            child: ColoredBox(color: book.secondaryColor),
+          ),
+        ),
+        AnimatedBuilder(
+          animation: animation,
+          builder: (context, _) => Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 32, bottom: 20),
+              child: SizedBox(
+                width: _BookShelfState.coverWidth * 0.75,
+                child: FittedBox(
+                  child: Text(
+                    book.lectureType
+                        .getLocalizedTitle(context)
+                        .characters
+                        .map((e) => e == ' ' ? '\n' : e)
+                        .join(),
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      color: context.colorScheme.secondary
+                          .withAlpha((animation.value * 255).toInt()),
+                      fontFamily: context.textTheme.notoSansJPFont,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          Transform(
-            transform: Matrix4.identity()
-              ..rotateY(math.pi / 2)
-              ..translate(-_BookShelfState.spineWidth),
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: _BookShelfState.spineWidth,
-              height: _BookShelfState.fixedHeight,
-              child: Image.asset(
-                widget.book.spineAsset,
-                fit: BoxFit.fill,
+        ),
+      ],
+    );
+  }
+}
+
+class _BookSpine extends StatelessWidget {
+  const _BookSpine(this.book);
+
+  final BookData book;
+
+  @override
+  Widget build(BuildContext context) => Stack(
+        children: [
+          SizedBox(
+            width: _BookShelfState.spineWidth,
+            height: _BookShelfState.fixedHeight,
+            child: ColoredBox(color: book.secondaryColor),
+          ),
+          FittedBox(
+            child: Text(
+              textAlign: TextAlign.center,
+              book.lectureType
+                  .getLocalizedTitle(context)
+                  .characters
+                  .map((e) => '$e\n')
+                  .join(),
+              style: context.textTheme.headlineSmall?.copyWith(
+                color: context.colorScheme.secondary,
+                fontFamily: context.textTheme.notoSansJPFont,
               ),
             ),
           ),
