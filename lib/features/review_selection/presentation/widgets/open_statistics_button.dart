@@ -55,6 +55,7 @@ class OpenStatisticsButton extends HookWidget {
                   letters[i],
                   style: context.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: context.colorScheme.primary,
                   ),
                 ),
               ),

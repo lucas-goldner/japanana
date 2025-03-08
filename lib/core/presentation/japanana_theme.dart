@@ -26,9 +26,9 @@ final ThemeData lightTheme = ThemeData(
 final ThemeData darkTheme = ThemeData(
   colorScheme: colorSchemeDark,
   textTheme: textTheme,
-  scaffoldBackgroundColor: colorSchemeLight.surface,
+  scaffoldBackgroundColor: colorSchemeDark.surface,
   extensions: [
-    BooksTheme(),
+    BooksTheme.dark(),
     LinearPercentIndicatorColors(
       backgroundColor: colorSchemeLight.surface,
       progressLabelTextColor: colorSchemeLight.primary,

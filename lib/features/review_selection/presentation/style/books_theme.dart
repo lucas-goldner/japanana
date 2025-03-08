@@ -2,7 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:japanana/core/domain/lecture.dart';
 
 class BooksTheme extends ThemeExtension<BooksTheme> {
-  BooksTheme() {
+  BooksTheme() : dark = false {
+    _mapLectureTypeColors();
+  }
+
+  BooksTheme.dark() : dark = true {
+    _mapLectureTypeColors();
+  }
+
+  final Map<LectureType, ({Color primary, Color secondary})> lectureTypeColors =
+      {};
+  final bool dark;
+
+  void _mapLectureTypeColors() {
     const lectureTypes = LectureType.values;
     for (final type in lectureTypes) {
       switch (type) {
@@ -41,10 +53,17 @@ class BooksTheme extends ThemeExtension<BooksTheme> {
           );
       }
     }
-  }
 
-  final Map<LectureType, ({Color primary, Color secondary})> lectureTypeColors =
-      {};
+    if (dark) {
+      for (final type in lectureTypes) {
+        final colors = lectureTypeColors[type];
+        lectureTypeColors[type] = (
+          primary: colors?.secondary ?? Colors.black,
+          secondary: colors?.primary ?? Colors.black,
+        );
+      }
+    }
+  }
 
   @override
   ThemeExtension<BooksTheme> copyWith() => this;

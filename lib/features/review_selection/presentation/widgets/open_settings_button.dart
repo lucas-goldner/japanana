@@ -22,9 +22,10 @@ class OpenSettingsButton extends HookWidget {
           turns: rotationValue,
           child: IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.settings_outlined,
               size: 80,
+              color: context.colorScheme.primary,
             ),
           ),
         ),
@@ -34,6 +35,7 @@ class OpenSettingsButton extends HookWidget {
             radius: 60,
             textStyle: context.textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.bold,
+                  color: context.colorScheme.primary,
                 ) ??
                 const TextStyle(),
             rotationDuration: const Duration(seconds: 12),

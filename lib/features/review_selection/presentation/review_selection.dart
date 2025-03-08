@@ -35,6 +35,7 @@ class ReviewSelection extends ConsumerWidget {
                 child: Text(
                   'Select your Lecture',
                   style: context.textTheme.displayLarge?.copyWith(
+                    color: context.colorScheme.primary,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -74,7 +75,7 @@ class ReviewSelection extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 80),
+                  padding: EdgeInsets.only(top: 60),
                   child: OpenSettingsButton(),
                 ),
                 Spacer(),

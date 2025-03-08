@@ -153,7 +153,7 @@ class _BookCover extends HookWidget {
                         .map((e) => e == ' ' ? '\n' : e)
                         .join(),
                     style: context.textTheme.headlineSmall?.copyWith(
-                      color: context.colorScheme.secondary
+                      color: Colors.white
                           .withAlpha((animation.value * 255).toInt()),
                       fontFamily: context.textTheme.notoSansJPFont,
                     ),
@@ -190,7 +190,7 @@ class _BookSpine extends StatelessWidget {
                   .map((e) => '$e\n')
                   .join(),
               style: context.textTheme.headlineSmall?.copyWith(
-                color: context.colorScheme.secondary,
+                color: Colors.white,
                 fontFamily: context.textTheme.notoSansJPFont,
               ),
             ),

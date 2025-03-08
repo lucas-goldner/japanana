@@ -18,6 +18,7 @@ class BookShelf extends StatefulWidget {
 
 class _BookShelfState extends State<BookShelf> {
   static const double fixedHeight = 200;
+  static const double verticalPadding = 24;
   static const double spineWidth = fixedHeight * 0.09;
   static const double coverWidth = fixedHeight * 0.7;
 
@@ -74,44 +75,76 @@ class _BookCollectionState extends State<_BookCollection> {
     });
   }
 
+  //  DecoratedBox(
+  //           decoration: BoxDecoration(
+  //             image: DecorationImage(
+  //               image: const AssetImage('assets/images/noisy.webp'),
+  //               repeat: ImageRepeat.repeat,
+  //               colorFilter: ColorFilter.mode(
+  //                 context.theme.brightness == Brightness.light
+  //                     ? const Color(0xFFD05557)
+  //                     : const Color(0xFF592049),
+  //                 BlendMode.srcOver,
+  //               ),
+  //             ),
+  //           ),
+
   @override
   Widget build(BuildContext context) => Transform.scale(
         scale: 1.2,
         child: Transform.rotate(
           angle: -0.2,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: const AssetImage('assets/images/noisy.webp'),
-                repeat: ImageRepeat.repeat,
-                colorFilter: ColorFilter.mode(
-                  Colors.red.withValues(alpha: 0.7),
-                  BlendMode.srcOver,
+          child: Stack(
+            children: [
+              const _BookShelfBackground(),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: _BookShelfState.verticalPadding,
+                  horizontal: 32,
                 ),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 24,
-                horizontal: 32,
-              ),
-              child: ListView.builder(
-                padding: const EdgeInsets.only(left: 20),
-                scrollDirection: Axis.horizontal,
-                clipBehavior: Clip.none,
-                itemCount: widget.books.length,
-                itemBuilder: (context, index) => GestureDetector(
-                  onTap: () => _toggleBook(index),
-                  behavior: HitTestBehavior.opaque,
-                  child: AnimatedBookWrapper(
-                    isOpen: _books[index].isOpen,
-                    child: Book(
-                      book: _books[index],
+                child: ListView.builder(
+                  padding: const EdgeInsets.only(left: 20),
+                  scrollDirection: Axis.horizontal,
+                  clipBehavior: Clip.none,
+                  itemCount: widget.books.length,
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => _toggleBook(index),
+                    behavior: HitTestBehavior.opaque,
+                    child: AnimatedBookWrapper(
                       isOpen: _books[index].isOpen,
+                      child: Book(
+                        book: _books[index],
+                        isOpen: _books[index].isOpen,
+                      ),
                     ),
                   ),
                 ),
               ),
+            ],
+          ),
+        ),
+      );
+}
+
+class _BookShelfBackground extends StatelessWidget {
+  const _BookShelfBackground();
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        height:
+            _BookShelfState.fixedHeight + _BookShelfState.verticalPadding * 2,
+        width: double.infinity,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                context.theme.brightness == Brightness.light
+                    ? const Color(0xFFD05557)
+                    : const Color(0xFF592049),
+                BlendMode.modulate,
+              ),
+              image: const AssetImage('assets/images/noisy.webp'),
+              repeat: ImageRepeat.repeat,
             ),
           ),
         ),
