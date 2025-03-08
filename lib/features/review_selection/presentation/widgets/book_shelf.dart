@@ -55,6 +55,7 @@ class _BookCollection extends StatefulWidget {
 
 class _BookCollectionState extends State<_BookCollection> {
   late List<BookData> _books;
+  int lastOpenedIndex = -1;
 
   @override
   void initState() {
@@ -63,8 +64,15 @@ class _BookCollectionState extends State<_BookCollection> {
   }
 
   void _toggleBook(int index) {
-    print('on tap gesture');
+    print('Tapped');
+
+    if (index == lastOpenedIndex) {
+      print('Route');
+      return;
+    }
+
     setState(() {
+      lastOpenedIndex = index;
       for (var i = 0; i < _books.length; i++) {
         if (i == index) {
           _books[i].isOpen = !_books[i].isOpen;
@@ -75,20 +83,6 @@ class _BookCollectionState extends State<_BookCollection> {
     });
   }
 
-  //  DecoratedBox(
-  //           decoration: BoxDecoration(
-  //             image: DecorationImage(
-  //               image: const AssetImage('assets/images/noisy.webp'),
-  //               repeat: ImageRepeat.repeat,
-  //               colorFilter: ColorFilter.mode(
-  //                 context.theme.brightness == Brightness.light
-  //                     ? const Color(0xFFD05557)
-  //                     : const Color(0xFF592049),
-  //                 BlendMode.srcOver,
-  //               ),
-  //             ),
-  //           ),
-
   @override
   Widget build(BuildContext context) => Transform.scale(
         scale: 1.2,
@@ -96,7 +90,15 @@ class _BookCollectionState extends State<_BookCollection> {
           angle: -0.2,
           child: Stack(
             children: [
-              const _BookShelfBackground(),
+              GestureDetector(
+                onTap: () => setState(() {
+                  lastOpenedIndex = -1;
+                  for (var i = 0; i < _books.length; i++) {
+                    _books[i].isOpen = false;
+                  }
+                }),
+                child: const _BookShelfBackground(),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: _BookShelfState.verticalPadding,
