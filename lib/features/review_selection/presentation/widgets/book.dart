@@ -75,7 +75,7 @@ class _BookState extends State<Book> with SingleTickerProviderStateMixin {
         offset: const Offset(_BookShelfState.spineWidth, 0),
         child: AnimatedBuilder(
           animation: _animation,
-          builder: (context, child) => Transform(
+          builder: (context, _) => Transform(
             transform: Matrix4.identity()
               ..setEntry(3, 2, 0.002)
               ..rotateY(_animation.value)
@@ -106,7 +106,7 @@ class _BookCover extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final animationController = useAnimationController(
-      duration: const Duration(seconds: 2), // Default to opening duration
+      duration: const Duration(seconds: 2),
     );
 
     final animation = Tween<double>(begin: 0, end: 1)
@@ -191,17 +191,26 @@ class _BookSpine extends StatelessWidget {
           ),
           SizedBox(
             height: _BookShelfState.fixedHeight,
-            child: FittedBox(
-              child: Text(
-                textAlign: TextAlign.center,
-                book.lectureType
-                    .getLocalizedTitle(context)
-                    .characters
-                    .map((e) => '$e\n')
-                    .join(),
-                style: context.textTheme.headlineSmall?.copyWith(
-                  color: Colors.white,
-                  fontFamily: context.textTheme.notoSansJPFont,
+            width: _BookShelfState.spineWidth,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: book.primaryColor,
+                  width: 2,
+                ),
+              ),
+              child: FittedBox(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  book.lectureType
+                      .getLocalizedTitle(context)
+                      .characters
+                      .map((e) => '$e\n')
+                      .join(),
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    color: Colors.white,
+                    fontFamily: context.textTheme.notoSansJPFont,
+                  ),
                 ),
               ),
             ),

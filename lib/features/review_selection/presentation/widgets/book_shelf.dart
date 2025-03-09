@@ -164,9 +164,7 @@ class _AnimatedBook extends HookWidget {
 
     useEffect(
       () {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          Future.delayed(delay, animationController.forward);
-        });
+        Future.delayed(delay, animationController.forward);
         return null;
       },
       [delay],
