@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
-import 'package:japanana/core/presentation/japanana_theme.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
 
 part 'book.dart';
 
@@ -23,16 +23,12 @@ class _BookShelfState extends State<BookShelf> {
   static const double coverWidth = fixedHeight * 0.7;
 
   @override
-  Widget build(BuildContext context) {
-    final booksTheme = context.booksTheme;
-    return Flexible(
-      flex: 4,
-      child: _BookCollection(
+  Widget build(BuildContext context) => _BookCollection(
         books: List.generate(
           widget.lectureTypes.length,
           (index) {
             final type = widget.lectureTypes[index];
-            final colors = booksTheme.lectureTypeColors[type];
+            final colors = context.booksTheme.lectureTypeColors[type];
             return BookData(
               lectureType: type,
               primaryColor: colors?.primary ?? Colors.black,
@@ -40,92 +36,67 @@ class _BookShelfState extends State<BookShelf> {
             );
           },
         ),
-      ),
-    );
-  }
+      );
 }
 
-class _BookCollection extends StatefulWidget {
+class _BookCollection extends HookWidget {
   const _BookCollection({required this.books});
   final List<BookData> books;
 
   @override
-  _BookCollectionState createState() => _BookCollectionState();
-}
+  Widget build(BuildContext context) {
+    final booksState = useState<List<BookData>>(books);
+    final lastOpenedIndex = useState<int>(-1);
 
-class _BookCollectionState extends State<_BookCollection> {
-  late List<BookData> _books;
-  int lastOpenedIndex = -1;
+    void toggleBook(int index) {
+      if (index == lastOpenedIndex.value) {
+        return;
+      }
 
-  @override
-  void initState() {
-    super.initState();
-    _books = widget.books;
-  }
-
-  void _toggleBook(int index) {
-    print('Tapped');
-
-    if (index == lastOpenedIndex) {
-      print('Route');
-      return;
+      lastOpenedIndex.value = index;
+      for (var i = 0; i < booksState.value.length; i++) {
+        booksState.value[i].isOpen =
+            (i == index) && !booksState.value[i].isOpen;
+      }
     }
 
-    setState(() {
-      lastOpenedIndex = index;
-      for (var i = 0; i < _books.length; i++) {
-        if (i == index) {
-          _books[i].isOpen = !_books[i].isOpen;
-        } else {
-          _books[i].isOpen = false;
-        }
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => Transform.scale(
-        scale: 1.2,
-        child: Transform.rotate(
-          angle: -0.2,
-          child: Stack(
-            children: [
-              GestureDetector(
-                onTap: () => setState(() {
-                  lastOpenedIndex = -1;
-                  for (var i = 0; i < _books.length; i++) {
-                    _books[i].isOpen = false;
-                  }
-                }),
-                child: const _BookShelfBackground(),
+    return Transform.scale(
+      scale: 1.2,
+      child: Transform.rotate(
+        angle: -0.2,
+        child: Stack(
+          children: [
+            const _BookShelfBackground(),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: _BookShelfState.verticalPadding,
+                horizontal: 32,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: _BookShelfState.verticalPadding,
-                  horizontal: 32,
-                ),
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 20),
-                  scrollDirection: Axis.horizontal,
-                  clipBehavior: Clip.none,
-                  itemCount: widget.books.length,
-                  itemBuilder: (context, index) => GestureDetector(
-                    onTap: () => _toggleBook(index),
-                    behavior: HitTestBehavior.opaque,
-                    child: AnimatedBookWrapper(
-                      isOpen: _books[index].isOpen,
-                      child: Book(
-                        book: _books[index],
-                        isOpen: _books[index].isOpen,
-                      ),
+              child: ListView.builder(
+                padding: const EdgeInsets.only(left: 20),
+                scrollDirection: Axis.horizontal,
+                clipBehavior: Clip.none,
+                itemCount: books.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () => toggleBook(index),
+                  behavior: HitTestBehavior.opaque,
+                  child: _AnimatedBook(
+                    delay: Duration(milliseconds: index * 300),
+                    duration: const Duration(milliseconds: 500),
+                    isOpen: booksState.value[index].isOpen,
+                    child: Book(
+                      book: booksState.value[index],
+                      isOpen: booksState.value[index].isOpen,
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }
 
 class _BookShelfBackground extends StatelessWidget {
@@ -153,21 +124,64 @@ class _BookShelfBackground extends StatelessWidget {
       );
 }
 
-class AnimatedBookWrapper extends StatelessWidget {
-  const AnimatedBookWrapper({
+class _AnimatedBook extends HookWidget {
+  const _AnimatedBook({
     required this.child,
     required this.isOpen,
-    super.key,
-    this.duration = const Duration(milliseconds: 300),
+    required this.duration,
+    this.delay = Duration.zero,
   });
   final Widget child;
   final bool isOpen;
   final Duration duration;
+  final Duration delay;
 
   @override
-  Widget build(BuildContext context) => AnimatedContainer(
-        duration: duration,
-        width: isOpen ? 180 : _BookShelfState.spineWidth + 10,
-        child: child,
-      );
+  Widget build(BuildContext context) {
+    final animationController = useAnimationController(
+      duration: duration,
+    );
+
+    final slideAnimation = Tween<Offset>(
+      begin: const Offset(-1.5, -0.25),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    final fadeAnimation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Future.delayed(delay, animationController.forward);
+        });
+        return null;
+      },
+      [delay],
+    );
+
+    return FadeTransition(
+      opacity: fadeAnimation,
+      child: SlideTransition(
+        position: slideAnimation,
+        child: AnimatedContainer(
+          duration: duration,
+          width: isOpen ? 180 : _BookShelfState.spineWidth + 10,
+          child: child,
+        ),
+      ),
+    );
+  }
 }

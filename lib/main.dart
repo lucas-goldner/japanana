@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
 import 'package:japanana/core/data/shared_preferences_repository.dart';
 import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
-import 'package:japanana/core/presentation/japanana_theme.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

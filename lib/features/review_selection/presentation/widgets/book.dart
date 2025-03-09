@@ -11,6 +11,13 @@ class BookData {
   final Color primaryColor;
   final Color secondaryColor;
   bool isOpen;
+
+  BookData copyWithOpen({bool? isOpen}) => BookData(
+        lectureType: lectureType,
+        primaryColor: primaryColor,
+        secondaryColor: secondaryColor,
+        isOpen: isOpen ?? this.isOpen,
+      );
 }
 
 class Book extends StatefulWidget {
@@ -142,8 +149,9 @@ class _BookCover extends HookWidget {
           builder: (context, _) => Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: const EdgeInsets.only(left: 32, bottom: 20),
+              padding: const EdgeInsets.only(left: 32),
               child: SizedBox(
+                height: _BookShelfState.fixedHeight,
                 width: _BookShelfState.coverWidth * 0.75,
                 child: FittedBox(
                   child: Text(
@@ -181,17 +189,20 @@ class _BookSpine extends StatelessWidget {
             height: _BookShelfState.fixedHeight,
             child: ColoredBox(color: book.secondaryColor),
           ),
-          FittedBox(
-            child: Text(
-              textAlign: TextAlign.center,
-              book.lectureType
-                  .getLocalizedTitle(context)
-                  .characters
-                  .map((e) => '$e\n')
-                  .join(),
-              style: context.textTheme.headlineSmall?.copyWith(
-                color: Colors.white,
-                fontFamily: context.textTheme.notoSansJPFont,
+          SizedBox(
+            height: _BookShelfState.fixedHeight,
+            child: FittedBox(
+              child: Text(
+                textAlign: TextAlign.center,
+                book.lectureType
+                    .getLocalizedTitle(context)
+                    .characters
+                    .map((e) => '$e\n')
+                    .join(),
+                style: context.textTheme.headlineSmall?.copyWith(
+                  color: Colors.white,
+                  fontFamily: context.textTheme.notoSansJPFont,
+                ),
               ),
             ),
           ),
