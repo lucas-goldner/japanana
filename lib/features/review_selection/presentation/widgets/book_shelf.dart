@@ -1,16 +1,23 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/router.dart';
 
 part 'book.dart';
 
 class BookShelf extends StatefulWidget {
-  const BookShelf(this.lectureTypes, {super.key});
+  const BookShelf(
+    this.lectureTypes, {
+    required this.onBookSelect,
+    super.key,
+  });
 
   final List<LectureType> lectureTypes;
+  final void Function(LectureType lecture) onBookSelect;
 
   @override
   State<BookShelf> createState() => _BookShelfState();
@@ -36,12 +43,17 @@ class _BookShelfState extends State<BookShelf> {
             );
           },
         ),
+        onBookSelect: widget.onBookSelect,
       );
 }
 
 class _BookCollection extends HookWidget {
-  const _BookCollection({required this.books});
+  const _BookCollection({
+    required this.books,
+    required this.onBookSelect,
+  });
   final List<BookData> books;
+  final void Function(LectureType lecture) onBookSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +62,7 @@ class _BookCollection extends HookWidget {
 
     void toggleBook(int index) {
       if (index == lastOpenedIndex.value) {
+        print('Opening book');
         return;
       }
 
@@ -77,17 +90,16 @@ class _BookCollection extends HookWidget {
                 scrollDirection: Axis.horizontal,
                 clipBehavior: Clip.none,
                 itemCount: books.length,
-                itemBuilder: (context, index) => GestureDetector(
+                itemBuilder: (context, index) => _AnimatedBook(
+                  delay: Duration(milliseconds: index * 300),
+                  duration: const Duration(milliseconds: 500),
+                  isOpen: booksState.value[index].isOpen,
                   onTap: () => toggleBook(index),
-                  behavior: HitTestBehavior.opaque,
-                  child: _AnimatedBook(
-                    delay: Duration(milliseconds: index * 300),
-                    duration: const Duration(milliseconds: 500),
+                  onBookSelect: () =>
+                      onBookSelect(booksState.value[index].lectureType),
+                  child: Book(
+                    book: booksState.value[index],
                     isOpen: booksState.value[index].isOpen,
-                    child: Book(
-                      book: booksState.value[index],
-                      isOpen: booksState.value[index].isOpen,
-                    ),
                   ),
                 ),
               ),
@@ -129,12 +141,16 @@ class _AnimatedBook extends HookWidget {
     required this.child,
     required this.isOpen,
     required this.duration,
+    required this.onTap,
+    required this.onBookSelect,
     this.delay = Duration.zero,
   });
   final Widget child;
   final bool isOpen;
   final Duration duration;
   final Duration delay;
+  final VoidCallback onTap;
+  final VoidCallback onBookSelect;
 
   @override
   Widget build(BuildContext context) {
@@ -162,6 +178,19 @@ class _AnimatedBook extends HookWidget {
       ),
     );
 
+    final zoomController = useAnimationController(
+      duration: const Duration(milliseconds: 600),
+    );
+    final zoomAnimation = Tween<double>(
+      begin: 1,
+      end: 3,
+    ).animate(
+      CurvedAnimation(
+        parent: zoomController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
     useEffect(
       () {
         Future.delayed(delay, animationController.forward);
@@ -170,14 +199,30 @@ class _AnimatedBook extends HookWidget {
       [delay],
     );
 
-    return FadeTransition(
-      opacity: fadeAnimation,
-      child: SlideTransition(
-        position: slideAnimation,
-        child: AnimatedContainer(
-          duration: duration,
-          width: isOpen ? 180 : _BookShelfState.spineWidth + 10,
-          child: child,
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        if (isOpen) {
+          zoomController.forward().then((_) {
+            onBookSelect();
+            zoomController.reverse();
+          });
+        } else {
+          onTap();
+        }
+      },
+      child: ScaleTransition(
+        scale: zoomAnimation,
+        child: FadeTransition(
+          opacity: fadeAnimation,
+          child: SlideTransition(
+            position: slideAnimation,
+            child: AnimatedContainer(
+              duration: duration,
+              width: isOpen ? 180 : _BookShelfState.spineWidth + 10,
+              child: child,
+            ),
+          ),
         ),
       ),
     );

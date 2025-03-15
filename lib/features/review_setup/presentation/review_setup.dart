@@ -76,65 +76,77 @@ class _ReviewSetupContent extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: context.colorScheme.inversePrimary,
+        backgroundColor: Colors.white,
         title: Text(
           key: K.reviewSetupAppTitle,
-          context.l10n.appTitle,
+          reviewSection?.getLocalizedTitle(context) ?? '',
           style: context.textTheme.headlineLarge,
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            reviewSection?.getLocalizedTitle(context) ?? '',
-            style: context.textTheme.headlineLarge,
-            textAlign: TextAlign.center,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                ReviewSetupOption(
-                  label: context.l10n.randomizeCards,
-                  value: reviewOptions.value.randomize,
-                  onChanged: (value) => reviewOptions.value =
-                      reviewOptions.value.copyWith(randomize: value),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                ReviewSetupOption(
-                  label: context.l10n.repeatFailedCards,
-                  value: reviewOptions.value.repeatOnFalseCard,
-                  onChanged: (value) => reviewOptions.value =
-                      reviewOptions.value.copyWith(repeatOnFalseCard: value),
-                ),
-              ],
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 40, left: 24, right: 24),
-            child: ElevatedButton(
-              key: K.startReviewButton,
-              onPressed: () => navigateToReview(context, reviewOptions.value),
-              child: Text(
-                context.l10n.startReview.toUpperCase(),
-                style: context.textTheme.bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: Colors.white,
     );
+
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     backgroundColor: context.colorScheme.inversePrimary,
+    //     title: Text(
+    //       key: K.reviewSetupAppTitle,
+    //       context.l10n.appTitle,
+    //       style: context.textTheme.headlineLarge,
+    //     ),
+    //   ),
+    //   body: Column(
+    //     crossAxisAlignment: CrossAxisAlignment.stretch,
+    //     children: [
+    //       const SizedBox(
+    //         height: 20,
+    //       ),
+    //       Text(
+    //         reviewSection?.getLocalizedTitle(context) ?? '',
+    //         style: context.textTheme.headlineLarge,
+    //         textAlign: TextAlign.center,
+    //       ),
+    //       Padding(
+    //         padding: const EdgeInsets.symmetric(horizontal: 24),
+    //         child: Column(
+    //           crossAxisAlignment: CrossAxisAlignment.stretch,
+    //           children: [
+    //             const SizedBox(
+    //               height: 20,
+    //             ),
+    //             ReviewSetupOption(
+    //               label: context.l10n.randomizeCards,
+    //               value: reviewOptions.value.randomize,
+    //               onChanged: (value) => reviewOptions.value =
+    //                   reviewOptions.value.copyWith(randomize: value),
+    //             ),
+    //             const SizedBox(
+    //               height: 20,
+    //             ),
+    //             ReviewSetupOption(
+    //               label: context.l10n.repeatFailedCards,
+    //               value: reviewOptions.value.repeatOnFalseCard,
+    //               onChanged: (value) => reviewOptions.value =
+    //                   reviewOptions.value.copyWith(repeatOnFalseCard: value),
+    //             ),
+    //           ],
+    //         ),
+    //       ),
+    //       const Spacer(),
+    //       Padding(
+    //         padding: const EdgeInsets.only(bottom: 40, left: 24, right: 24),
+    //         child: ElevatedButton(
+    //           key: K.startReviewButton,
+    //           onPressed: () => navigateToReview(context, reviewOptions.value),
+    //           child: Text(
+    //             context.l10n.startReview.toUpperCase(),
+    //             style: context.textTheme.bodyLarge
+    //                 ?.copyWith(fontWeight: FontWeight.bold),
+    //           ),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // );
   }
 }

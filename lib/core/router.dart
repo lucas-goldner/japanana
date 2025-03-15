@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/features/in_review/presentation/in_review.dart';
@@ -28,7 +29,16 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.reviewSetup.path,
-      builder: (context, state) => ReviewSetup(state.extra as LectureType?),
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: ReviewSetup(state.extra as LectureType?),
+        transitionDuration: const Duration(milliseconds: 350),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(
+          opacity: CurveTween(curve: Curves.easeInOutCirc).animate(animation),
+          child: child,
+        ),
+      ),
     ),
     GoRoute(
       path: AppRoutes.inReview.path,

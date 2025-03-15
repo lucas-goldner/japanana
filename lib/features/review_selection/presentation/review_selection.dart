@@ -17,6 +17,11 @@ class ReviewSelection extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appNameBannerAnimationCompleted = useState(false);
 
+    // void selectLecture(LectureType lecture) =>
+    //     context.push(AppRoutes.reviewSetup.path, extra: lecture);
+
+    void selectLecture(LectureType lecture) => print(lecture);
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -34,7 +39,9 @@ class ReviewSelection extends HookConsumerWidget {
             const SizedBox(height: 32),
             Visibility(
               visible: appNameBannerAnimationCompleted.value,
-              child: const _AnimatedBookShelf(),
+              child: _AnimatedBookShelf(
+                onBookSelect: selectLecture,
+              ),
             ),
           ],
         ),
@@ -150,7 +157,12 @@ class _AnimatedReviewSelectionTitle extends StatelessWidget {
 }
 
 class _AnimatedBookShelf extends ConsumerStatefulWidget {
-  const _AnimatedBookShelf();
+  const _AnimatedBookShelf({
+    required this.onBookSelect,
+  });
+
+  final void Function(LectureType lecture) onBookSelect;
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
       __AnimatedBookShelfState();
@@ -183,7 +195,10 @@ class __AnimatedBookShelfState extends ConsumerState<_AnimatedBookShelf> {
                 child: FadeInFromBottom(
                   duration: const Duration(seconds: 1),
                   delay: const Duration(milliseconds: 250),
-                  child: BookShelf(lectureTypes),
+                  child: BookShelf(
+                    lectureTypes,
+                    onBookSelect: widget.onBookSelect,
+                  ),
                 ),
               ),
             ConnectionState.none ||
