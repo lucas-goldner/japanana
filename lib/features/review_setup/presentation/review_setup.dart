@@ -7,7 +7,6 @@ import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/router.dart';
 
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
-import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
 
 class ReviewSetup extends StatefulWidget {
   const ReviewSetup(this.reviewSection, {super.key});

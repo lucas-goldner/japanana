@@ -38,7 +38,7 @@ patrol:
   android:
     package_name: com.lucas_goldner.japanana
   ios:
-    bundle_id: com.lucas-goldner.hikou
+    bundle_id: com.lucas-goldner.hikou5
   macos:
     bundle_id: com.example.macos.hikou
 
