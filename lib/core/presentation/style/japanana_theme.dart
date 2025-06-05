@@ -13,6 +13,15 @@ final ThemeData lightTheme = ThemeData(
       ),
     ),
   ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: colorSchemeLight.secondary,
+    iconTheme: IconThemeData(
+      color: colorSchemeLight.onSecondary,
+    ),
+    titleTextStyle: textTheme.headlineLarge?.copyWith(
+      color: colorSchemeLight.onSecondary,
+    ),
+  ),
   extensions: [
     BooksTheme(),
     LinearPercentIndicatorColors(
@@ -27,6 +36,16 @@ final ThemeData darkTheme = ThemeData(
   colorScheme: colorSchemeDark,
   textTheme: textTheme,
   scaffoldBackgroundColor: colorSchemeDark.surface,
+  appBarTheme: AppBarTheme(
+    backgroundColor: colorSchemeLight.secondary,
+    iconTheme: IconThemeData(
+      color: colorSchemeLight.onSecondary,
+    ),
+    titleTextStyle: textTheme.headlineLarge?.copyWith(
+      color: colorSchemeLight.onSecondary,
+      fontFamily: textTheme.exlibrisFont,
+    ),
+  ),
   extensions: [
     BooksTheme.dark(),
     LinearPercentIndicatorColors(
@@ -54,7 +73,7 @@ ColorScheme colorSchemeLight = ColorScheme.light(
   primary: const Color(0xff202530),
   onPrimary: _defaultColorScheme.onPrimary,
   secondary: const Color(0xffF7F5FF),
-  onSecondary: _defaultColorScheme.onSecondary,
+  onSecondary: const Color(0xff171002),
   tertiary: const Color(0xffD05557),
   error: _defaultColorScheme.error,
   onError: _defaultColorScheme.onError,
@@ -66,7 +85,7 @@ ColorScheme colorSchemeDark = ColorScheme.dark(
   primary: const Color(0xffF8D318),
   onPrimary: _defaultColorScheme.onPrimary,
   secondary: const Color(0xff171002),
-  onSecondary: _defaultColorScheme.onSecondary,
+  onSecondary: const Color(0xffF7F5FF),
   tertiary: const Color(0xff592049),
   error: _defaultColorScheme.error,
   onError: _defaultColorScheme.onError,

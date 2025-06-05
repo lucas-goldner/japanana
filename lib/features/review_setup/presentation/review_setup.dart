@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/widgets/note_background.dart';
+import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
 
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
+import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
 
 class ReviewSetup extends StatefulWidget {
   const ReviewSetup(this.reviewSection, {super.key});
@@ -75,77 +78,76 @@ class _ReviewSetupContent extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
         title: Text(
           key: K.reviewSetupAppTitle,
           reviewSection?.getLocalizedTitle(context) ?? '',
-          style: context.textTheme.headlineLarge,
+          style: context.textTheme.headlineSmall,
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: context.colorScheme.onSecondary,
+          ),
+          onPressed: () => context.pop(),
         ),
       ),
-      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          const NoteBackground(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 48),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ReviewSetupOption(
+                          label: context.l10n.randomizeCards,
+                          value: reviewOptions.value.randomize,
+                          onChanged: (value) => reviewOptions.value =
+                              reviewOptions.value.copyWith(randomize: value),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ReviewSetupOption(
+                          label: context.l10n.repeatFailedCards,
+                          value: reviewOptions.value.repeatOnFalseCard,
+                          onChanged: (value) => reviewOptions.value =
+                              reviewOptions.value
+                                  .copyWith(repeatOnFalseCard: value),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  ScribbleBorderButton(
+                    key: K.startReviewButton,
+                    onPressed: () =>
+                        navigateToReview(context, reviewOptions.value),
+                    minHeight: 80,
+                    child: Text(
+                      context.l10n.startReview.toUpperCase(),
+                      style: context.textTheme.bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
-
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     backgroundColor: context.colorScheme.inversePrimary,
-    //     title: Text(
-    //       key: K.reviewSetupAppTitle,
-    //       context.l10n.appTitle,
-    //       style: context.textTheme.headlineLarge,
-    //     ),
-    //   ),
-    //   body: Column(
-    //     crossAxisAlignment: CrossAxisAlignment.stretch,
-    //     children: [
-    //       const SizedBox(
-    //         height: 20,
-    //       ),
-    //       Text(
-    //         reviewSection?.getLocalizedTitle(context) ?? '',
-    //         style: context.textTheme.headlineLarge,
-    //         textAlign: TextAlign.center,
-    //       ),
-    //       Padding(
-    //         padding: const EdgeInsets.symmetric(horizontal: 24),
-    //         child: Column(
-    //           crossAxisAlignment: CrossAxisAlignment.stretch,
-    //           children: [
-    //             const SizedBox(
-    //               height: 20,
-    //             ),
-    //             ReviewSetupOption(
-    //               label: context.l10n.randomizeCards,
-    //               value: reviewOptions.value.randomize,
-    //               onChanged: (value) => reviewOptions.value =
-    //                   reviewOptions.value.copyWith(randomize: value),
-    //             ),
-    //             const SizedBox(
-    //               height: 20,
-    //             ),
-    //             ReviewSetupOption(
-    //               label: context.l10n.repeatFailedCards,
-    //               value: reviewOptions.value.repeatOnFalseCard,
-    //               onChanged: (value) => reviewOptions.value =
-    //                   reviewOptions.value.copyWith(repeatOnFalseCard: value),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //       const Spacer(),
-    //       Padding(
-    //         padding: const EdgeInsets.only(bottom: 40, left: 24, right: 24),
-    //         child: ElevatedButton(
-    //           key: K.startReviewButton,
-    //           onPressed: () => navigateToReview(context, reviewOptions.value),
-    //           child: Text(
-    //             context.l10n.startReview.toUpperCase(),
-    //             style: context.textTheme.bodyLarge
-    //                 ?.copyWith(fontWeight: FontWeight.bold),
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    // );
   }
 }
