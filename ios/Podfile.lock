@@ -28,10 +28,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  patrol: 3e21d514020dbee24b3e3383caac9e8e051292ac
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  patrol: 0b1c45cf52cccba3b059ec6483f3a4d5c493314b
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
 
-PODFILE CHECKSUM: 2fb48be2974b0f3f9dfff94f8fe8844929743fc5
+PODFILE CHECKSUM: 1cc26514169f60fbbb88899855771ce45e5a689f
 
 COCOAPODS: 1.16.2
