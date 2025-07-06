@@ -83,13 +83,6 @@ class _ReviewSetupContent extends HookWidget {
           reviewSection?.getLocalizedTitle(context) ?? '',
           style: context.textTheme.headlineSmall,
         ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-            color: context.colorScheme.onSecondary,
-          ),
-          onPressed: () => context.pop(),
-        ),
       ),
       body: Stack(
         children: [

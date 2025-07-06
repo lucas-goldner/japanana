@@ -5,6 +5,7 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/widgets/note_background.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_progress.dart';
@@ -136,7 +137,6 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: context.colorScheme.inversePrimary,
         title: Text(
           key: K.getInReviewAppTitleForReviewOption(
             widget.reviewOption.$1,
@@ -147,6 +147,7 @@ class _InReviewContentState extends ConsumerState<_InReviewContent> {
       ),
       body: Stack(
         children: [
+          const NoteBackground(),
           Visibility(
             visible: done.value,
             child: Center(

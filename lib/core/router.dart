@@ -42,8 +42,16 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.inReview.path,
-      builder: (context, state) =>
-          InReview(state.extra as (LectureType?, ReviewSetupOptions?)?),
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: InReview(state.extra as (LectureType?, ReviewSetupOptions?)?),
+        transitionDuration: const Duration(milliseconds: 500),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(
+          opacity: CurveTween(curve: Curves.easeInCubic).animate(animation),
+          child: child,
+        ),
+      ),
     ),
     GoRoute(
       path: AppRoutes.lectureList.path,
