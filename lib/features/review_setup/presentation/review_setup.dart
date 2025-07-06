@@ -128,7 +128,7 @@ class _ReviewSetupContent extends HookWidget {
                     key: K.startReviewButton,
                     onPressed: () =>
                         navigateToReview(context, reviewOptions.value),
-                    minHeight: 80,
+                    minHeight: 100,
                     child: Text(
                       context.l10n.startReview.toUpperCase(),
                       style: context.textTheme.bodyLarge
