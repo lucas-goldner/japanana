@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
+import 'package:japanana/core/presentation/widgets/page_curl_transition.dart';
 import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
-import 'package:japanana/core/router.dart';
+import 'package:japanana/features/in_review/presentation/in_review.dart';
 
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
@@ -64,9 +64,9 @@ class _ReviewSetupContent extends HookWidget {
   final LectureType? reviewSection;
 
   void navigateToReview(BuildContext context, ReviewSetupOptions options) {
-    context.push(
-      AppRoutes.inReview.path,
-      extra: (reviewSection, options),
+    navigateWithPageCurl(
+      context,
+      InReview((reviewSection, options)),
     );
   }
 

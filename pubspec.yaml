@@ -61,3 +61,7 @@ flutter:
         - asset: assets/font/NotoSansJP.ttf
         - asset: assets/font/NotoSansJP-Bold.ttf
           weight: 700
+  
+  shaders:
+    - assets/shaders/page_curl.frag
+  
