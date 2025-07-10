@@ -119,7 +119,7 @@ class InReview extends HookConsumerWidget {
         );
       }
 
-      Future.delayed(const Duration(milliseconds: 1000), () {
+      Future.delayed(const Duration(milliseconds: 250), () {
         if (currentExampleIndex.value < currentLecture.examples.length - 1) {
           currentExampleIndex.value++;
           showTranslation.value = false;
@@ -140,7 +140,7 @@ class InReview extends HookConsumerWidget {
             }
           }
 
-          Future.delayed(const Duration(seconds: 2), () {
+          Future.delayed(const Duration(milliseconds: 500), () {
             if (currentLectureIndex.value < shuffledLectures.value.length - 1) {
               currentLectureIndex.value++;
               currentStage.value = _ReviewStage.intro;
@@ -313,6 +313,7 @@ class InReview extends HookConsumerWidget {
               SliverAppBar(
                 title: Text(
                   lectureType.getLocalizedTitle(context),
+                  style: context.textTheme.headlineSmall,
                 ),
                 floating: true,
                 scrolledUnderElevation: 4,
@@ -367,13 +368,14 @@ class InReview extends HookConsumerWidget {
                                         ? Colors.green
                                         : Colors.black,
                                 fontFamily: context.textTheme.notoSansJPFont,
+                                fontWeight: FontWeight.bold,
                                 child: Container(
                                   color: isWrong
                                       ? Colors.red.withValues(alpha: 0.1)
                                       : isCorrect
                                           ? Colors.green.withValues(alpha: 0.1)
                                           : Colors.transparent,
-                                  padding: const EdgeInsets.all(16),
+                                  padding: const EdgeInsets.all(20),
                                   child: Text(
                                     usageOptions.value[index],
                                     style: isWrong
@@ -408,13 +410,11 @@ class InReview extends HookConsumerWidget {
                       onPressed: handleGuessTranslation,
                       minHeight: 100,
                       fontFamily: context.textTheme.notoSansJPFont,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
+                      fontWeight: FontWeight.bold,
+                      child: const Padding(
+                        padding: EdgeInsets.all(16),
                         child: Text(
                           'Try to guess',
-                          style: context.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
                         ),
                       ),
                     ),
@@ -442,11 +442,9 @@ class InReview extends HookConsumerWidget {
                             ),
                             minHeight: 80,
                             fontFamily: context.textTheme.notoSansJPFont,
+                            fontWeight: FontWeight.bold,
                             child: Text(
                               context.l10n.startNextReview.toUpperCase(),
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
                             ),
                           ),
                         ],

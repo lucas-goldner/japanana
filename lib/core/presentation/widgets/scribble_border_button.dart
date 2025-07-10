@@ -12,6 +12,7 @@ class ScribbleBorderButton extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
     this.minHeight = 48,
     this.fontFamily,
+    this.fontWeight,
   });
   final VoidCallback onPressed;
   final Widget child;
@@ -22,6 +23,7 @@ class ScribbleBorderButton extends StatefulWidget {
   final EdgeInsets padding;
   final double minHeight;
   final String? fontFamily;
+  final FontWeight? fontWeight;
 
   @override
   State<ScribbleBorderButton> createState() => _ScribbleBorderButtonState();
@@ -66,10 +68,11 @@ class _ScribbleBorderButtonState extends State<ScribbleBorderButton>
               child: Padding(
                 padding: widget.padding,
                 child: Center(
-                  child: widget.fontFamily != null
+                  child: (widget.fontFamily != null || widget.fontWeight != null)
                       ? DefaultTextStyle(
                           style: DefaultTextStyle.of(context).style.copyWith(
                             fontFamily: widget.fontFamily,
+                            fontWeight: widget.fontWeight,
                           ),
                           child: widget.child,
                         )

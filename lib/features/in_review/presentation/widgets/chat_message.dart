@@ -22,6 +22,7 @@ class ChatMessage extends StatelessWidget {
     required this.index,
     this.isSeparator = false,
     this.fontFamily,
+    this.fontWeight = FontWeight.bold,
     super.key,
   });
 
@@ -30,6 +31,7 @@ class ChatMessage extends StatelessWidget {
   final int index;
   final bool isSeparator;
   final String? fontFamily;
+  final FontWeight fontWeight;
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +43,22 @@ class ChatMessage extends StatelessWidget {
           vertical: 16,
           horizontal: 20,
         ),
-        child: Row(
+        child: Column(
           children: [
-            const Expanded(child: Divider()),
+            const Divider(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
                 text,
                 style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: fontWeight,
                   color: colorScheme.onSurface,
                   fontFamily: fontFamily,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
-            const Expanded(child: Divider()),
+            const Divider(),
           ],
         ),
       );
@@ -98,6 +101,7 @@ class ChatMessage extends StatelessWidget {
                 color: isUser ? colorScheme.secondary : colorScheme.onSurface,
                 fontSize: 16,
                 fontFamily: fontFamily,
+                fontWeight: fontWeight,
               ),
             ),
           ),
