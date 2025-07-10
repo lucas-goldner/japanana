@@ -5,6 +5,7 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
 import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
@@ -312,7 +313,6 @@ class InReview extends HookConsumerWidget {
               SliverAppBar(
                 title: Text(
                   lectureType.getLocalizedTitle(context),
-                  style: context.textTheme.headlineSmall,
                 ),
                 floating: true,
                 scrolledUnderElevation: 4,
@@ -334,6 +334,7 @@ class InReview extends HookConsumerWidget {
                         isUser: message.isUser,
                         index: index,
                         isSeparator: message.isSeparator,
+                        fontFamily: context.textTheme.notoSansJPFont,
                       ),
                     );
                   },
@@ -350,6 +351,7 @@ class InReview extends HookConsumerWidget {
                         usageOptions.value.length,
                         (index) {
                           final isWrong = wrongSelections.value.contains(index);
+                          final isCorrect = selectedUsageIndex.value == index;
 
                           return Stack(
                             children: [
@@ -359,14 +361,33 @@ class InReview extends HookConsumerWidget {
                                   usageOptions.value,
                                 ),
                                 minHeight: 100,
-                                child: Padding(
+                                borderColor: isWrong
+                                    ? Colors.red
+                                    : isCorrect
+                                        ? Colors.green
+                                        : Colors.black,
+                                fontFamily: context.textTheme.notoSansJPFont,
+                                child: Container(
+                                  color: isWrong
+                                      ? Colors.red.withValues(alpha: 0.1)
+                                      : isCorrect
+                                          ? Colors.green.withValues(alpha: 0.1)
+                                          : Colors.transparent,
                                   padding: const EdgeInsets.all(16),
                                   child: Text(
                                     usageOptions.value[index],
-                                    style:
-                                        context.textTheme.bodyLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    style: isWrong
+                                        ? context.textTheme.bodyLarge?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.red,
+                                          )
+                                        : isCorrect
+                                            ? context.textTheme.bodyLarge
+                                                ?.copyWith(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green,
+                                              )
+                                            : null, // Use default theme style
                                   ),
                                 ),
                               ),
@@ -386,11 +407,14 @@ class InReview extends HookConsumerWidget {
                     child: ScribbleBorderButton(
                       onPressed: handleGuessTranslation,
                       minHeight: 100,
-                      child: const Padding(
-                        padding: EdgeInsets.all(16),
+                      fontFamily: context.textTheme.notoSansJPFont,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
                         child: Text(
                           'Try to guess',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),
@@ -408,8 +432,6 @@ class InReview extends HookConsumerWidget {
                             context.l10n.congratsOnFinising(
                               lectureType.getLocalizedTitle(context),
                             ),
-                            style: context.textTheme.headlineMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 20),
@@ -419,10 +441,12 @@ class InReview extends HookConsumerWidget {
                               AppRoutes.reviewSelection.path,
                             ),
                             minHeight: 80,
+                            fontFamily: context.textTheme.notoSansJPFont,
                             child: Text(
                               context.l10n.startNextReview.toUpperCase(),
-                              style: context.textTheme.bodyLarge
-                                  ?.copyWith(fontWeight: FontWeight.bold),
+                              style: context.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
