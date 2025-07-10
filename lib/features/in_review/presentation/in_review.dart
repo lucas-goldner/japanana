@@ -7,6 +7,7 @@ import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
 import 'package:japanana/core/router.dart';
+import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 
 class InReview extends HookConsumerWidget {
@@ -38,7 +39,7 @@ class InReview extends HookConsumerWidget {
     final wrongSelections = useState<Set<int>>({});
     final currentExampleIndex = useState(0);
     final showTranslation = useState(false);
-    final messages = useState<List<_ChatMessage>>([]);
+    final messages = useState<List<ChatMessageData>>([]);
     final scrollController = useScrollController();
     final usageOptions = useState<List<String>>([]);
 
@@ -46,7 +47,7 @@ class InReview extends HookConsumerWidget {
       () {
         if (shuffledLectures.value.isNotEmpty) {
           messages.value = [
-            _ChatMessage(
+            ChatMessageData(
               text: "Let's talk about ${shuffledLectures.value[0].title}",
               isUser: false,
             ),
@@ -60,7 +61,7 @@ class InReview extends HookConsumerWidget {
     void addMessage(String text, {required bool isUser}) {
       messages.value = [
         ...messages.value,
-        _ChatMessage(text: text, isUser: isUser),
+        ChatMessageData(text: text, isUser: isUser),
       ];
       Future.delayed(const Duration(milliseconds: 100), () {
         if (scrollController.hasClients) {
@@ -140,6 +141,17 @@ class InReview extends HookConsumerWidget {
 
               final nextLecture =
                   shuffledLectures.value[currentLectureIndex.value];
+
+              // Add separator before new lecture
+              messages.value = [
+                ...messages.value,
+                ChatMessageData(
+                  text: nextLecture.title,
+                  isUser: false,
+                  isSeparator: true,
+                ),
+              ];
+
               addMessage(
                 "Let's talk about ${nextLecture.title}",
                 isUser: false,
@@ -162,18 +174,18 @@ class InReview extends HookConsumerWidget {
               final otherLectures = shuffledLectures.value
                   .where((l) => l.id != newLecture.id)
                   .toList();
-              
+
               // Collect all possible usages from other lectures
               final allOtherUsages = <String>[];
               for (final lecture in otherLectures) {
                 allOtherUsages.addAll(lecture.usages);
               }
-              
-              // If not enough usages from other lectures, use current lecture's usages
+
+              // If not enough usages from other lectures, use current's
               if (allOtherUsages.isEmpty) {
                 allOtherUsages.addAll(newLecture.usages);
               }
-              
+
               // Shuffle and add unique usages
               allOtherUsages.shuffle();
               for (final usage in allOtherUsages) {
@@ -183,7 +195,7 @@ class InReview extends HookConsumerWidget {
                   usedUsages.add(usage);
                 }
               }
-              
+
               // If still not enough options, duplicate some
               while (options.length < 4 && options.isNotEmpty) {
                 options.add(options[options.length % options.length]);
@@ -245,18 +257,18 @@ class InReview extends HookConsumerWidget {
         final otherLectures = shuffledLectures.value
             .where((l) => l.id != currentLecture.id)
             .toList();
-        
+
         // Collect all possible usages from other lectures
         final allOtherUsages = <String>[];
         for (final lecture in otherLectures) {
           allOtherUsages.addAll(lecture.usages);
         }
-        
-        // If not enough usages from other lectures, use current lecture's usages
+
+        // If not enough usages from other lectures, use current's
         if (allOtherUsages.isEmpty) {
           allOtherUsages.addAll(currentLecture.usages);
         }
-        
+
         // Shuffle and add unique usages
         allOtherUsages.shuffle();
         for (final usage in allOtherUsages) {
@@ -266,7 +278,7 @@ class InReview extends HookConsumerWidget {
             usedUsages.add(usage);
           }
         }
-        
+
         // If still not enough options, duplicate some
         while (options.length < 4 && options.isNotEmpty) {
           options.add(options[options.length % options.length]);
@@ -330,27 +342,11 @@ class InReview extends HookConsumerWidget {
                     itemCount: messages.value.length,
                     itemBuilder: (context, index) {
                       final message = messages.value[index];
-                      return Align(
-                        alignment: message.isUser
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: message.isUser
-                                ? Theme.of(context).primaryColor
-                                : Colors.grey[300],
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            message.text,
-                            style: TextStyle(
-                              color:
-                                  message.isUser ? Colors.white : Colors.black,
-                            ),
-                          ),
-                        ),
+                      return ChatMessage(
+                        text: message.text,
+                        isUser: message.isUser,
+                        index: index,
+                        isSeparator: message.isSeparator,
                       );
                     },
                   ),
@@ -420,11 +416,4 @@ enum _ReviewStage {
   examples,
   extras,
   finished,
-}
-
-class _ChatMessage {
-  _ChatMessage({required this.text, required this.isUser});
-
-  final String text;
-  final bool isUser;
 }
