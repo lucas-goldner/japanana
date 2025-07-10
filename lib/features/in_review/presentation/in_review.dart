@@ -10,6 +10,14 @@ import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 
+enum _ReviewStage {
+  intro,
+  usage,
+  examples,
+  extras,
+  finished,
+}
+
 class InReview extends HookConsumerWidget {
   const InReview(this.reviewOption, {super.key});
   final (LectureType?, ReviewSetupOptions?)? reviewOption;
@@ -292,68 +300,46 @@ class InReview extends HookConsumerWidget {
       [currentLectureIndex.value],
     );
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          lectureType.getLocalizedTitle(context),
-          style: context.textTheme.headlineSmall,
-        ),
-      ),
-      body: Stack(
-        children: [
-          const NoteBackground(),
-          if (currentStage.value == _ReviewStage.finished)
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      context.l10n.congratsOnFinising(
-                        lectureType.getLocalizedTitle(context),
-                      ),
-                      style: context.textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      key: K.startNextReviewButton,
-                      onPressed: () =>
-                          context.popUntilPath(AppRoutes.reviewSelection.path),
-                      child: Text(
-                        context.l10n.startNextReview.toUpperCase(),
-                        style: context.textTheme.bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
+    return Stack(
+      children: [
+        const NoteBackground(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverAppBar(
+                title: Text(
+                  lectureType.getLocalizedTitle(context),
+                  style: context.textTheme.headlineSmall,
                 ),
+                floating: true,
+                snap: true,
               ),
-            )
-          else
-            Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    padding: const EdgeInsets.all(16),
-                    itemCount: messages.value.length,
-                    itemBuilder: (context, index) {
-                      final message = messages.value[index];
-                      return ChatMessage(
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final message = messages.value[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      child: ChatMessage(
                         text: message.text,
                         isUser: message.isUser,
                         index: index,
                         isSeparator: message.isSeparator,
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
+                  childCount: messages.value.length,
                 ),
-                if (currentStage.value == _ReviewStage.usage &&
-                    selectedUsageIndex.value == null)
-                  Padding(
+              ),
+              if (currentStage.value == _ReviewStage.usage &&
+                  selectedUsageIndex.value == null)
+                SliverToBoxAdapter(
+                  child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: List.generate(
@@ -393,27 +379,55 @@ class InReview extends HookConsumerWidget {
                       ),
                     ),
                   ),
-                if (currentStage.value == _ReviewStage.examples &&
-                    !showTranslation.value)
-                  Padding(
+                ),
+              if (currentStage.value == _ReviewStage.examples &&
+                  !showTranslation.value)
+                SliverToBoxAdapter(
+                  child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: ElevatedButton(
                       onPressed: handleGuessTranslation,
                       child: const Text('Try to guess'),
                     ),
                   ),
-              ],
-            ),
-        ],
-      ),
+                ),
+              if (currentStage.value == _ReviewStage.finished)
+                SliverFillRemaining(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            context.l10n.congratsOnFinising(
+                              lectureType.getLocalizedTitle(context),
+                            ),
+                            style: context.textTheme.headlineMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ElevatedButton(
+                            key: K.startNextReviewButton,
+                            onPressed: () => context.popUntilPath(
+                              AppRoutes.reviewSelection.path,
+                            ),
+                            child: Text(
+                              context.l10n.startNextReview.toUpperCase(),
+                              style: context.textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
     );
   }
-}
-
-enum _ReviewStage {
-  intro,
-  usage,
-  examples,
-  extras,
-  finished,
 }
