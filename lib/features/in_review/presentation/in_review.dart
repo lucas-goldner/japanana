@@ -314,7 +314,10 @@ class InReview extends HookConsumerWidget {
                   style: context.textTheme.headlineSmall,
                 ),
                 floating: true,
-                snap: true,
+                scrolledUnderElevation: 4,
+                elevation: 4,
+                backgroundColor: context.colorScheme.secondary,
+                surfaceTintColor: context.colorScheme.secondary,
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
