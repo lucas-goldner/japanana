@@ -6,6 +6,7 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
+import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
@@ -349,34 +350,28 @@ class InReview extends HookConsumerWidget {
                         usageOptions.value.length,
                         (index) {
                           final isWrong = wrongSelections.value.contains(index);
-                          final isCorrect = selectedUsageIndex.value == index;
 
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton(
+                          return Stack(
+                            children: [
+                              ScribbleBorderButton(
                                 onPressed: () => handleUsageSelection(
                                   index,
                                   usageOptions.value,
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: isWrong
-                                      ? Colors.red
-                                      : isCorrect
-                                          ? Colors.green
-                                          : null,
-                                ),
-                                child: Text(
-                                  usageOptions.value[index],
-                                  style: TextStyle(
-                                    color: isWrong || isCorrect
-                                        ? Colors.white
-                                        : null,
+                                minHeight: 100,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Text(
+                                    usageOptions.value[index],
+                                    style:
+                                        context.textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                              if (isWrong) const _MistakeMarker(),
+                            ],
                           );
                         },
                       ),
@@ -388,9 +383,16 @@ class InReview extends HookConsumerWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: ElevatedButton(
+                    child: ScribbleBorderButton(
                       onPressed: handleGuessTranslation,
-                      child: const Text('Try to guess'),
+                      minHeight: 100,
+                      child: const Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text(
+                          'Try to guess',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -411,11 +413,12 @@ class InReview extends HookConsumerWidget {
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 20),
-                          ElevatedButton(
+                          ScribbleBorderButton(
                             key: K.startNextReviewButton,
                             onPressed: () => context.popUntilPath(
                               AppRoutes.reviewSelection.path,
                             ),
+                            minHeight: 80,
                             child: Text(
                               context.l10n.startNextReview.toUpperCase(),
                               style: context.textTheme.bodyLarge
@@ -433,4 +436,32 @@ class InReview extends HookConsumerWidget {
       ],
     );
   }
+}
+
+class _MistakeMarker extends StatelessWidget {
+  const _MistakeMarker();
+
+  @override
+  Widget build(BuildContext context) => Positioned(
+        top: 6,
+        right: 6,
+        child: Stack(
+          children: [
+            Icon(
+              Icons.close,
+              color: context.colorScheme.primary,
+              size: 60,
+            ),
+            Positioned(
+              top: 6,
+              left: 6,
+              child: Icon(
+                Icons.close,
+                color: context.colorScheme.error,
+                size: 48,
+              ),
+            ),
+          ],
+        ),
+      );
 }
