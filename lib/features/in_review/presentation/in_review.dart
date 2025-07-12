@@ -12,6 +12,10 @@ import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 
+const _kButtonAnimationDuration = Duration(milliseconds: 900);
+const _kButtonAnimationDelay = 0.2;
+const _kButtonSlideDistance = 80.0;
+
 enum _ReviewStage {
   intro,
   usage,
@@ -52,6 +56,9 @@ class InReview extends HookConsumerWidget {
     final messages = useState<List<ChatMessageData>>([]);
     final scrollController = useScrollController();
     final usageOptions = useState<List<String>>([]);
+    final buttonAnimationController = useAnimationController(
+      duration: _kButtonAnimationDuration,
+    );
 
     useEffect(
       () {
@@ -232,6 +239,8 @@ class InReview extends HookConsumerWidget {
       () {
         if (currentStage.value == _ReviewStage.intro) {
           Future.delayed(const Duration(seconds: 1), generateUsageOptions);
+        } else if (currentStage.value == _ReviewStage.usage) {
+          buttonAnimationController.forward(from: 0);
         }
         return null;
       },
@@ -354,47 +363,71 @@ class InReview extends HookConsumerWidget {
                           final isWrong = wrongSelections.value.contains(index);
                           final isCorrect = selectedUsageIndex.value == index;
 
-                          return Stack(
-                            children: [
-                              ScribbleBorderButton(
-                                onPressed: () => handleUsageSelection(
-                                  index,
-                                  usageOptions.value,
+                          return AnimatedBuilder(
+                            animation: buttonAnimationController,
+                            builder: (context, child) {
+                              final delay = index * _kButtonAnimationDelay;
+                              final animationValue =
+                                  ((buttonAnimationController.value - delay) /
+                                          (1 - delay))
+                                      .clamp(0.0, 1.0);
+                              return Opacity(
+                                opacity: animationValue,
+                                child: Transform.translate(
+                                  offset: Offset(
+                                    0,
+                                    _kButtonSlideDistance *
+                                        (1 - animationValue),
+                                  ),
+                                  child: child,
                                 ),
-                                minHeight: 100,
-                                borderColor: isWrong
-                                    ? Colors.red
-                                    : isCorrect
-                                        ? Colors.green
-                                        : Colors.black,
-                                fontFamily: context.textTheme.notoSansJPFont,
-                                fontWeight: FontWeight.bold,
-                                child: Container(
-                                  color: isWrong
-                                      ? Colors.red.withValues(alpha: 0.1)
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                ScribbleBorderButton(
+                                  onPressed: () => handleUsageSelection(
+                                    index,
+                                    usageOptions.value,
+                                  ),
+                                  minHeight: 100,
+                                  borderColor: isWrong
+                                      ? Colors.red
                                       : isCorrect
-                                          ? Colors.green.withValues(alpha: 0.1)
-                                          : Colors.transparent,
-                                  padding: const EdgeInsets.all(20),
-                                  child: Text(
-                                    usageOptions.value[index],
-                                    style: isWrong
-                                        ? context.textTheme.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.red,
-                                          )
+                                          ? Colors.green
+                                          : Colors.black,
+                                  fontFamily: context.textTheme.notoSansJPFont,
+                                  fontWeight: FontWeight.bold,
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: isWrong
+                                        ? Colors.red.withValues(alpha: 0.1)
                                         : isCorrect
-                                            ? context.textTheme.bodyLarge
-                                                ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.green,
-                                              )
-                                            : null, // Use default theme style
+                                            ? Colors.green
+                                                .withValues(alpha: 0.1)
+                                            : Colors.transparent,
+                                    padding: const EdgeInsets.all(20),
+                                    child: Text(
+                                      usageOptions.value[index],
+                                      style: isWrong
+                                          ? context.textTheme.bodyLarge
+                                              ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            )
+                                          : isCorrect
+                                              ? context.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.green,
+                                                )
+                                              : null, // Use default theme style
+                                    ),
                                   ),
                                 ),
-                              ),
-                              if (isWrong) const _MistakeMarker(),
-                            ],
+                                if (isWrong) const _MistakeMarker(),
+                              ],
+                            ),
                           );
                         },
                       ),
