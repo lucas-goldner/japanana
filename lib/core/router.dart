@@ -7,13 +7,15 @@ import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/review_setup.dart';
+import 'package:japanana/features/statistics/presentation/statistics.dart';
 
 enum AppRoutes {
   reviewSelection('/reviewSelection'),
   reviewSetup('/reviewSetup'),
   inReview('/inReview'),
   lectureList('/lectureList'),
-  lectureDetail('/lectureDetail');
+  lectureDetail('/lectureDetail'),
+  statistics('/statistics');
 
   const AppRoutes(this.path);
   final String path;
@@ -60,6 +62,10 @@ final router = GoRouter(
     GoRoute(
       path: AppRoutes.lectureDetail.path,
       builder: (context, state) => LectureDetail(state.extra! as Lecture),
+    ),
+    GoRoute(
+      path: AppRoutes.statistics.path,
+      builder: (context, state) => const Statistics(),
     ),
   ],
 );

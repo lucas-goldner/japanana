@@ -11,6 +11,7 @@ import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
+import 'package:japanana/core/application/statistics_provider.dart';
 
 const _kButtonAnimationDuration = Duration(milliseconds: 900);
 const _kButtonAnimationDelay = 0.2;
@@ -101,6 +102,8 @@ class InReview extends HookConsumerWidget {
 
       if (!isCorrect) {
         wrongSelections.value = {...wrongSelections.value, index};
+        // Track the mistake
+        ref.read(mistakenLecturesProvider.notifier).addMistake(currentLecture.id);
       } else {
         selectedUsageIndex.value = index;
         addMessage(selectedUsage, isUser: true);

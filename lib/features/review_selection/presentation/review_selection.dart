@@ -9,6 +9,8 @@ import 'package:japanana/features/review_selection/presentation/widgets/app_name
 import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_settings_button.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_statistics_button.dart';
+import 'package:japanana/core/router.dart';
+import 'package:go_router/go_router.dart';
 
 class ReviewSelection extends HookConsumerWidget {
   const ReviewSelection({super.key});
@@ -214,22 +216,25 @@ class OptionsRow extends StatelessWidget {
   const OptionsRow({super.key});
 
   @override
-  Widget build(BuildContext context) => const FadeInFromBottom(
-        duration: Duration(seconds: 1),
-        delay: Duration(milliseconds: 500),
+  Widget build(BuildContext context) => FadeInFromBottom(
+        duration: const Duration(seconds: 1),
+        delay: const Duration(milliseconds: 500),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 60),
               child: OpenSettingsButton(),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
-              padding: EdgeInsets.only(
+              padding: const EdgeInsets.only(
                 bottom: 12,
               ),
-              child: OpenStatisticsButton(),
+              child: GestureDetector(
+                onTap: () => context.push(AppRoutes.statistics.path),
+                child: const OpenStatisticsButton(),
+              ),
             ),
           ],
         ),
