@@ -30,5 +30,9 @@
   "falsch": "間違った",
   "remember": "保存",
   "rememberedSection": "保存した文法",
-  "forget": "忘れる"
+  "forget": "忘れる",
+  "letsTalkAbout": "{title}について話しましょう",
+  "whichKindOfUsage": "どの使い方？",
+  "dontForgetAboutTheseCases": "この場合も忘れないで：",
+  "tryToGuess": "推測してみて"
 }

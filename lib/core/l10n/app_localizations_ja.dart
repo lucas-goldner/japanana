@@ -78,4 +78,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get forget => '忘れる';
+
+  @override
+  String letsTalkAbout(String title) {
+    return '$titleについて話しましょう';
+  }
+
+  @override
+  String get whichKindOfUsage => 'どの使い方？';
+
+  @override
+  String get dontForgetAboutTheseCases => 'この場合も忘れないで：';
+
+  @override
+  String get tryToGuess => '推測してみて';
 }

@@ -237,6 +237,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Forget'**
   String get forget;
+
+  /// Introduction message for a grammar topic
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s talk about {title}'**
+  String letsTalkAbout(String title);
+
+  /// Question asking about usage type
+  ///
+  /// In en, this message translates to:
+  /// **'Which kind of usage?'**
+  String get whichKindOfUsage;
+
+  /// Message before showing extra cases
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t forget about these cases:'**
+  String get dontForgetAboutTheseCases;
+
+  /// Button text to guess translation
+  ///
+  /// In en, this message translates to:
+  /// **'Try to guess'**
+  String get tryToGuess;
 }
 
 class _AppLocalizationsDelegate

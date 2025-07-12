@@ -30,6 +30,7 @@ class InReview extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
     final lectureType = reviewOption?.$1 ?? LectureType.writing;
     final options = reviewOption?.$2 ??
         const ReviewSetupOptions(
@@ -65,7 +66,7 @@ class InReview extends HookConsumerWidget {
         if (shuffledLectures.value.isNotEmpty) {
           messages.value = [
             ChatMessageData(
-              text: "Let's talk about ${shuffledLectures.value[0].title}",
+              text: l10n.letsTalkAbout(shuffledLectures.value[0].title),
               isUser: false,
             ),
           ];
@@ -139,7 +140,8 @@ class InReview extends HookConsumerWidget {
 
           if (currentLecture.extras != null &&
               currentLecture.extras!.isNotEmpty) {
-            addMessage("Don't forget about these cases:", isUser: false);
+            final dontForgetMessage = l10n.dontForgetAboutTheseCases;
+            addMessage(dontForgetMessage, isUser: false);
             for (final extra in currentLecture.extras!) {
               Future.delayed(const Duration(milliseconds: 100), () {
                 addMessage(extra, isUser: false);
@@ -169,8 +171,9 @@ class InReview extends HookConsumerWidget {
                 ),
               ];
 
+              final letsTalkMessage = l10n.letsTalkAbout(nextLecture.title);
               addMessage(
-                "Let's talk about ${nextLecture.title}",
+                letsTalkMessage,
                 isUser: false,
               );
 
@@ -231,7 +234,7 @@ class InReview extends HookConsumerWidget {
     void generateUsageOptions() {
       if (currentStage.value == _ReviewStage.intro) {
         currentStage.value = _ReviewStage.usage;
-        addMessage('Which kind of usage?', isUser: false);
+        addMessage(l10n.whichKindOfUsage, isUser: false);
       }
     }
 
@@ -444,10 +447,10 @@ class InReview extends HookConsumerWidget {
                       minHeight: 100,
                       fontFamily: context.textTheme.notoSansJPFont,
                       fontWeight: FontWeight.bold,
-                      child: const Padding(
-                        padding: EdgeInsets.all(16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
                         child: Text(
-                          'Try to guess',
+                          l10n.tryToGuess,
                         ),
                       ),
                     ),
@@ -462,7 +465,7 @@ class InReview extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            context.l10n.congratsOnFinising(
+                            l10n.congratsOnFinising(
                               lectureType.getLocalizedTitle(context),
                             ),
                             textAlign: TextAlign.center,
@@ -477,7 +480,7 @@ class InReview extends HookConsumerWidget {
                             fontFamily: context.textTheme.notoSansJPFont,
                             fontWeight: FontWeight.bold,
                             child: Text(
-                              context.l10n.startNextReview.toUpperCase(),
+                              l10n.startNextReview.toUpperCase(),
                             ),
                           ),
                         ],

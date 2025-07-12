@@ -33,5 +33,27 @@
   "falsch": "Wrong",
   "remember": "Remember",
   "rememberedSection": "Grammar to remember",
-  "forget": "Forget"
+  "forget": "Forget",
+  "letsTalkAbout": "Let's talk about {title}",
+  "@letsTalkAbout": {
+    "description": "Introduction message for a grammar topic",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "でしょう"
+      }
+    }
+  },
+  "whichKindOfUsage": "Which kind of usage?",
+  "@whichKindOfUsage": {
+    "description": "Question asking about usage type"
+  },
+  "dontForgetAboutTheseCases": "Don't forget about these cases:",
+  "@dontForgetAboutTheseCases": {
+    "description": "Message before showing extra cases"
+  },
+  "tryToGuess": "Try to guess",
+  "@tryToGuess": {
+    "description": "Button text to guess translation"
+  }
 }

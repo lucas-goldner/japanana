@@ -30,5 +30,9 @@
   "falsch": "Falsch",
   "remember": "Speichern",
   "rememberedSection": "Gespeicherte Grammatik",
-  "forget": "Vergessen"
+  "forget": "Vergessen",
+  "letsTalkAbout": "Lass uns über {title} sprechen",
+  "whichKindOfUsage": "Welche Art von Verwendung?",
+  "dontForgetAboutTheseCases": "Vergiss nicht diese Fälle:",
+  "tryToGuess": "Versuche zu raten"
 }
