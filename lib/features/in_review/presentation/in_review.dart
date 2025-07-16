@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
+import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
@@ -11,7 +12,7 @@ import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
-import 'package:japanana/core/application/statistics_provider.dart';
+import 'package:japanana/features/session/application/session_provider.dart';
 
 const _kButtonAnimationDuration = Duration(milliseconds: 900);
 const _kButtonAnimationDelay = 0.2;
@@ -103,7 +104,9 @@ class InReview extends HookConsumerWidget {
       if (!isCorrect) {
         wrongSelections.value = {...wrongSelections.value, index};
         // Track the mistake
-        ref.read(mistakenLecturesProvider.notifier).addMistake(currentLecture.id);
+        ref
+            .read(mistakenLecturesProvider.notifier)
+            .addMistake(currentLecture.id);
       } else {
         selectedUsageIndex.value = index;
         addMessage(selectedUsage, isUser: true);
@@ -154,6 +157,13 @@ class InReview extends HookConsumerWidget {
 
           Future.delayed(const Duration(milliseconds: 500), () {
             if (currentLectureIndex.value < shuffledLectures.value.length - 1) {
+              // Mark current lecture as completed
+              final completedLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+              ref
+                  .read(sessionProvider.notifier)
+                  .markLectureCompleted(completedLecture.id);
+
               currentLectureIndex.value++;
               currentStage.value = _ReviewStage.intro;
               selectedUsageIndex.value = null;
@@ -227,7 +237,17 @@ class InReview extends HookConsumerWidget {
               options.shuffle();
               usageOptions.value = options;
             } else {
+              // Mark final lecture as completed
+              final completedLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+              ref
+                  .read(sessionProvider.notifier)
+                  .markLectureCompleted(completedLecture.id);
+
               currentStage.value = _ReviewStage.finished;
+
+              // Clear session when review is finished
+              ref.read(sessionProvider.notifier).clearSession();
             }
           });
         }

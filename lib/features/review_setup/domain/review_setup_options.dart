@@ -15,4 +15,15 @@ class ReviewSetupOptions {
         randomize: randomize ?? this.randomize,
         repeatOnFalseCard: repeatOnFalseCard ?? this.repeatOnFalseCard,
       );
+
+  Map<String, dynamic> toMap() => {
+        'randomize': randomize,
+        'repeatOnFalseCard': repeatOnFalseCard,
+      };
+
+  factory ReviewSetupOptions.fromMap(Map<String, dynamic> map) =>
+      ReviewSetupOptions(
+        randomize: map['randomize'] as bool,
+        repeatOnFalseCard: map['repeatOnFalseCard'] as bool,
+      );
 }
