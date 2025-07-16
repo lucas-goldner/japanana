@@ -92,4 +92,30 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tryToGuess => '推測してみて';
+
+  @override
+  String get statistics => '統計';
+
+  @override
+  String get noMistakesYet => 'まだ間違いはありません！';
+
+  @override
+  String get keepPracticing => '練習を続けて進歩を追跡しましょう';
+
+  @override
+  String get mistakes => '間違い：';
+
+  @override
+  String get lastMistake => '最後の間違い：';
+
+  @override
+  String get selectYourLecture => '講義を選択してください';
+
+  @override
+  String get continueReview => '続行';
+
+  @override
+  String completedLectures(int count) {
+    return '$count完了';
+  }
 }

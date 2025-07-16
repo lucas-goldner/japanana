@@ -6,11 +6,11 @@ const _mistakesKey = 'mistakes';
 
 final mistakenLecturesProvider =
     NotifierProvider<MistakenLecturesNotifier, List<Mistake>>(
-        MistakenLecturesNotifier.new);
+  MistakenLecturesNotifier.new,
+);
 
-final statisticsProvider = Provider<List<Mistake>>((ref) {
-  return ref.watch(mistakenLecturesProvider);
-});
+final statisticsProvider =
+    Provider<List<Mistake>>((ref) => ref.watch(mistakenLecturesProvider));
 
 class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
   late SharedPreferences _prefs;
@@ -24,25 +24,23 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
   Future<void> _loadMistakes() async {
     _prefs = await SharedPreferences.getInstance();
     final mistakesJson = _prefs.getStringList(_mistakesKey) ?? [];
-    
-    final mistakes = mistakesJson
-        .map((json) => Mistake.fromJson(json))
-        .toList()
+
+    final mistakes = mistakesJson.map(Mistake.fromJson).toList()
       ..sort((a, b) => b.lastMistakeDate.compareTo(a.lastMistakeDate));
-    
+
     state = mistakes;
   }
 
   Future<void> addMistake(String lectureId) async {
     final existingIndex = state.indexWhere((m) => m.lectureId == lectureId);
-    
+
     if (existingIndex != -1) {
       // Update existing mistake
       final updated = state[existingIndex].copyWith(
         mistakeCount: state[existingIndex].mistakeCount + 1,
         lastMistakeDate: DateTime.now(),
       );
-      
+
       state = [
         ...state.sublist(0, existingIndex),
         updated,
@@ -55,10 +53,10 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
         mistakeCount: 1,
         lastMistakeDate: DateTime.now(),
       );
-      
+
       state = [newMistake, ...state];
     }
-    
+
     // Save to SharedPreferences
     await _saveMistakes();
   }
@@ -73,3 +71,4 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
     await _prefs.remove(_mistakesKey);
   }
 }
+

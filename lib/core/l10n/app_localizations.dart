@@ -261,6 +261,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try to guess'**
   String get tryToGuess;
+
+  /// Statistics page title
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
+  /// Message when no mistakes have been made
+  ///
+  /// In en, this message translates to:
+  /// **'No mistakes yet!'**
+  String get noMistakesYet;
+
+  /// Encouragement message when no mistakes
+  ///
+  /// In en, this message translates to:
+  /// **'Keep practicing to track your progress'**
+  String get keepPracticing;
+
+  /// Label for mistake count
+  ///
+  /// In en, this message translates to:
+  /// **'Mistakes:'**
+  String get mistakes;
+
+  /// Label for last mistake date
+  ///
+  /// In en, this message translates to:
+  /// **'Last mistake:'**
+  String get lastMistake;
+
+  /// Title for lecture selection page
+  ///
+  /// In en, this message translates to:
+  /// **'Select your Lecture'**
+  String get selectYourLecture;
+
+  /// Button text to continue existing review
+  ///
+  /// In en, this message translates to:
+  /// **'CONTINUE'**
+  String get continueReview;
+
+  /// Shows count of completed lectures
+  ///
+  /// In en, this message translates to:
+  /// **'{count} completed'**
+  String completedLectures(int count);
 }
 
 class _AppLocalizationsDelegate

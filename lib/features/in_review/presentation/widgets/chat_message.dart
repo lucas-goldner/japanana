@@ -51,41 +51,45 @@ class _ChatMessageState extends State<ChatMessage>
   @override
   void initState() {
     super.initState();
-    
+
     // Border drawing animation (1 second)
     _borderController = AnimationController(
       duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
-    
+
     // Text fade-in animation (0.3 seconds, starts after border)
     _textController = AnimationController(
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
+
     _borderAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _borderController,
-      curve: Curves.easeInOut,
-    ));
-    
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: _borderController,
+        curve: Curves.easeInOut,
+      ),
+    );
+
     _textAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _textController,
-      curve: Curves.easeIn,
-    ));
-    
+      begin: 0,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: _textController,
+        curve: Curves.easeIn,
+      ),
+    );
+
     // Only animate once
     if (!_hasAnimated) {
       _hasAnimated = true;
       // Start border animation immediately
       _borderController.forward();
-      
+
       // Start text animation after border completes
       _borderController.addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -153,46 +157,44 @@ class _ChatMessageState extends State<ChatMessage>
         ),
         child: AnimatedBuilder(
           animation: _borderAnimation,
-          builder: (context, child) {
-            return CustomPaint(
-              painter: _AnimatedScribbleBorderPainter(
-                borderColor: widget.isUser
-                    ? colorScheme.primary.withValues(alpha: 0.8)
-                    : colorScheme.onSurface,
-                fillColor: widget.isUser
-                    ? colorScheme.primary.withValues(alpha: 0.9)
-                    : colorScheme.secondary,
-                seed: seed,
-                isUser: widget.isUser,
-                progress: _borderAnimation.value,
+          builder: (context, child) => CustomPaint(
+            painter: _AnimatedScribbleBorderPainter(
+              borderColor: widget.isUser
+                  ? colorScheme.primary.withValues(alpha: 0.8)
+                  : colorScheme.onSurface,
+              fillColor: widget.isUser
+                  ? colorScheme.primary.withValues(alpha: 0.9)
+                  : colorScheme.secondary,
+              seed: seed,
+              isUser: widget.isUser,
+              progress: _borderAnimation.value,
+            ),
+            child: Container(
+              padding: EdgeInsets.only(
+                left: widget.isUser ? 16 : 20,
+                right: widget.isUser ? 20 : 16,
+                top: 12,
+                bottom: 12,
               ),
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: widget.isUser ? 16 : 20,
-                  right: widget.isUser ? 20 : 16,
-                  top: 12,
-                  bottom: 12,
-                ),
-                child: AnimatedBuilder(
-                  animation: _textAnimation,
-                  builder: (context, child) {
-                    return Opacity(
-                      opacity: _textAnimation.value,
-                      child: Text(
-                        widget.text,
-                        style: TextStyle(
-                          color: widget.isUser ? colorScheme.secondary : colorScheme.onSurface,
-                          fontSize: 16,
-                          fontFamily: widget.fontFamily,
-                          fontWeight: widget.fontWeight,
-                        ),
-                      ),
-                    );
-                  },
+              child: AnimatedBuilder(
+                animation: _textAnimation,
+                builder: (context, child) => Opacity(
+                  opacity: _textAnimation.value,
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(
+                      color: widget.isUser
+                          ? colorScheme.secondary
+                          : colorScheme.onSurface,
+                      fontSize: 16,
+                      fontFamily: widget.fontFamily,
+                      fontWeight: widget.fontWeight,
+                    ),
+                  ),
                 ),
               ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
@@ -227,22 +229,22 @@ class _AnimatedScribbleBorderPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final path = _createScribblePath(size);
-    
+
     // Draw fill if progress is complete
     if (progress >= 1.0) {
       canvas.drawPath(path, fillPaint);
     }
-    
+
     // Draw animated border
     final pathMetrics = path.computeMetrics();
     final animatedPath = Path();
-    
+
     for (final pathMetric in pathMetrics) {
       final extractLength = pathMetric.length * progress;
       final extractedPath = pathMetric.extractPath(0, extractLength);
       animatedPath.addPath(extractedPath, Offset.zero);
     }
-    
+
     canvas.drawPath(animatedPath, borderPaint);
   }
 

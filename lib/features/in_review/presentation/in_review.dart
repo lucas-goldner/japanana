@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';

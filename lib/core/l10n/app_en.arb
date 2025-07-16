@@ -55,5 +55,43 @@
   "tryToGuess": "Try to guess",
   "@tryToGuess": {
     "description": "Button text to guess translation"
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics page title"
+  },
+  "noMistakesYet": "No mistakes yet!",
+  "@noMistakesYet": {
+    "description": "Message when no mistakes have been made"
+  },
+  "keepPracticing": "Keep practicing to track your progress",
+  "@keepPracticing": {
+    "description": "Encouragement message when no mistakes"
+  },
+  "mistakes": "Mistakes:",
+  "@mistakes": {
+    "description": "Label for mistake count"
+  },
+  "lastMistake": "Last mistake:",
+  "@lastMistake": {
+    "description": "Label for last mistake date"
+  },
+  "selectYourLecture": "Select your Lecture",
+  "@selectYourLecture": {
+    "description": "Title for lecture selection page"
+  },
+  "continueReview": "CONTINUE",
+  "@continueReview": {
+    "description": "Button text to continue existing review"
+  },
+  "completedLectures": "{count} completed",
+  "@completedLectures": {
+    "description": "Shows count of completed lectures",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
   }
 }

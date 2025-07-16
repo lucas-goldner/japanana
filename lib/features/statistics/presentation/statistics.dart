@@ -22,7 +22,7 @@ class Statistics extends HookConsumerWidget {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             title: Text(
-              'Statistics',
+              l10n.statistics,
               style: context.textTheme.headlineSmall,
             ),
             backgroundColor: context.colorScheme.secondary,
@@ -39,19 +39,21 @@ class Statistics extends HookConsumerWidget {
                         Icon(
                           Icons.trending_up,
                           size: 64,
-                          color: context.colorScheme.primary.withValues(alpha: 0.5),
+                          color: context.colorScheme.primary
+                              .withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'No mistakes yet!',
+                          l10n.noMistakesYet,
                           style: context.textTheme.headlineSmall,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Keep practicing to track your progress',
+                          l10n.keepPracticing,
                           style: context.textTheme.bodyLarge?.copyWith(
-                            color: context.colorScheme.onSurface.withValues(alpha: 0.7),
+                            color: context.colorScheme.onSurface
+                                .withValues(alpha: 0.7),
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -85,14 +87,15 @@ class Statistics extends HookConsumerWidget {
                           children: [
                             const SizedBox(height: 4),
                             Text(
-                              'Mistakes: ${mistake.mistakeCount}',
+                              '${l10n.mistakes} ${mistake.mistakeCount}',
                               style: context.textTheme.bodyMedium,
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Last mistake: ${_formatDate(mistake.lastMistakeDate)}',
+                              '${l10n.lastMistake} ${_formatDate(mistake.lastMistakeDate)}',
                               style: context.textTheme.bodySmall?.copyWith(
-                                color: context.colorScheme.onSurface.withValues(alpha: 0.6),
+                                color: context.colorScheme.onSurface
+                                    .withValues(alpha: 0.6),
                               ),
                             ),
                           ],
@@ -103,7 +106,8 @@ class Statistics extends HookConsumerWidget {
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: _getMistakeColor(mistake.mistakeCount, context),
+                            color:
+                                _getMistakeColor(mistake.mistakeCount, context),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(

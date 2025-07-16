@@ -67,7 +67,7 @@ void main() {
       final initialTime = container.read(sessionProvider)!.lastUpdated;
 
       // Wait a bit to ensure time difference
-      await Future.delayed(const Duration(milliseconds: 10));
+      await Future<void>.delayed(const Duration(milliseconds: 10));
       await notifier.markLectureCompleted('lecture-1');
 
       final updatedTime = container.read(sessionProvider)!.lastUpdated;

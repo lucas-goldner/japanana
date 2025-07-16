@@ -92,4 +92,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tryToGuess => 'Try to guess';
+
+  @override
+  String get statistics => 'Statistics';
+
+  @override
+  String get noMistakesYet => 'No mistakes yet!';
+
+  @override
+  String get keepPracticing => 'Keep practicing to track your progress';
+
+  @override
+  String get mistakes => 'Mistakes:';
+
+  @override
+  String get lastMistake => 'Last mistake:';
+
+  @override
+  String get selectYourLecture => 'Select your Lecture';
+
+  @override
+  String get continueReview => 'CONTINUE';
+
+  @override
+  String completedLectures(int count) {
+    return '$count completed';
+  }
 }

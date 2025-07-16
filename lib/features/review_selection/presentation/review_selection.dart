@@ -19,9 +19,6 @@ class ReviewSelection extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final appNameBannerAnimationCompleted = useState(false);
 
-    // void selectLecture(LectureType lecture) =>
-    //     context.push(AppRoutes.reviewSetup.path, extra: lecture);
-
     void selectLecture(LectureType lecture) => print(lecture);
 
     return Scaffold(

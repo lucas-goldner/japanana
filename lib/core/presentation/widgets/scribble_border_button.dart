@@ -68,12 +68,13 @@ class _ScribbleBorderButtonState extends State<ScribbleBorderButton>
               child: Padding(
                 padding: widget.padding,
                 child: Center(
-                  child: (widget.fontFamily != null || widget.fontWeight != null)
+                  child: (widget.fontFamily != null ||
+                          widget.fontWeight != null)
                       ? DefaultTextStyle(
                           style: DefaultTextStyle.of(context).style.copyWith(
-                            fontFamily: widget.fontFamily,
-                            fontWeight: widget.fontWeight,
-                          ),
+                                fontFamily: widget.fontFamily,
+                                fontWeight: widget.fontWeight,
+                              ),
                           child: widget.child,
                         )
                       : widget.child,

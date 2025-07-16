@@ -92,4 +92,30 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get tryToGuess => 'Versuche zu raten';
+
+  @override
+  String get statistics => 'Statistiken';
+
+  @override
+  String get noMistakesYet => 'Noch keine Fehler!';
+
+  @override
+  String get keepPracticing => 'Übe weiter, um deinen Fortschritt zu verfolgen';
+
+  @override
+  String get mistakes => 'Fehler:';
+
+  @override
+  String get lastMistake => 'Letzter Fehler:';
+
+  @override
+  String get selectYourLecture => 'Wähle deine Lerneinheit';
+
+  @override
+  String get continueReview => 'FORTFAHREN';
+
+  @override
+  String completedLectures(int count) {
+    return '$count abgeschlossen';
+  }
 }

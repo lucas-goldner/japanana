@@ -116,7 +116,7 @@ class _BookState extends State<Book> with TickerProviderStateMixin {
         );
 
         // Then on return, rotate cover back from π/2..0 and scale 3..1:
-        _pageController.reverse();
+        await _pageController.reverse();
       });
       // The book is already open: rotate cover from 0..π/2 AND scale 1..3.
       await _pageController.forward();

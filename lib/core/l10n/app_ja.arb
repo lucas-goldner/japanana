@@ -34,5 +34,13 @@
   "letsTalkAbout": "{title}について話しましょう",
   "whichKindOfUsage": "どの使い方？",
   "dontForgetAboutTheseCases": "この場合も忘れないで：",
-  "tryToGuess": "推測してみて"
+  "tryToGuess": "推測してみて",
+  "statistics": "統計",
+  "noMistakesYet": "まだ間違いはありません！",
+  "keepPracticing": "練習を続けて進歩を追跡しましょう",
+  "mistakes": "間違い：",
+  "lastMistake": "最後の間違い：",
+  "selectYourLecture": "講義を選択してください",
+  "continueReview": "続行",
+  "completedLectures": "{count}完了"
 }
