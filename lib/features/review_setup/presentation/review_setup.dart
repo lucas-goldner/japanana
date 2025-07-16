@@ -77,9 +77,10 @@ class _ReviewSetupContent extends HookConsumerWidget {
       const ReviewSetupOptions(randomize: false, repeatOnFalseCard: false),
     );
 
-    final existingSession = ref.watch(sessionProvider);
-    final hasSessionForType =
-        reviewSection != null && existingSession?.lectureType == reviewSection;
+    final existingSession = reviewSection != null
+        ? ref.watch(sessionProvider(reviewSection!))
+        : null;
+    final hasSessionForType = existingSession != null;
 
     return Scaffold(
       appBar: AppBar(
@@ -132,9 +133,12 @@ class _ReviewSetupContent extends HookConsumerWidget {
                   if (hasSessionForType) ...[
                     ScribbleBorderButton(
                       onPressed: () {
-                        final session = ref.read(sessionProvider);
-                        if (session != null) {
-                          navigateToReview(context, session.options);
+                        if (reviewSection != null) {
+                          final session =
+                              ref.read(sessionProvider(reviewSection!));
+                          if (session != null) {
+                            navigateToReview(context, session.options);
+                          }
                         }
                       },
                       minHeight: 80,
@@ -149,14 +153,13 @@ class _ReviewSetupContent extends HookConsumerWidget {
                               color: Colors.green,
                             ),
                           ),
-                          if (existingSession != null)
-                            Text(
-                              '${existingSession.completedLectureIds.length} '
-                              'completed',
-                              style: context.textTheme.bodySmall?.copyWith(
-                                color: Colors.green,
-                              ),
+                          Text(
+                            '${existingSession.completedLectureIds.length} '
+                            'completed',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: Colors.green,
                             ),
+                          ),
                         ],
                       ),
                     ),
@@ -167,9 +170,8 @@ class _ReviewSetupContent extends HookConsumerWidget {
                     onPressed: () async {
                       if (reviewSection case final LectureType type) {
                         await ref
-                            .read(sessionProvider.notifier)
+                            .read(sessionProvider(type).notifier)
                             .startNewSession(
-                              type,
                               reviewOptions.value,
                             );
                       }

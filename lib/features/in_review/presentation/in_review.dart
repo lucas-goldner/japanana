@@ -34,7 +34,8 @@ class InReview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final existingSession = ref.watch(sessionProvider);
+    final existingSession =
+        ref.watch(sessionProvider(reviewOption?.$1 ?? LectureType.writing));
     final lectureType =
         existingSession?.lectureType ?? reviewOption?.$1 ?? LectureType.writing;
     final options = existingSession?.options ??
@@ -171,7 +172,7 @@ class InReview extends HookConsumerWidget {
               final completedLecture =
                   shuffledLectures.value[currentLectureIndex.value];
               ref
-                  .read(sessionProvider.notifier)
+                  .read(sessionProvider(lectureType).notifier)
                   .markLectureCompleted(completedLecture.id);
 
               currentLectureIndex.value++;
@@ -251,13 +252,13 @@ class InReview extends HookConsumerWidget {
               final completedLecture =
                   shuffledLectures.value[currentLectureIndex.value];
               ref
-                  .read(sessionProvider.notifier)
+                  .read(sessionProvider(lectureType).notifier)
                   .markLectureCompleted(completedLecture.id);
 
               currentStage.value = _ReviewStage.finished;
 
               // Clear session when review is finished
-              ref.read(sessionProvider.notifier).clearSession();
+              ref.read(sessionProvider(lectureType).notifier).clearSession();
             }
           });
         }

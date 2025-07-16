@@ -1,22 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/domain/lecture.dart';
+import 'package:japanana/core/domain/shared_preferences_key.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/session/domain/session.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _sessionKey = 'current_session';
-
 final sessionProvider =
-    NotifierProvider<SessionNotifier, Session?>(SessionNotifier.new);
+    NotifierProvider.family<SessionNotifier, Session?, LectureType>(
+  SessionNotifier.new,
+);
 
-class SessionNotifier extends Notifier<Session?> {
+class SessionNotifier extends FamilyNotifier<Session?, LectureType> {
   SharedPreferences? _prefs;
   Future<void>? _loadingFuture;
 
   @override
-  Session? build() {
+  Session? build(LectureType lectureType) {
     // Load session asynchronously but don't block build
-    _loadingFuture = _loadSession();
+    _loadingFuture = _loadSession(lectureType);
     return null;
   }
 
@@ -25,9 +26,10 @@ class SessionNotifier extends Notifier<Session?> {
     await _loadingFuture;
   }
 
-  Future<void> _loadSession() async {
+  Future<void> _loadSession(LectureType lectureType) async {
     _prefs = await SharedPreferences.getInstance();
-    final sessionJson = _prefs!.getString(_sessionKey);
+    final sessionKey = SharedPreferencesKey.sessionKey(lectureType);
+    final sessionJson = _prefs!.getString(sessionKey.value);
 
     if (sessionJson != null) {
       try {
@@ -35,7 +37,7 @@ class SessionNotifier extends Notifier<Session?> {
         state = session;
       } catch (e) {
         // Clear corrupted session data
-        await _prefs!.remove(_sessionKey);
+        await _prefs!.remove(sessionKey.value);
       }
     }
   }
@@ -45,13 +47,12 @@ class SessionNotifier extends Notifier<Session?> {
   }
 
   Future<void> startNewSession(
-    LectureType lectureType,
     ReviewSetupOptions options,
   ) async {
     await _ensurePrefsInitialized();
 
     final session = Session(
-      lectureType: lectureType,
+      lectureType: arg,
       options: options,
       completedLectureIds: [],
       lastUpdated: DateTime.now(),
@@ -79,19 +80,21 @@ class SessionNotifier extends Notifier<Session?> {
   Future<void> clearSession() async {
     await _ensurePrefsInitialized();
     state = null;
-    await _prefs!.remove(_sessionKey);
+    final sessionKey = SharedPreferencesKey.sessionKey(arg);
+    await _prefs!.remove(sessionKey.value);
   }
 
   Future<void> _saveSession() async {
     final currentSession = state;
     if (currentSession != null && _prefs != null) {
-      await _prefs!.setString(_sessionKey, currentSession.toJson());
+      final sessionKey = SharedPreferencesKey.sessionKey(arg);
+      await _prefs!.setString(sessionKey.value, currentSession.toJson());
     }
   }
 
   Session? getSessionForType(LectureType type) {
     final currentSession = state;
-    if (currentSession?.lectureType == type) {
+    if (currentSession != null && currentSession.lectureType == type) {
       return currentSession;
     }
     return null;

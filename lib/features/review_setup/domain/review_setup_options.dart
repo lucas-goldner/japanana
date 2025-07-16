@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+
+@immutable
 class ReviewSetupOptions {
   const ReviewSetupOptions({
     required this.randomize,
@@ -26,4 +29,15 @@ class ReviewSetupOptions {
         'randomize': randomize,
         'repeatOnFalseCard': repeatOnFalseCard,
       };
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ReviewSetupOptions &&
+        other.randomize == randomize &&
+        other.repeatOnFalseCard == repeatOnFalseCard;
+  }
+
+  @override
+  int get hashCode => randomize.hashCode ^ repeatOnFalseCard.hashCode;
 }
