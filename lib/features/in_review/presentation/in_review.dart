@@ -34,8 +34,11 @@ class InReview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final lectureType = reviewOption?.$1 ?? LectureType.writing;
-    final options = reviewOption?.$2 ??
+    final existingSession = ref.watch(sessionProvider);
+    final lectureType =
+        existingSession?.lectureType ?? reviewOption?.$1 ?? LectureType.writing;
+    final options = existingSession?.options ??
+        reviewOption?.$2 ??
         const ReviewSetupOptions(
           randomize: false,
           repeatOnFalseCard: false,
@@ -47,6 +50,12 @@ class InReview extends HookConsumerWidget {
 
     final shuffledLectures = useState<List<Lecture>>(() {
       final list = [...lectures];
+      if (existingSession?.completedLectureIds.isNotEmpty ?? false) {
+        list.removeWhere(
+          (lecture) =>
+              existingSession!.completedLectureIds.contains(lecture.id),
+        );
+      }
       if (options.randomize) list.shuffle();
       return list;
     }());

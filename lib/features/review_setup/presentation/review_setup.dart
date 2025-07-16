@@ -133,7 +133,9 @@ class _ReviewSetupContent extends HookConsumerWidget {
                     ScribbleBorderButton(
                       onPressed: () {
                         final session = ref.read(sessionProvider);
-                        print(session?.toJson());
+                        if (session != null) {
+                          navigateToReview(context, session.options);
+                        }
                       },
                       minHeight: 80,
                       borderColor: Colors.green,
@@ -149,7 +151,8 @@ class _ReviewSetupContent extends HookConsumerWidget {
                           ),
                           if (existingSession != null)
                             Text(
-                              '${existingSession.completedLectureIds.length} completed',
+                              '${existingSession.completedLectureIds.length} '
+                              'completed',
                               style: context.textTheme.bodySmall?.copyWith(
                                 color: Colors.green,
                               ),
