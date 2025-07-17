@@ -51,6 +51,11 @@ class BooksTheme extends ThemeExtension<BooksTheme> {
             primary: const Color(0xFF8F50E9),
             secondary: const Color(0xFF645290)
           );
+        case LectureType.recentMistakes:
+          lectureTypeColors[type] = (
+            primary: const Color(0xFFE74C3C),
+            secondary: const Color(0xFFD32F2F)
+          );
       }
     }
 

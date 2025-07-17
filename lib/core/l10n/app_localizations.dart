@@ -309,6 +309,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} completed'**
   String completedLectures(int count);
+
+  /// Title for recent mistakes lecture type
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Mistakes'**
+  String get recentMistakes;
 }
 
 class _AppLocalizationsDelegate

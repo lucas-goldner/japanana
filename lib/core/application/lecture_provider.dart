@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
+import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/data/lecture_repository.dart';
 import 'package:japanana/core/data/lecture_repository_impl.dart';
 import 'package:japanana/core/domain/lecture.dart';
@@ -24,11 +25,35 @@ class LectureNotifier extends Notifier<List<Lecture>> {
 
   List<Lecture> getLecturesForReviewOption(
     LectureType option,
-  ) =>
-      state.where((lecture) => lecture.types.contains(option)).toList();
+  ) {
+    if (option == LectureType.recentMistakes) {
+      // Get recent mistakes from statistics provider
+      final mistakes = ref.read(mistakenLecturesProvider);
+
+      // Get lectures that match the mistake IDs
+      final mistakeLectureIds = mistakes.map((m) => m.lectureId).toSet();
+      final mistakeLectures = state
+          .where((lecture) => mistakeLectureIds.contains(lecture.id))
+          .toList()
+
+        // Sort by most recent mistake date
+        ..sort((a, b) {
+          final aMistake = mistakes.firstWhere((m) => m.lectureId == a.id);
+          final bMistake = mistakes.firstWhere((m) => m.lectureId == b.id);
+          return bMistake.lastMistakeDate.compareTo(aMistake.lastMistakeDate);
+        });
+
+      return mistakeLectures;
+    }
+
+    return state.where((lecture) => lecture.types.contains(option)).toList();
+  }
 
   bool get hasLecturesInRememberChamper =>
       getLecturesForReviewOption(LectureType.remember).isNotEmpty;
+
+  bool get hasRecentMistakes =>
+      getLecturesForReviewOption(LectureType.recentMistakes).isNotEmpty;
 
   List<Lecture> getLecturesOfRememberChamber() {
     final rememberedLectureIds =
@@ -82,5 +107,5 @@ class LectureNotifier extends Notifier<List<Lecture>> {
 
 final lectureProvider = NotifierProvider<LectureNotifier, List<Lecture>>(
   () => LectureNotifier(LectureRepositoryImpl()),
-  dependencies: [sharedPreferencesProvider],
+  dependencies: [sharedPreferencesProvider, mistakenLecturesProvider],
 );

@@ -7,7 +7,8 @@ enum LectureType {
   n2,
   n3,
   n4,
-  remember;
+  remember,
+  recentMistakes;
 
   String getLocalizedTitle(BuildContext context) => switch (this) {
         LectureType.n2 => context.l10n.n2Grammar,
@@ -15,7 +16,8 @@ enum LectureType {
         LectureType.n4 => context.l10n.n4Grammar,
         LectureType.conversational => context.l10n.conversational,
         LectureType.writing => context.l10n.writing,
-        LectureType.remember => context.l10n.rememberedSection
+        LectureType.remember => context.l10n.rememberedSection,
+        LectureType.recentMistakes => context.l10n.recentMistakes
       };
 }
 

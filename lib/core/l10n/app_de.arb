@@ -42,5 +42,6 @@
   "lastMistake": "Letzter Fehler:",
   "selectYourLecture": "Wähle deine Lerneinheit",
   "continueReview": "FORTFAHREN",
-  "completedLectures": "{count} abgeschlossen"
+  "completedLectures": "{count} abgeschlossen",
+  "recentMistakes": "Letzte Fehler"
 }

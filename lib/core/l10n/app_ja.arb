@@ -42,5 +42,6 @@
   "lastMistake": "最後の間違い：",
   "selectYourLecture": "講義を選択してください",
   "continueReview": "続行",
-  "completedLectures": "{count}完了"
+  "completedLectures": "{count}完了",
+  "recentMistakes": "最近の間違い"
 }

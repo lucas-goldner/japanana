@@ -185,9 +185,18 @@ class __AnimatedBookShelfState extends ConsumerState<_AnimatedBookShelf> {
         builder: (context, snapshot) {
           final hasLecturesToRemember =
               ref.watch(lectureProvider.notifier).hasLecturesInRememberChamper;
-          final lectureTypes = hasLecturesToRemember
-              ? LectureType.values.toList()
-              : (LectureType.values.toList()..remove(LectureType.remember));
+          final hasRecentMistakes =
+              ref.watch(lectureProvider.notifier).hasRecentMistakes;
+
+          final lectureTypes = LectureType.values.toList();
+
+          if (!hasLecturesToRemember) {
+            lectureTypes.remove(LectureType.remember);
+          }
+
+          if (!hasRecentMistakes) {
+            lectureTypes.remove(LectureType.recentMistakes);
+          }
 
           return switch (snapshot.connectionState) {
             ConnectionState.done => Flexible(

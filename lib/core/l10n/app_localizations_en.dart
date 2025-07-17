@@ -118,4 +118,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String completedLectures(int count) {
     return '$count completed';
   }
+
+  @override
+  String get recentMistakes => 'Recent Mistakes';
 }

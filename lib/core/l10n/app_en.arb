@@ -93,5 +93,9 @@
         "example": "5"
       }
     }
+  },
+  "recentMistakes": "Recent Mistakes",
+  "@recentMistakes": {
+    "description": "Title for recent mistakes lecture type"
   }
 }
