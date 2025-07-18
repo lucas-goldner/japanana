@@ -7,6 +7,7 @@ import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/review_setup.dart';
+import 'package:japanana/features/settings/presentation/settings.dart';
 import 'package:japanana/features/statistics/presentation/statistics.dart';
 
 enum AppRoutes {
@@ -15,7 +16,8 @@ enum AppRoutes {
   inReview('/inReview'),
   lectureList('/lectureList'),
   lectureDetail('/lectureDetail'),
-  statistics('/statistics');
+  statistics('/statistics'),
+  settings('/settings');
 
   const AppRoutes(this.path);
   final String path;
@@ -68,6 +70,13 @@ final router = GoRouter(
       pageBuilder: (context, state) => NoTransitionPage(
         key: state.pageKey,
         child: const Statistics(),
+      ),
+    ),
+    GoRoute(
+      path: AppRoutes.settings.path,
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Settings(),
       ),
     ),
   ],

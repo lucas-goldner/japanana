@@ -2,6 +2,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:japanana/core/extensions.dart';
+import 'package:japanana/features/settings/presentation/radial_page_transition.dart';
+import 'package:japanana/features/settings/presentation/settings.dart';
 
 class OpenSettingsButton extends HookWidget {
   const OpenSettingsButton({super.key});
@@ -14,34 +16,57 @@ class OpenSettingsButton extends HookWidget {
 
     final rotationValue = useAnimation(rotationController);
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        AnimatedRotation(
-          duration: rotationController.duration ?? Duration.zero,
-          turns: rotationValue,
-          child: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.settings_outlined,
-              size: 80,
-              color: context.colorScheme.primary,
+    void openSettings() {
+      // Get the button's global position
+      final renderBox = context.findRenderObject()! as RenderBox;
+      final buttonOffset = renderBox.localToGlobal(Offset.zero);
+      final buttonSize = renderBox.size;
+
+      // Calculate the center of the button
+      final anchorOffset = Offset(
+        buttonOffset.dx + buttonSize.width / 2,
+        buttonOffset.dy + buttonSize.height / 2,
+      );
+
+      Navigator.of(context).push(
+        RadialPageTransition(
+          child: const Settings(),
+          anchorOffset: anchorOffset,
+        ),
+      );
+    }
+
+    return GestureDetector(
+      onTap: openSettings,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          AnimatedRotation(
+            duration: rotationController.duration ?? Duration.zero,
+            turns: rotationValue,
+            child: IconButton(
+              onPressed: openSettings,
+              icon: Icon(
+                Icons.settings_outlined,
+                size: 80,
+                color: context.colorScheme.primary,
+              ),
             ),
           ),
-        ),
-        Positioned(
-          child: _RotatingText(
-            text: 'Settings',
-            radius: 60,
-            textStyle: context.textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: context.colorScheme.primary,
-                ) ??
-                const TextStyle(),
-            rotationDuration: const Duration(seconds: 12),
+          Positioned(
+            child: _RotatingText(
+              text: 'Settings',
+              radius: 60,
+              textStyle: context.textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: context.colorScheme.primary,
+                  ) ??
+                  const TextStyle(),
+              rotationDuration: const Duration(seconds: 12),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
