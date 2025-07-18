@@ -1,16 +1,19 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/widgets/fade_in_from_bottom.dart';
+import 'package:japanana/core/router.dart';
+import 'package:japanana/features/bars_animation/bars_animation_widget.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/app_name_banner.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_settings_button.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_statistics_button.dart';
-import 'package:japanana/core/router.dart';
-import 'package:go_router/go_router.dart';
 
 class ReviewSelection extends HookConsumerWidget {
   const ReviewSelection({super.key});
@@ -18,46 +21,82 @@ class ReviewSelection extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appNameBannerAnimationCompleted = useState(false);
+    final showBarsAnimation = useState(false);
+    final showOpenAnimation = useState(false);
 
     void selectLecture(LectureType lecture) => print(lecture);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            _AnimatedAppNameBanner(
-              onAnimationCompleted: () => {
-                appNameBannerAnimationCompleted.value = true,
-              },
+    return Stack(
+      children: [
+        Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                _AnimatedAppNameBanner(
+                  onAnimationCompleted: () => {
+                    appNameBannerAnimationCompleted.value = true,
+                  },
+                ),
+                const SizedBox(height: 80),
+                Visibility(
+                  visible: appNameBannerAnimationCompleted.value,
+                  child: const _AnimatedReviewSelectionTitle(),
+                ),
+                const SizedBox(height: 32),
+                Visibility(
+                  visible: appNameBannerAnimationCompleted.value,
+                  child: _AnimatedBookShelf(
+                    onBookSelect: selectLecture,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 80),
-            Visibility(
-              visible: appNameBannerAnimationCompleted.value,
-              child: const _AnimatedReviewSelectionTitle(),
-            ),
-            const SizedBox(height: 32),
-            Visibility(
-              visible: appNameBannerAnimationCompleted.value,
-              child: _AnimatedBookShelf(
-                onBookSelect: selectLecture,
+          ),
+          bottomNavigationBar: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 32,
+                right: 32,
+                bottom: 20,
+              ),
+              child: Visibility(
+                visible: appNameBannerAnimationCompleted.value,
+                child: OptionsRow(
+                  onStatsPressed: () async {
+                    // Start bars animation immediately
+                    showBarsAnimation.value = true;
+                  },
+                ),
               ),
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(
-            left: 32,
-            right: 32,
-            bottom: 20,
-          ),
-          child: Visibility(
-            visible: appNameBannerAnimationCompleted.value,
-            child: const OptionsRow(),
           ),
         ),
-      ),
+        if (showBarsAnimation.value)
+          Positioned.fill(
+            child: BarsAnimationWidget.close(
+              onAnimationComplete: () async {
+                if (context.mounted) {
+                  // Delay before navigation
+                  final result =
+                      await context.push<bool>(AppRoutes.statistics.path);
+                  // If we got true back, show open animation
+                  if (result ?? false) {
+                    showBarsAnimation.value = false; // Hide close animation
+                    showOpenAnimation.value = true; // Show open animation
+                  }
+                }
+              },
+            ),
+          ),
+        if (showOpenAnimation.value)
+          Positioned.fill(
+            child: BarsAnimationWidget.open(
+              onAnimationComplete: () {
+                showOpenAnimation.value = false;
+              },
+            ),
+          ),
+      ],
     );
   }
 }
@@ -219,7 +258,12 @@ class __AnimatedBookShelfState extends ConsumerState<_AnimatedBookShelf> {
 }
 
 class OptionsRow extends StatelessWidget {
-  const OptionsRow({super.key});
+  const OptionsRow({
+    super.key,
+    this.onStatsPressed,
+  });
+
+  final void Function()? onStatsPressed;
 
   @override
   Widget build(BuildContext context) => FadeInFromBottom(
@@ -234,12 +278,9 @@ class OptionsRow extends StatelessWidget {
             ),
             const Spacer(),
             Padding(
-              padding: const EdgeInsets.only(
-                bottom: 12,
-              ),
-              child: GestureDetector(
-                onTap: () => context.push(AppRoutes.statistics.path),
-                child: const OpenStatisticsButton(),
+              padding: const EdgeInsets.all(12),
+              child: OpenStatisticsButton(
+                onPressed: onStatsPressed,
               ),
             ),
           ],

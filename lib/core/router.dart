@@ -65,7 +65,10 @@ final router = GoRouter(
     ),
     GoRoute(
       path: AppRoutes.statistics.path,
-      builder: (context, state) => const Statistics(),
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Statistics(),
+      ),
     ),
   ],
 );
