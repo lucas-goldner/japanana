@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:japanana/core/extensions.dart';
 
-const Duration _kBarsAnimationDuration = Duration(milliseconds: 300);
+const Duration _kBarsAnimationDuration = Duration(milliseconds: 250);
 
 sealed class BarsAnimationWidget extends HookWidget {
   const BarsAnimationWidget({super.key});
