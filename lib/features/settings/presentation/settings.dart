@@ -1,142 +1,172 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
-import 'package:japanana/core/presentation/widgets/note_background.dart';
+import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
 
 class Settings extends ConsumerWidget {
   const Settings({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => PopScope(
-        onPopInvokedWithResult: (didPop, result) {
-          // Allow normal back navigation since we're using page transitions
-        },
-        child: Stack(
-          children: [
-            const NoteBackground(),
-            Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                title: Text(
-                  'Settings',
-                  style: context.textTheme.headlineSmall,
-                ),
-                backgroundColor: context.colorScheme.secondary,
-                surfaceTintColor: context.colorScheme.secondary,
-                elevation: 4,
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 32),
-                    Text(
-                      'App Settings',
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        color: context.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    _SettingsItem(
-                      icon: Icons.language,
-                      title: 'Language',
-                      subtitle: 'Change app language',
-                      onTap: () {
-                        // TODO(dev): Implement language selection
-                      },
-                    ),
-                    _SettingsItem(
-                      icon: Icons.dark_mode,
-                      title: 'Theme',
-                      subtitle: 'Light or dark theme',
-                      onTap: () {
-                        // TODO(dev): Implement theme selection
-                      },
-                    ),
-                    _SettingsItem(
-                      icon: Icons.notifications,
-                      title: 'Notifications',
-                      subtitle: 'Manage notification preferences',
-                      onTap: () {
-                        // TODO(dev): Implement notification settings
-                      },
-                    ),
-                    const SizedBox(height: 32),
-                    Text(
-                      'Study Settings',
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        color: context.colorScheme.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    _SettingsItem(
-                      icon: Icons.timer,
-                      title: 'Session Timer',
-                      subtitle: 'Set study session duration',
-                      onTap: () {
-                        // TODO(dev): Implement session timer settings
-                      },
-                    ),
-                    _SettingsItem(
-                      icon: Icons.refresh,
-                      title: 'Reset Progress',
-                      subtitle: 'Clear all study progress',
-                      onTap: () {
-                        // TODO(dev): Implement reset progress
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+  Widget build(BuildContext context, WidgetRef ref) {
+    final controller = WidgetCanvasController([
+      // App Settings - Left side
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(-200, -150),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.language,
+          title: 'Language',
+          onTap: () {
+            // TODO(dev): Implement language selection
+          },
         ),
-      );
+      ),
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(-200, 0),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.dark_mode,
+          title: 'Theme',
+          onTap: () {
+            // TODO(dev): Implement theme selection
+          },
+        ),
+      ),
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(-200, 150),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.notifications,
+          title: 'Notifications',
+          onTap: () {
+            // TODO(dev): Implement notification settings
+          },
+        ),
+      ),
+      // Study Settings - Right side
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(80, -150),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.timer,
+          title: 'Session Timer',
+          onTap: () {
+            // TODO(dev): Implement session timer settings
+          },
+        ),
+      ),
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(80, 0),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.refresh,
+          title: 'Reset Progress',
+          onTap: () {
+            // TODO(dev): Implement reset progress
+          },
+        ),
+      ),
+      WidgetCanvasChild(
+        key: UniqueKey(),
+        offset: const Offset(80, 150),
+        size: const Size(120, 140),
+        child: _SettingCanvasItem(
+          icon: Icons.analytics,
+          title: 'Statistics',
+          onTap: () {
+            // TODO(dev): Navigate to statistics
+          },
+        ),
+      ),
+    ]);
+
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        // Allow normal back navigation since we're using page transitions
+      },
+      child: Scaffold(
+        backgroundColor: context.colorScheme.surface,
+        appBar: AppBar(
+          title: Text(
+            'Settings',
+            style: context.textTheme.headlineSmall,
+          ),
+          backgroundColor: context.colorScheme.secondary,
+          surfaceTintColor: context.colorScheme.secondary,
+          elevation: 4,
+        ),
+        body: WidgetCanvas(controller: controller),
+      ),
+    );
+  }
 }
 
-class _SettingsItem extends StatelessWidget {
-  const _SettingsItem({
+class _SettingCanvasItem extends StatelessWidget {
+  const _SettingCanvasItem({
     required this.icon,
     required this.title,
-    required this.subtitle,
     required this.onTap,
   });
 
   final IconData icon;
   final String title;
-  final String subtitle;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
-        margin: const EdgeInsets.only(bottom: 12),
-        child: ListTile(
-          leading: Icon(
-            icon,
-            color: context.colorScheme.primary,
-            size: 28,
-          ),
-          title: Text(
-            title,
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 120,
+          height: 140,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: context.colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: context.colorScheme.shadow.withValues(alpha: 0.1),
+                blurRadius: 8,
+                offset: const Offset(0, 4),
+              ),
+            ],
+            border: Border.all(
+              color: context.colorScheme.outline.withValues(alpha: 0.2),
             ),
           ),
-          subtitle: Text(
-            subtitle,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: context.colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: context.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: Icon(
+                  icon,
+                  color: context.colorScheme.primary,
+                  size: 28,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                title,
+                style: context.textTheme.labelMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: context.colorScheme.onSurface,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
-          trailing: Icon(
-            Icons.arrow_forward_ios,
-            color: context.colorScheme.primary.withValues(alpha: 0.5),
-            size: 18,
-          ),
-          onTap: onTap,
         ),
       );
 }
