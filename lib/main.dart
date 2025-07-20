@@ -53,7 +53,6 @@ class _JapananaAppState extends ConsumerState<JapananaApp> {
                 ),
               ],
               child: MaterialApp.router(
-                restorationScopeId: 'japanana',
                 routerConfig: router,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,

@@ -24,7 +24,6 @@ enum AppRoutes {
 }
 
 final router = GoRouter(
-  restorationScopeId: 'router',
   initialLocation: AppRoutes.reviewSelection.path,
   routes: [
     GoRoute(

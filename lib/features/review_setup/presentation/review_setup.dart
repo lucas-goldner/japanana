@@ -12,56 +12,8 @@ import 'package:japanana/features/review_setup/domain/review_setup_options.dart'
 import 'package:japanana/features/review_setup/presentation/widgets/review_setup_option.dart';
 import 'package:japanana/features/session/application/session_provider.dart';
 
-class ReviewSetup extends StatefulWidget {
+class ReviewSetup extends HookConsumerWidget {
   const ReviewSetup(this.reviewSection, {super.key});
-  final LectureType? reviewSection;
-
-  @override
-  State<ReviewSetup> createState() => _ReviewSetupState();
-}
-
-class _ReviewSetupState extends State<ReviewSetup> with RestorationMixin {
-  final RestorableEnum _restorableLectureType =
-      RestorableEnum(LectureType.writing, values: LectureType.values);
-
-  @override
-  String? get restorationId => 'reviewSetup';
-
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    registerForRestoration(_restorableLectureType, 'setupLectureType');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => reviewSection(widget.reviewSection),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _restorableLectureType.dispose();
-  }
-
-  void reviewSection(LectureType? value) {
-    if (value == null) return;
-    setState(() {
-      _restorableLectureType.value = value;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => _ReviewSetupContent(
-        widget.reviewSection ?? (_restorableLectureType.value as LectureType?),
-      );
-}
-
-class _ReviewSetupContent extends HookConsumerWidget {
-  const _ReviewSetupContent(this.reviewSection);
   final LectureType? reviewSection;
 
   void navigateToReview(BuildContext context, ReviewSetupOptions options) {

@@ -11,7 +11,7 @@
         <!--Flutter View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController restorationIdentifier="iosRestoration" id="BYZ-38-t0r" customClass="FlutterViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="FlutterViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -29,7 +29,7 @@
     </scenes>
     <resources>
         <namedColor name="LaunchScreenBGColor">
-            <color red="0.9660000205039978" green="0.89399999380111694" blue="0.49200001358985901" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.97299998998641968" green="0.82700002193450928" blue="0.093999996781349182" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
