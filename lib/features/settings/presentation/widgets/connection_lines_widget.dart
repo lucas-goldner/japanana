@@ -24,11 +24,38 @@ class ConnectionLinesWidget extends StatefulWidget {
   State<ConnectionLinesWidget> createState() => _ConnectionLinesWidgetState();
 }
 
-class _ConnectionLinesWidgetState extends State<ConnectionLinesWidget> {
+class _ConnectionLinesWidgetState extends State<ConnectionLinesWidget>
+    with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  Set<String> _currentConnections = {};
+  Set<String> _animatedConnections = {};
+
   @override
   void initState() {
     super.initState();
     widget.controller.addListener(_onControllerUpdate);
+    
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
+    
+    _animation.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    
+    // Get initial connections
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _updateConnections();
+    });
   }
 
   @override
@@ -43,13 +70,58 @@ class _ConnectionLinesWidgetState extends State<ConnectionLinesWidget> {
   @override
   void dispose() {
     widget.controller.removeListener(_onControllerUpdate);
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onControllerUpdate() {
     if (mounted) {
+      _updateConnections();
       setState(() {});
     }
+  }
+  
+  void _updateConnections() {
+    final newConnections = _getCurrentConnections();
+    final addedConnections = newConnections.difference(_currentConnections);
+    
+    if (addedConnections.isNotEmpty) {
+      // New connections found - animate them
+      _animatedConnections = addedConnections;
+      _animationController.reset();
+      _animationController.forward();
+    }
+    
+    _currentConnections = newConnections;
+  }
+  
+  Set<String> _getCurrentConnections() {
+    final connections = <String>{};
+    final children = widget.controller.children;
+    
+    for (var i = 0; i < children.length; i++) {
+      for (var j = i + 1; j < children.length; j++) {
+        final startItem = children[i];
+        final endItem = children[j];
+        
+        final startCenter = Offset(
+          startItem.offset.dx + startItem.size.width / 2,
+          startItem.offset.dy + startItem.size.height / 2,
+        );
+        final endCenter = Offset(
+          endItem.offset.dx + endItem.size.width / 2,
+          endItem.offset.dy + endItem.size.height / 2,
+        );
+        
+        final distance = (startCenter - endCenter).distance;
+        
+        if (distance <= widget.connectionRange) {
+          connections.add('${startItem.key}-${endItem.key}');
+        }
+      }
+    }
+    
+    return connections;
   }
 
   @override
@@ -61,6 +133,8 @@ class _ConnectionLinesWidgetState extends State<ConnectionLinesWidget> {
           opacity: widget.opacity,
           connectionRange: widget.connectionRange,
           linePadding: widget.linePadding,
+          animationProgress: _animation.value,
+          animatedConnections: _animatedConnections,
         ),
       );
 }

@@ -9,6 +9,8 @@ class SettingsConnectionPainter extends CustomPainter {
     this.opacity = 0.3,
     this.connectionRange = 100.0,
     this.linePadding = 10.0,
+    this.animationProgress = 1.0,
+    this.animatedConnections = const {},
   });
 
   final WidgetCanvasController canvasController;
@@ -17,6 +19,8 @@ class SettingsConnectionPainter extends CustomPainter {
   final double opacity;
   final double connectionRange;
   final double linePadding;
+  final double animationProgress;
+  final Set<String> animatedConnections;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -62,7 +66,20 @@ class SettingsConnectionPainter extends CustomPainter {
           final paddedStart = startCenter + (normalizedDirection * linePadding);
           final paddedEnd = endCenter - (normalizedDirection * linePadding);
           
-          canvas.drawLine(paddedStart, paddedEnd, paint);
+          // Create unique connection ID
+          final connectionId = '${startItem.key}-${endItem.key}';
+          
+          // Check if this connection should be animated
+          final shouldAnimate = animatedConnections.contains(connectionId);
+          
+          if (shouldAnimate) {
+            // Draw animated line from start to progress point
+            final animatedEnd = Offset.lerp(paddedStart, paddedEnd, animationProgress)!;
+            canvas.drawLine(paddedStart, animatedEnd, paint);
+          } else {
+            // Draw full line (for existing connections)
+            canvas.drawLine(paddedStart, paddedEnd, paint);
+          }
         }
       }
     }
@@ -75,5 +92,7 @@ class SettingsConnectionPainter extends CustomPainter {
       lineWidth != oldDelegate.lineWidth ||
       opacity != oldDelegate.opacity ||
       connectionRange != oldDelegate.connectionRange ||
-      linePadding != oldDelegate.linePadding;
+      linePadding != oldDelegate.linePadding ||
+      animationProgress != oldDelegate.animationProgress ||
+      animatedConnections != oldDelegate.animatedConnections;
 }
