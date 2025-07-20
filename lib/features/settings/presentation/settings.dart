@@ -5,6 +5,7 @@ import 'package:japanana/core/presentation/hooks/use_widget_canvas_controller.da
 import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
 import 'package:japanana/features/settings/presentation/widgets/connection_lines_widget.dart';
+import 'package:japanana/features/settings/presentation/widgets/settings_modal.dart';
 
 const settingsLayout = [
   // Core App Settings (Top-Left)
@@ -47,6 +48,10 @@ class Settings extends HookConsumerWidget {
           key: ValueKey(settingType),
           offset: offset,
           size: const Size(120, 140),
+          onTap: () => SettingsModal.show(
+            context: context,
+            settingType: settingType,
+          ),
           child: _SettingCanvasItem(
             settingType: settingType,
           ),
@@ -73,10 +78,22 @@ class Settings extends HookConsumerWidget {
           backgroundColor: context.colorScheme.secondary,
           minScale: 0.1,
           maxScale: 1,
+          selectionWidget: Padding(
+            padding: const EdgeInsets.all(8),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: context.colorScheme.onSecondary,
+                  width: 3,
+                ),
+              ),
+            ),
+          ),
           backgroundWidget: ConnectionLinesWidget(
             controller: controller,
             lineColor: context.colorScheme.onSecondary,
-            lineWidth: 5,
+            lineWidth: 3,
             opacity: 1,
             connectionRange: 250,
             linePadding: 52,
@@ -95,8 +112,8 @@ class _SettingCanvasItem extends StatelessWidget {
   final SettingType settingType;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: settingType.getOnTap(),
+  Widget build(BuildContext context) => Hero(
+        tag: settingType,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

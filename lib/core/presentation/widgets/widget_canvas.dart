@@ -123,7 +123,7 @@ class WidgetCanvasState extends State<WidgetCanvas> {
                 controller.checkSelection(details.localPosition);
               },
               onPointerUp: (details) {
-                controller.mouseDown = false;
+                controller.handlePointerUp(details.localPosition);
               },
               onPointerCancel: (details) {
                 controller.mouseDown = false;
@@ -167,30 +167,30 @@ class WidgetCanvasState extends State<WidgetCanvas> {
                             WidgetCanvasDelegate(controller, widget.canvasSize),
                         children: controller.children
                             .map(
-                          (e) => LayoutId(
-                            id: e,
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Positioned.fill(
-                                  child: SizedBox.fromSize(
-                                    size: e.size,
-                                    child: e.child,
-                                  ),
+                              (e) => LayoutId(
+                                id: e,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Positioned.fill(
+                                      child: SizedBox.fromSize(
+                                        size: e.size,
+                                        child: e.child,
+                                      ),
+                                    ),
+                                    if (controller.isSelected(e.key!))
+                                      Positioned.fill(
+                                        top: -widget.selectionInset,
+                                        left: -widget.selectionInset,
+                                        right: -widget.selectionInset,
+                                        bottom: -widget.selectionInset,
+                                        child: widget.selectionWidget,
+                                      ),
+                                  ],
                                 ),
-                                if (controller.isSelected(e.key!))
-                                  Positioned.fill(
-                                    top: -widget.selectionInset,
-                                    left: -widget.selectionInset,
-                                    right: -widget.selectionInset,
-                                    bottom: -widget.selectionInset,
-                                    child: widget.selectionWidget,
-                                  ),
-                              ],
-                            ),
-                          ),
-                        )
-                        .toList(),
+                              ),
+                            )
+                            .toList(),
                       ),
                     ],
                   ),
@@ -239,11 +239,13 @@ class WidgetCanvasChild extends StatelessWidget {
     required this.size,
     required this.offset,
     required this.child,
+    this.onTap,
   }) : super(key: key);
 
   final Size size;
   final Offset offset;
   final Widget child;
+  final VoidCallback? onTap;
 
   Rect get rect => offset & size;
 
@@ -251,11 +253,13 @@ class WidgetCanvasChild extends StatelessWidget {
     Size? size,
     Offset? offset,
     Widget? child,
+    VoidCallback? onTap,
   }) =>
       WidgetCanvasChild(
         key: key!,
         size: size ?? this.size,
         offset: offset ?? this.offset,
+        onTap: onTap ?? this.onTap,
         child: child ?? this.child,
       );
 
@@ -272,6 +276,9 @@ class WidgetCanvasController extends ChangeNotifier {
   Matrix4 get matrix => transform.value;
   double scale = 1;
   Offset mousePosition = Offset.zero;
+  Offset? _pointerDownPosition;
+  WidgetCanvasChild? _potentialTapTarget;
+  static const _tapThreshold = 5.0; // pixels
 
   bool _mouseDown = false;
   bool get mouseDown => _mouseDown;
@@ -291,12 +298,19 @@ class WidgetCanvasController extends ChangeNotifier {
   void checkSelection(Offset localPosition) {
     final offset = toLocal(localPosition);
     final selection = <Key>[];
+    WidgetCanvasChild? tappedChild;
+
     for (final child in children) {
       final rect = child.rect;
       if (rect.contains(offset)) {
         selection.add(child.key!);
+        tappedChild = child;
       }
     }
+
+    _pointerDownPosition = localPosition;
+    _potentialTapTarget = tappedChild;
+
     if (selection.isNotEmpty) {
       setSelection({selection.last});
       mouseDown = true;
@@ -304,6 +318,21 @@ class WidgetCanvasController extends ChangeNotifier {
       deselectAll();
       mouseDown = false;
     }
+  }
+
+  void handlePointerUp(Offset localPosition) {
+    if (_pointerDownPosition != null && _potentialTapTarget != null) {
+      final distance = (localPosition - _pointerDownPosition!).distance;
+
+      // If pointer moved less than threshold, it's a tap
+      if (distance < _tapThreshold && _potentialTapTarget!.onTap != null) {
+        _potentialTapTarget!.onTap!();
+      }
+    }
+
+    _pointerDownPosition = null;
+    _potentialTapTarget = null;
+    mouseDown = false;
   }
 
   void moveSelection(Offset position) {
