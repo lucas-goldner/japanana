@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/hooks/use_widget_canvas_controller.dart';
@@ -120,7 +119,12 @@ class Settings extends HookConsumerWidget {
           surfaceTintColor: context.colorScheme.secondary,
           elevation: 4,
         ),
-        body: WidgetCanvas(controller: controller),
+        body: WidgetCanvas(
+          controller: controller,
+          backgroundColor: context.colorScheme.secondary,
+          minScale: 0.1,
+          maxScale: 1,
+        ),
       ),
     );
   }

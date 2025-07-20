@@ -1,20 +1,76 @@
 import 'package:flutter/material.dart';
-import 'package:vector_math/vector_math_64.dart' hide Colors;
+import 'package:japanana/core/extensions.dart';
+
+// Constants
+const double kDefaultCanvasWidth = 10000;
+const double kDefaultCanvasHeight = 10000;
+const double kDefaultMinScale = 0.4;
+const double kDefaultMaxScale = 4;
+const double kDefaultSelectionInset = 2;
+const double kDefaultChildElevation = 4;
+const double kDefaultResetThreshold = 500;
+
+// Default selection widget
+class _DefaultSelectionWidget extends StatelessWidget {
+  const _DefaultSelectionWidget();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Theme.of(context).primaryColor,
+            width: 2,
+          ),
+        ),
+      );
+}
 
 class WidgetCanvas extends StatefulWidget {
-  const WidgetCanvas({required this.controller, super.key});
+  const WidgetCanvas({
+    required this.controller,
+    this.canvasSize = const Size(kDefaultCanvasWidth, kDefaultCanvasHeight),
+    this.minScale = kDefaultMinScale,
+    this.maxScale = kDefaultMaxScale,
+    this.selectionInset = kDefaultSelectionInset,
+    this.childElevation = kDefaultChildElevation,
+    this.backgroundColor,
+    this.selectionWidget = const _DefaultSelectionWidget(),
+    this.onInteractionStart,
+    this.onInteractionEnd,
+    this.showResetButton = true,
+    this.resetThreshold = kDefaultResetThreshold,
+    super.key,
+  });
 
   final WidgetCanvasController controller;
+  final Size canvasSize;
+  final double minScale;
+  final double maxScale;
+  final double selectionInset;
+  final double childElevation;
+  final Color? backgroundColor;
+  final Widget selectionWidget;
+  final void Function(ScaleStartDetails details)? onInteractionStart;
+  final void Function(ScaleEndDetails details)? onInteractionEnd;
+  final bool showResetButton;
+  final double resetThreshold;
 
   @override
   State<WidgetCanvas> createState() => WidgetCanvasState();
 }
 
 class WidgetCanvasState extends State<WidgetCanvas> {
+  Matrix4? _initialTransform;
+  bool _showResetButton = false;
+
   @override
   void initState() {
     super.initState();
     controller.addListener(onUpdate);
+    // Store initial transform for reset functionality
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initialTransform = Matrix4.copy(controller.transform.value);
+    });
   }
 
   @override
@@ -24,184 +80,136 @@ class WidgetCanvasState extends State<WidgetCanvas> {
   }
 
   void onUpdate() {
-    if (mounted) setState(() {});
+    if (mounted) {
+      // Check if we should show the reset button
+      if (widget.showResetButton && _initialTransform != null) {
+        final currentTransform = controller.transform.value;
+        final initialTransform = _initialTransform!;
+
+        // Calculate distance from initial position
+        final currentTranslation = currentTransform.getTranslation();
+        final initialTranslation = initialTransform.getTranslation();
+        final distance = (currentTranslation - initialTranslation).length;
+
+        final shouldShow = distance > widget.resetThreshold;
+        if (shouldShow != _showResetButton) {
+          _showResetButton = shouldShow;
+        }
+      }
+      setState(() {});
+    }
   }
 
-  static const Size _gridSize = Size.square(50);
   WidgetCanvasController get controller => widget.controller;
 
-  Rect axisAlignedBoundingBox(Quad quad) {
-    var xMin = quad.point0.x;
-    var xMax = quad.point0.x;
-    var yMin = quad.point0.y;
-    var yMax = quad.point0.y;
-    for (final point in <Vector3>[
-      quad.point1,
-      quad.point2,
-      quad.point3,
-    ]) {
-      if (point.x < xMin) {
-        xMin = point.x;
-      } else if (point.x > xMax) {
-        xMax = point.x;
-      }
-
-      if (point.y < yMin) {
-        yMin = point.y;
-      } else if (point.y > yMax) {
-        yMax = point.y;
-      }
+  void _resetToCenter() {
+    if (_initialTransform != null) {
+      setState(() {
+        _showResetButton = false;
+      });
+      controller.transform.value = Matrix4.copy(_initialTransform!);
     }
-
-    return Rect.fromLTRB(xMin, yMin, xMax, yMax);
   }
 
   @override
-  Widget build(BuildContext context) {
-    const inset = 2.0;
-    return Listener(
-      onPointerDown: (details) {
-        controller.checkSelection(details.localPosition);
-      },
-      onPointerUp: (details) {
-        controller.mouseDown = false;
-      },
-      onPointerCancel: (details) {
-        controller.mouseDown = false;
-      },
-      onPointerMove: (details) {},
-      child: InteractiveViewer.builder(
-        transformationController: controller.transform,
-        panEnabled: controller.canvasMoveEnabled,
-        scaleEnabled: controller.canvasMoveEnabled,
-        onInteractionStart: (details) {
-          controller.mousePosition = details.focalPoint;
-        },
-        onInteractionUpdate: (details) {
-          if (!controller.mouseDown) {
-            controller.scale = details.scale;
-          } else {
-            controller.moveSelection(details.focalPoint);
-          }
-          controller.mousePosition = details.focalPoint;
-        },
-        onInteractionEnd: (details) {},
-        minScale: 0.4,
-        maxScale: 4,
-        boundaryMargin: const EdgeInsets.all(double.infinity),
-        builder: (context, viewport) => SizedBox(
-          width: 10000,
-          height: 10000,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned.fill(
-                child: GridBackgroundBuilder(
-                  cellWidth: _gridSize.width,
-                  cellHeight: _gridSize.height,
-                  viewport: axisAlignedBoundingBox(viewport),
-                ),
-              ),
-              Positioned.fill(
-                child: CustomMultiChildLayout(
-                  delegate: WidgetCanvasDelegate(controller),
-                  children: controller.children
-                      .map(
-                        (e) => LayoutId(
-                          id: e,
-                          child: Stack(
-                            clipBehavior: Clip.none,
-                            children: [
-                              Positioned.fill(
-                                child: Material(
-                                  elevation: 4,
-                                  child: SizedBox.fromSize(
-                                    size: e.size,
-                                    child: e.child,
-                                  ),
-                                ),
-                              ),
-                              if (controller.isSelected(e.key!))
+  Widget build(BuildContext context) => Container(
+        color: widget.backgroundColor,
+        child: Stack(
+          children: [
+            Listener(
+              onPointerDown: (details) {
+                controller.checkSelection(details.localPosition);
+              },
+              onPointerUp: (details) {
+                controller.mouseDown = false;
+              },
+              onPointerCancel: (details) {
+                controller.mouseDown = false;
+              },
+              onPointerMove: (details) {},
+              child: InteractiveViewer.builder(
+                transformationController: controller.transform,
+                panEnabled: controller.canvasMoveEnabled,
+                scaleEnabled: controller.canvasMoveEnabled,
+                onInteractionStart: (details) {
+                  controller.mousePosition = details.focalPoint;
+                  widget.onInteractionStart?.call(details);
+                },
+                onInteractionUpdate: (details) {
+                  if (!controller.mouseDown) {
+                    controller.scale = details.scale;
+                  } else {
+                    controller.moveSelection(details.focalPoint);
+                  }
+                  controller.mousePosition = details.focalPoint;
+                },
+                onInteractionEnd: (details) {
+                  widget.onInteractionEnd?.call(details);
+                },
+                minScale: widget.minScale,
+                maxScale: widget.maxScale,
+                boundaryMargin: const EdgeInsets.all(double.infinity),
+                builder: (context, viewport) => SizedBox(
+                  width: widget.canvasSize.width,
+                  height: widget.canvasSize.height,
+                  child: CustomMultiChildLayout(
+                    delegate:
+                        WidgetCanvasDelegate(controller, widget.canvasSize),
+                    children: controller.children
+                        .map(
+                          (e) => LayoutId(
+                            id: e,
+                            child: Stack(
+                              clipBehavior: Clip.none,
+                              children: [
                                 Positioned.fill(
-                                  top: -inset,
-                                  left: -inset,
-                                  right: -inset,
-                                  bottom: -inset,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.blue,
-                                      ),
+                                  child: Material(
+                                    elevation: widget.childElevation,
+                                    child: SizedBox.fromSize(
+                                      size: e.size,
+                                      child: e.child,
                                     ),
                                   ),
                                 ),
-                            ],
+                                if (controller.isSelected(e.key!))
+                                  Positioned.fill(
+                                    top: -widget.selectionInset,
+                                    left: -widget.selectionInset,
+                                    right: -widget.selectionInset,
+                                    bottom: -widget.selectionInset,
+                                    child: widget.selectionWidget,
+                                  ),
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class GridBackgroundBuilder extends StatelessWidget {
-  const GridBackgroundBuilder({
-    required this.cellWidth,
-    required this.cellHeight,
-    required this.viewport,
-    super.key,
-  });
-
-  final double cellWidth;
-  final double cellHeight;
-  final Rect viewport;
-
-  @override
-  Widget build(BuildContext context) {
-    final firstRow = (viewport.top / cellHeight).floor();
-    final lastRow = (viewport.bottom / cellHeight).ceil();
-    final firstCol = (viewport.left / cellWidth).floor();
-    final lastCol = (viewport.right / cellWidth).ceil();
-
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        for (int row = firstRow; row < lastRow; row++)
-          for (int col = firstCol; col < lastCol; col++)
-            Positioned(
-              left: col * cellWidth,
-              top: row * cellHeight,
-              child: Container(
-                height: cellHeight,
-                width: cellWidth,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey.withValues(alpha: 0.1),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
             ),
-      ],
-    );
-  }
+            // Reset button overlay
+            if (_showResetButton)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: FloatingActionButton.small(
+                  onPressed: _resetToCenter,
+                  backgroundColor: context.colorScheme.primary,
+                  foregroundColor: context.colorScheme.onPrimary,
+                  child: const Icon(Icons.center_focus_strong),
+                ),
+              ),
+          ],
+        ),
+      );
 }
 
 class WidgetCanvasDelegate extends MultiChildLayoutDelegate {
-  WidgetCanvasDelegate(this.controller);
+  WidgetCanvasDelegate(this.controller, this.canvasSize);
   final WidgetCanvasController controller;
+  final Size canvasSize;
   List<WidgetCanvasChild> get children => controller.children;
-
-  Size backgroundSize = const Size(100000, 100000);
-  late Offset backgroundOffset = Offset(
-    -backgroundSize.width / 2,
-    -backgroundSize.height / 2,
-  );
 
   @override
   void performLayout(Size size) {
@@ -309,8 +317,9 @@ class WidgetCanvasController extends ChangeNotifier {
   }
 
   void setSelection(Set<Key> keys) {
-    _selected.clear();
-    _selected.addAll(keys);
+    _selected
+      ..clear()
+      ..addAll(keys);
     notifyListeners();
   }
 
