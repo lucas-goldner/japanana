@@ -8,14 +8,17 @@ WidgetCanvasController useWidgetCanvasController({
 }) {
   final controller = useMemoized(() => WidgetCanvasController(children));
 
-  useEffect(() {
-    if (initialTransform != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        controller.transform.value = initialTransform;
-      });
-    }
-    return controller.dispose;
-  }, []);
+  useEffect(
+    () {
+      if (initialTransform != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          controller.transform.value = initialTransform;
+        });
+      }
+      return controller.dispose;
+    },
+    [],
+  );
 
   return controller;
 }
@@ -28,18 +31,21 @@ WidgetCanvasController useCenteredWidgetCanvasController({
 }) {
   final controller = useMemoized(() => WidgetCanvasController(children));
 
-  useEffect(() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final screenSize = MediaQuery.of(context).size;
-      final centerX = screenSize.width / 2;
-      final centerY = screenSize.height / 2;
+  useEffect(
+    () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final screenSize = MediaQuery.of(context).size;
+        final centerX = screenSize.width / 2;
+        final centerY = screenSize.height / 2;
 
-      controller.transform.value = Matrix4.identity()
-        ..translate(centerX + centerOffset.dx, centerY + centerOffset.dy, 0)
-        ..scale(scale, scale, 1);
-    });
-    return controller.dispose;
-  }, []);
+        controller.transform.value = Matrix4.identity()
+          ..translate(centerX + centerOffset.dx, centerY + centerOffset.dy)
+          ..scale(scale, scale, 1);
+      });
+      return controller.dispose;
+    },
+    [],
+  );
 
   return controller;
 }

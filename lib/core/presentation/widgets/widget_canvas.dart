@@ -39,6 +39,7 @@ class WidgetCanvas extends StatefulWidget {
     this.onInteractionEnd,
     this.showResetButton = true,
     this.resetThreshold = kDefaultResetThreshold,
+    this.backgroundWidget,
     super.key,
   });
 
@@ -54,6 +55,7 @@ class WidgetCanvas extends StatefulWidget {
   final void Function(ScaleEndDetails details)? onInteractionEnd;
   final bool showResetButton;
   final double resetThreshold;
+  final Widget? backgroundWidget;
 
   @override
   State<WidgetCanvas> createState() => WidgetCanvasState();
@@ -152,23 +154,28 @@ class WidgetCanvasState extends State<WidgetCanvas> {
                 builder: (context, viewport) => SizedBox(
                   width: widget.canvasSize.width,
                   height: widget.canvasSize.height,
-                  child: CustomMultiChildLayout(
-                    delegate:
-                        WidgetCanvasDelegate(controller, widget.canvasSize),
-                    children: controller.children
-                        .map(
+                  child: Stack(
+                    children: [
+                      // Background widget layer
+                      if (widget.backgroundWidget != null)
+                        Positioned.fill(
+                          child: widget.backgroundWidget!,
+                        ),
+                      // Main content layer
+                      CustomMultiChildLayout(
+                        delegate:
+                            WidgetCanvasDelegate(controller, widget.canvasSize),
+                        children: controller.children
+                            .map(
                           (e) => LayoutId(
                             id: e,
                             child: Stack(
                               clipBehavior: Clip.none,
                               children: [
                                 Positioned.fill(
-                                  child: Material(
-                                    elevation: widget.childElevation,
-                                    child: SizedBox.fromSize(
-                                      size: e.size,
-                                      child: e.child,
-                                    ),
+                                  child: SizedBox.fromSize(
+                                    size: e.size,
+                                    child: e.child,
                                   ),
                                 ),
                                 if (controller.isSelected(e.key!))
@@ -184,6 +191,8 @@ class WidgetCanvasState extends State<WidgetCanvas> {
                           ),
                         )
                         .toList(),
+                      ),
+                    ],
                   ),
                 ),
               ),
