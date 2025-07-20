@@ -7,7 +7,6 @@ enum SettingType {
   subscription,
   reminder,
   resetProgress,
-  statistics,
   exportSyncData,
   sendFeedback,
   donation,
@@ -17,8 +16,7 @@ enum SettingType {
   termsOfUse,
   rateTheApp,
   otherApps,
-  seeChangelog,
-  resetData;
+  seeChangelog;
 
   String get label => switch (this) {
         SettingType.language => 'Language',
@@ -27,7 +25,6 @@ enum SettingType {
         SettingType.subscription => 'Subscription',
         SettingType.reminder => 'Daily\nReminder',
         SettingType.resetProgress => 'Reset\nProgress',
-        SettingType.statistics => 'Statistics',
         SettingType.exportSyncData => 'Export & Sync',
         SettingType.sendFeedback => 'Send\nFeedback',
         SettingType.donation => 'Donation',
@@ -38,7 +35,6 @@ enum SettingType {
         SettingType.rateTheApp => 'Rate the App',
         SettingType.otherApps => 'Other\nApps',
         SettingType.seeChangelog => 'See\nChangelog',
-        SettingType.resetData => 'Reset\nData',
       };
 
   IconData get icon => switch (this) {
@@ -48,7 +44,6 @@ enum SettingType {
         SettingType.subscription => Icons.workspace_premium,
         SettingType.reminder => Icons.alarm_outlined,
         SettingType.resetProgress => Icons.refresh,
-        SettingType.statistics => Icons.analytics_outlined,
         SettingType.exportSyncData => Icons.cloud_sync_outlined,
         SettingType.sendFeedback => Icons.feedback_outlined,
         SettingType.donation => Icons.favorite_outlined,
@@ -59,7 +54,6 @@ enum SettingType {
         SettingType.rateTheApp => Icons.star_outline,
         SettingType.otherApps => Icons.apps_outlined,
         SettingType.seeChangelog => Icons.history_outlined,
-        SettingType.resetData => Icons.delete_forever_outlined,
       };
 
   VoidCallback getOnTap() => switch (this) {
@@ -80,9 +74,6 @@ enum SettingType {
           },
         SettingType.resetProgress => () {
             // TODO(dev): Implement reset progress
-          },
-        SettingType.statistics => () {
-            // TODO(dev): Navigate to statistics
           },
         SettingType.exportSyncData => () {
             // TODO(dev): Implement export and sync data
@@ -113,9 +104,6 @@ enum SettingType {
           },
         SettingType.seeChangelog => () {
             // TODO(dev): Show changelog
-          },
-        SettingType.resetData => () {
-            // TODO(dev): Implement reset data
           },
       };
 }

@@ -5,7 +5,7 @@ import 'package:japanana/core/presentation/hooks/use_widget_canvas_controller.da
 import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
 import 'package:japanana/features/settings/presentation/widgets/connection_lines_widget.dart';
-import 'package:japanana/features/settings/presentation/widgets/settings_modal.dart';
+import 'package:japanana/features/settings/presentation/widgets/settings_sheet.dart';
 
 const settingsLayout = [
   // Core App Settings (Top-Left)
@@ -36,6 +36,20 @@ const settingsLayout = [
 class Settings extends HookConsumerWidget {
   const Settings({super.key});
 
+  void _onSettingTap(BuildContext context, SettingType settingType) =>
+      switch (settingType) {
+        SettingType.sendFeedback => print('Sent Feedback'),
+        SettingType.followOnX => print('Follow on X'),
+        SettingType.website => print('Show Website'),
+        SettingType.rateTheApp => print('Rate the App'),
+        SettingType.privacyPolicy => print('Privacy Policy'),
+        SettingType.termsOfUse => print('Terms of Use'),
+        _ => SettingsModal.show(
+            context: context,
+            settingType: settingType,
+          ),
+      };
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = useCenteredWidgetCanvasController(
@@ -48,10 +62,7 @@ class Settings extends HookConsumerWidget {
           key: ValueKey(settingType),
           offset: offset,
           size: const Size(120, 140),
-          onTap: () => SettingsModal.show(
-            context: context,
-            settingType: settingType,
-          ),
+          onTap: () => _onSettingTap(context, settingType),
           child: _SettingCanvasItem(
             settingType: settingType,
           ),

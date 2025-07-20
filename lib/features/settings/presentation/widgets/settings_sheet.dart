@@ -14,71 +14,80 @@ class SettingsModal extends StatelessWidget {
     required BuildContext context,
     required SettingType settingType,
   }) async {
-    await showDialog<void>(
+    await showModalBottomSheet<void>(
       context: context,
-      barrierColor: Colors.black54,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (context) => SettingsModal(settingType: settingType),
     );
   }
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: Hero(
-          tag: settingType,
-          child: Material(
-            color: Colors.transparent,
-            child: Container(
-              width: 300,
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: context.colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
+  Widget build(BuildContext context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Handle bar
+              Container(
+                margin: const EdgeInsets.only(top: 12),
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.colorScheme.onSurface.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    settingType.icon,
-                    color: context.colorScheme.primary,
-                    size: 48,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    settingType.label,
-                    style: context.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Hero(
+                      tag: settingType,
+                      child: Icon(
+                        settingType.icon,
+                        color: context.colorScheme.primary,
+                        size: 48,
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 24),
-                  _buildContent(context),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text('Cancel'),
+                    const SizedBox(height: 16),
+                    Text(
+                      settingType.label,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                          settingType.getOnTap().call();
-                        },
-                        child: const Text('Confirm'),
-                      ),
-                    ],
-                  ),
-                ],
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 24),
+                    _buildContent(context),
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: const Text('Cancel'),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            settingType.getOnTap().call();
+                          },
+                          child: const Text('Confirm'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       );
@@ -118,12 +127,6 @@ class SettingsModal extends StatelessWidget {
       case SettingType.resetProgress:
         return Text(
           'Reset all your learning progress',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.statistics:
-        return Text(
-          'View your learning statistics',
           style: context.textTheme.bodyMedium,
           textAlign: TextAlign.center,
         );
@@ -184,12 +187,6 @@ class SettingsModal extends StatelessWidget {
       case SettingType.seeChangelog:
         return Text(
           "See what's new in this version",
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.resetData:
-        return Text(
-          'Reset all app data',
           style: context.textTheme.bodyMedium,
           textAlign: TextAlign.center,
         );
