@@ -9,7 +9,7 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/widgets/fade_in_from_bottom.dart';
 import 'package:japanana/core/router.dart';
-import 'package:japanana/features/bars_animation/bars_animation_widget.dart';
+import 'package:japanana/core/presentation/widgets/transition/bars_animation_transition.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/app_name_banner.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_settings_button.dart';
@@ -73,7 +73,7 @@ class ReviewSelection extends HookConsumerWidget {
         ),
         if (showBarsAnimation.value)
           Positioned.fill(
-            child: BarsAnimationWidget.close(
+            child: BarsAnimationTransition.close(
               onAnimationComplete: () async {
                 if (context.mounted) {
                   // Delay before navigation
@@ -90,7 +90,7 @@ class ReviewSelection extends HookConsumerWidget {
           ),
         if (showOpenAnimation.value)
           Positioned.fill(
-            child: BarsAnimationWidget.open(
+            child: BarsAnimationTransition.open(
               onAnimationComplete: () {
                 showOpenAnimation.value = false;
               },

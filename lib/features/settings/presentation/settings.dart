@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
-import 'package:japanana/core/presentation/hooks/use_widget_canvas_controller.dart';
+import 'package:japanana/core/hooks/use_widget_canvas_controller.dart';
 import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
-import 'package:japanana/features/settings/presentation/widgets/connection_lines_widget.dart';
+import 'package:japanana/features/settings/presentation/widgets/connecting_lines.dart';
 import 'package:japanana/features/settings/presentation/widgets/settings_sheet.dart';
 
 const settingsLayout = [
@@ -101,7 +101,7 @@ class Settings extends HookConsumerWidget {
               ),
             ),
           ),
-          backgroundWidget: ConnectionLinesWidget(
+          backgroundWidget: ConnectingLines(
             controller: controller,
             lineColor: context.colorScheme.onSecondary,
             lineWidth: 3,

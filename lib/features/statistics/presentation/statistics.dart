@@ -6,7 +6,7 @@ import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
-import 'package:japanana/features/bars_animation/bars_animation_widget.dart';
+import 'package:japanana/core/presentation/widgets/transition/bars_animation_transition.dart';
 
 class Statistics extends HookConsumerWidget {
   const Statistics({super.key});
@@ -139,7 +139,7 @@ class Statistics extends HookConsumerWidget {
           ),
           if (showOpenAnimation.value)
             Positioned.fill(
-              child: BarsAnimationWidget.open(
+              child: BarsAnimationTransition.open(
                 onAnimationComplete: () {
                   showOpenAnimation.value = false;
                 },
@@ -147,7 +147,7 @@ class Statistics extends HookConsumerWidget {
             ),
           if (showCloseAnimation.value)
             Positioned.fill(
-              child: BarsAnimationWidget.close(
+              child: BarsAnimationTransition.close(
                 onAnimationComplete: () {
                   if (context.mounted) {
                     Navigator.of(context)

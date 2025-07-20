@@ -4,21 +4,21 @@ import 'package:japanana/core/extensions.dart';
 
 const Duration _kBarsAnimationDuration = Duration(milliseconds: 250);
 
-sealed class BarsAnimationWidget extends HookWidget {
-  const BarsAnimationWidget({super.key});
+sealed class BarsAnimationTransition extends HookWidget {
+  const BarsAnimationTransition({super.key});
 
-  const factory BarsAnimationWidget.close({
+  const factory BarsAnimationTransition.close({
     Key? key,
     VoidCallback? onAnimationComplete,
   }) = _CloseBarsAnimation;
 
-  const factory BarsAnimationWidget.open({
+  const factory BarsAnimationTransition.open({
     Key? key,
     VoidCallback? onAnimationComplete,
   }) = _OpenBarsAnimation;
 }
 
-class _CloseBarsAnimation extends BarsAnimationWidget {
+class _CloseBarsAnimation extends BarsAnimationTransition {
   const _CloseBarsAnimation({
     super.key,
     this.onAnimationComplete,
@@ -91,7 +91,7 @@ class _CloseBarsAnimation extends BarsAnimationWidget {
   }
 }
 
-class _OpenBarsAnimation extends BarsAnimationWidget {
+class _OpenBarsAnimation extends BarsAnimationTransition {
   const _OpenBarsAnimation({
     super.key,
     this.onAnimationComplete,
