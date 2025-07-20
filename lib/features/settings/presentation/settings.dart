@@ -1,89 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/presentation/hooks/use_widget_canvas_controller.dart';
 import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
 
-class Settings extends ConsumerWidget {
+class Settings extends HookConsumerWidget {
   const Settings({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final controller = WidgetCanvasController([
-      // App Settings - Left side
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(-200, -150),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.language,
-          title: 'Language',
-          onTap: () {
-            // TODO(dev): Implement language selection
-          },
+    final controller = useCenteredWidgetCanvasController(
+      context: context,
+      centerOffset: const Offset(0, -150),
+      scale: 0.8,
+      children: [
+        // App Settings - Left side
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(-180, -230),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.language,
+            title: 'Language',
+            onTap: () {
+              // TODO(dev): Implement language selection
+            },
+          ),
         ),
-      ),
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(-200, 0),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.dark_mode,
-          title: 'Theme',
-          onTap: () {
-            // TODO(dev): Implement theme selection
-          },
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(-230, -10),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.dark_mode,
+            title: 'Theme',
+            onTap: () {
+              // TODO(dev): Implement theme selection
+            },
+          ),
         ),
-      ),
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(-200, 150),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.notifications,
-          title: 'Notifications',
-          onTap: () {
-            // TODO(dev): Implement notification settings
-          },
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(-150, 200),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.notifications,
+            title: 'Notifications',
+            onTap: () {
+              // TODO(dev): Implement notification settings
+            },
+          ),
         ),
-      ),
-      // Study Settings - Right side
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(80, -150),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.timer,
-          title: 'Session Timer',
-          onTap: () {
-            // TODO(dev): Implement session timer settings
-          },
+        // Subscription Settings - Center
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(-80, -40),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.subscriptions,
+            title: 'Subscription',
+            onTap: () {
+              // TODO(dev): Implement subscription settings
+            },
+          ),
         ),
-      ),
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(80, 0),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.refresh,
-          title: 'Reset Progress',
-          onTap: () {
-            // TODO(dev): Implement reset progress
-          },
+        // Study Settings - Right side
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(100, -170),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.timer,
+            title: 'Session Timer',
+            onTap: () {
+              // TODO(dev): Implement session timer settings
+            },
+          ),
         ),
-      ),
-      WidgetCanvasChild(
-        key: UniqueKey(),
-        offset: const Offset(80, 150),
-        size: const Size(120, 140),
-        child: _SettingCanvasItem(
-          icon: Icons.analytics,
-          title: 'Statistics',
-          onTap: () {
-            // TODO(dev): Navigate to statistics
-          },
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(80, 30),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.refresh,
+            title: 'Reset Progress',
+            onTap: () {
+              // TODO(dev): Implement reset progress
+            },
+          ),
         ),
-      ),
-    ]);
+        WidgetCanvasChild(
+          key: UniqueKey(),
+          offset: const Offset(40, 250),
+          size: const Size(120, 140),
+          child: _SettingCanvasItem(
+            icon: Icons.analytics,
+            title: 'Statistics',
+            onTap: () {
+              // TODO(dev): Navigate to statistics
+            },
+          ),
+        ),
+      ],
+    );
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
