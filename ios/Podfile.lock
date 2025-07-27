@@ -1,37 +1,23 @@
 PODS:
-  - CocoaAsyncSocket (7.6.5)
   - Flutter (1.0.0)
-  - patrol (0.0.1):
-    - CocoaAsyncSocket (~> 7.6)
-    - Flutter
-    - FlutterMacOS
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - patrol (from `.symlinks/plugins/patrol/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
-
-SPEC REPOS:
-  trunk:
-    - CocoaAsyncSocket
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  patrol:
-    :path: ".symlinks/plugins/patrol/darwin"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
-  patrol: 0b1c45cf52cccba3b059ec6483f3a4d5c493314b
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
 
-PODFILE CHECKSUM: 1cc26514169f60fbbb88899855771ce45e5a689f
+PODFILE CHECKSUM: 4305caec6b40dde0ae97be1573c53de1882a07e5
 
 COCOAPODS: 1.16.2

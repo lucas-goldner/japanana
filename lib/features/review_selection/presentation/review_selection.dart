@@ -1,6 +1,4 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,8 +6,8 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/widgets/fade_in_from_bottom.dart';
-import 'package:japanana/core/router.dart';
 import 'package:japanana/core/presentation/widgets/transition/bars_animation_transition.dart';
+import 'package:japanana/core/router.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/app_name_banner.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/book_shelf.dart';
 import 'package:japanana/features/review_selection/presentation/widgets/open_settings_button.dart';
@@ -23,8 +21,6 @@ class ReviewSelection extends HookConsumerWidget {
     final appNameBannerAnimationCompleted = useState(false);
     final showBarsAnimation = useState(false);
     final showOpenAnimation = useState(false);
-
-    void selectLecture(LectureType lecture) => print(lecture);
 
     return Stack(
       children: [
@@ -46,7 +42,7 @@ class ReviewSelection extends HookConsumerWidget {
                 Visibility(
                   visible: appNameBannerAnimationCompleted.value,
                   child: _AnimatedBookShelf(
-                    onBookSelect: selectLecture,
+                    onBookSelect: (_) {},
                   ),
                 ),
               ],
