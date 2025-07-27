@@ -21,7 +21,7 @@ mat3 scale(vec2 s, vec2 p) {
     return translate(p) * mat3(s.x, 0.0, 0.0, 0.0, s.y, 0.0, 0.0, 0.0, 1.0) * translate(-p);
 }
 
-mat3 inverse(mat3 m) {
+mat3 mat3Inverse(mat3 m) {
     float a00 = m[0][0];
     float a01 = m[0][1];
     float a02 = m[0][2];
@@ -44,7 +44,7 @@ mat3 inverse(mat3 m) {
 }
 
 vec2 project(vec2 p, mat3 m) {
-    return (inverse(m) * vec3(p, 1.0)).xy;
+    return (mat3Inverse(m) * vec3(p, 1.0)).xy;
 }
 
 bool inRect(vec2 p, vec4 rct) {
