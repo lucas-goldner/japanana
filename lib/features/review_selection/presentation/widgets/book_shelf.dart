@@ -6,7 +6,6 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
-import 'package:vector_math/vector_math_64.dart' as vmath;
 
 part 'book.dart';
 

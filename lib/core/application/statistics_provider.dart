@@ -71,4 +71,3 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
     await _prefs.remove(_mistakesKey);
   }
 }
-

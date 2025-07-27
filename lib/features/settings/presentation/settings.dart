@@ -38,12 +38,12 @@ class Settings extends HookConsumerWidget {
 
   void _onSettingTap(BuildContext context, SettingType settingType) =>
       switch (settingType) {
-        SettingType.sendFeedback => print('Sent Feedback'),
-        SettingType.followOnX => print('Follow on X'),
-        SettingType.website => print('Show Website'),
-        SettingType.rateTheApp => print('Rate the App'),
-        SettingType.privacyPolicy => print('Privacy Policy'),
-        SettingType.termsOfUse => print('Terms of Use'),
+        SettingType.sendFeedback => {},
+        SettingType.followOnX => {},
+        SettingType.website => {},
+        SettingType.rateTheApp => {},
+        SettingType.privacyPolicy => {},
+        SettingType.termsOfUse => {},
         _ => SettingsModal.show(
             context: context,
             settingType: settingType,

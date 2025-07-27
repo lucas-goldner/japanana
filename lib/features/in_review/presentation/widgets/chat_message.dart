@@ -88,14 +88,13 @@ class _ChatMessageState extends State<ChatMessage>
     if (!_hasAnimated) {
       _hasAnimated = true;
       // Start border animation immediately
-      _borderController.forward();
-
-      // Start text animation after border completes
-      _borderController.addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _textController.forward();
-        }
-      });
+      _borderController
+        ..forward()
+        ..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            _textController.forward();
+          }
+        });
     } else {
       // If already animated, jump to end state
       _borderController.value = 1.0;
@@ -304,24 +303,24 @@ class _AnimatedScribbleBorderPainter extends CustomPainter {
           final tailTipX = size.width + tailWidth;
           final tailTipY = tailY + random.nextDouble() * 3 - 1.5;
 
-          path.cubicTo(
-            size.width + tailWidth * 0.3 + random.nextDouble() * 2 - 1,
-            tailStartY + tailHeight * 0.2 + random.nextDouble() * 2 - 1,
-            tailTipX - tailWidth * 0.2 + random.nextDouble() * 2 - 1,
-            tailTipY - tailHeight * 0.1 + random.nextDouble() * 2 - 1,
-            tailTipX + random.nextDouble() * 2 - 1,
-            tailTipY,
-          );
-
-          // Draw tail coming back
-          path.cubicTo(
-            tailTipX - tailWidth * 0.2 + random.nextDouble() * 2 - 1,
-            tailTipY + tailHeight * 0.1 + random.nextDouble() * 2 - 1,
-            size.width + tailWidth * 0.3 + random.nextDouble() * 2 - 1,
-            tailEndY - tailHeight * 0.2 + random.nextDouble() * 2 - 1,
-            x,
-            tailEndY,
-          );
+          path
+            ..cubicTo(
+              size.width + tailWidth * 0.3 + random.nextDouble() * 2 - 1,
+              tailStartY + tailHeight * 0.2 + random.nextDouble() * 2 - 1,
+              tailTipX - tailWidth * 0.2 + random.nextDouble() * 2 - 1,
+              tailTipY - tailHeight * 0.1 + random.nextDouble() * 2 - 1,
+              tailTipX + random.nextDouble() * 2 - 1,
+              tailTipY,
+            )
+            // Draw tail coming back
+            ..cubicTo(
+              tailTipX - tailWidth * 0.2 + random.nextDouble() * 2 - 1,
+              tailTipY + tailHeight * 0.1 + random.nextDouble() * 2 - 1,
+              size.width + tailWidth * 0.3 + random.nextDouble() * 2 - 1,
+              tailEndY - tailHeight * 0.2 + random.nextDouble() * 2 - 1,
+              x,
+              tailEndY,
+            );
         }
 
         path.lineTo(x, y);
@@ -374,15 +373,16 @@ class _AnimatedScribbleBorderPainter extends CustomPainter {
       );
 
       final tailStartY = tailY - tailHeight / 2;
-      path.cubicTo(
-        tailTipX + tailWidth * 0.2 + random.nextDouble() * 2 - 1,
-        tailTipY - tailHeight * 0.1 + random.nextDouble() * 2 - 1,
-        -tailWidth * 0.3 + random.nextDouble() * 2 - 1,
-        tailStartY + tailHeight * 0.2 + random.nextDouble() * 2 - 1,
-        random.nextDouble() * 2 - 1,
-        tailStartY,
-      );
-      path.lineTo(random.nextDouble() * 2 - 1, radius);
+      path
+        ..cubicTo(
+          tailTipX + tailWidth * 0.2 + random.nextDouble() * 2 - 1,
+          tailTipY - tailHeight * 0.1 + random.nextDouble() * 2 - 1,
+          -tailWidth * 0.3 + random.nextDouble() * 2 - 1,
+          tailStartY + tailHeight * 0.2 + random.nextDouble() * 2 - 1,
+          random.nextDouble() * 2 - 1,
+          tailStartY,
+        )
+        ..lineTo(random.nextDouble() * 2 - 1, radius);
     } else {
       path.lineTo(random.nextDouble() * 2 - 1, radius);
     }

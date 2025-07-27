@@ -90,7 +90,8 @@ class _BookState extends State<Book> with TickerProviderStateMixin {
     } else {
       // Animate from open (0) to closed (-π/2).
       _coverController.reverse();
-      // Reset the second rotation & scale so page is hidden + scale = 1 next time.
+      // Reset the second rotation & scale so page is hidden +
+      // scale = 1 next time.
       _pageController.reset();
     }
   }
@@ -102,15 +103,17 @@ class _BookState extends State<Book> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  /// Called when the user taps the book. If already open, do the second rotation & scale.
+  /// Called when the user taps the book. If already open, do the second
+  /// rotation & scale.
   Future<void> _handleTap() async {
     if (widget.isOpen) {
+      final ctx = context;
       Future.delayed(const Duration(milliseconds: 200), () async {
-        if (!context.mounted) {
+        if (!ctx.mounted) {
           return;
         }
 
-        await context.push(
+        await ctx.push(
           AppRoutes.reviewSetup.path,
           extra: widget.book.lectureType,
         );
@@ -156,7 +159,8 @@ class _BookState extends State<Book> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    // 2) The rotating cover + spine. We apply the totalRotation here.
+                    // 2) The rotating cover + spine. We apply the
+                    // totalRotation here.
                     Transform(
                       alignment: Alignment.centerLeft,
                       transform: Matrix4.identity()

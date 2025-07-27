@@ -87,8 +87,9 @@ class _ConnectingLinesState extends State<ConnectingLines>
     if (addedConnections.isNotEmpty) {
       // New connections found - animate them
       _animatedConnections = addedConnections;
-      _animationController.reset();
-      _animationController.forward();
+      _animationController
+        ..reset()
+        ..forward();
     }
 
     _currentConnections = newConnections;
