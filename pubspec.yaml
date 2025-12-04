@@ -2,7 +2,7 @@ name: japanana
 description: "Flutter project to learn jp grammar."
 publish_to: "none"
 
-version: 1.0.3+7
+version: 1.0.3+9
 
 environment:
   sdk: ">=3.2.0 <4.0.0"
