@@ -10,12 +10,16 @@ final sessionProvider =
   SessionNotifier.new,
 );
 
-class SessionNotifier extends FamilyNotifier<Session?, LectureType> {
+class SessionNotifier extends Notifier<Session?> {
+  SessionNotifier(this.lectureType);
+
+  final LectureType lectureType;
+
   SharedPreferences? _prefs;
   Future<void>? _loadingFuture;
 
   @override
-  Session? build(LectureType lectureType) {
+  Session? build() {
     // Load session asynchronously but don't block build
     _loadingFuture = _loadSession(lectureType);
     return null;
@@ -52,7 +56,7 @@ class SessionNotifier extends FamilyNotifier<Session?, LectureType> {
     await _ensurePrefsInitialized();
 
     final session = Session(
-      lectureType: arg,
+      lectureType: lectureType,
       options: options,
       completedLectureIds: [],
       lastUpdated: DateTime.now(),
@@ -80,14 +84,14 @@ class SessionNotifier extends FamilyNotifier<Session?, LectureType> {
   Future<void> clearSession() async {
     await _ensurePrefsInitialized();
     state = null;
-    final sessionKey = SharedPreferencesKey.sessionKey(arg);
+    final sessionKey = SharedPreferencesKey.sessionKey(lectureType);
     await _prefs!.remove(sessionKey.value);
   }
 
   Future<void> _saveSession() async {
     final currentSession = state;
     if (currentSession != null && _prefs != null) {
-      final sessionKey = SharedPreferencesKey.sessionKey(arg);
+      final sessionKey = SharedPreferencesKey.sessionKey(lectureType);
       await _prefs!.setString(sessionKey.value, currentSession.toJson());
     }
   }

@@ -175,7 +175,12 @@ class _BookState extends State<Book> with TickerProviderStateMixin {
                             child: Transform(
                               transform: Matrix4.identity()
                                 ..rotateY(math.pi / 2)
-                                ..translate(-_BookShelfState.spineWidth),
+                                ..translateByDouble(
+                                  -_BookShelfState.spineWidth,
+                                  0,
+                                  0,
+                                  1,
+                                ),
                               alignment: Alignment.centerLeft,
                               child: _BookSpine(widget.book),
                             ),

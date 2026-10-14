@@ -39,8 +39,13 @@ WidgetCanvasController useCenteredWidgetCanvasController({
         final centerY = screenSize.height / 2;
 
         controller.transform.value = Matrix4.identity()
-          ..translate(centerX + centerOffset.dx, centerY + centerOffset.dy)
-          ..scale(scale, scale, 1);
+          ..translateByDouble(
+            centerX + centerOffset.dx,
+            centerY + centerOffset.dy,
+            0,
+            1,
+          )
+          ..scaleByDouble(scale, scale, 1, 1);
       });
       return controller.dispose;
     },
