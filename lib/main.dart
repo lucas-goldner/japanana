@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
 import 'package:japanana/core/data/shared_preferences_repository.dart';
 import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
-import 'package:japanana/core/presentation/japanana_theme.dart';
+import 'package:japanana/core/l10n/app_localizations.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,7 +53,6 @@ class _JapananaAppState extends ConsumerState<JapananaApp> {
                 ),
               ],
               child: MaterialApp.router(
-                restorationScopeId: 'japanana',
                 routerConfig: router,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,

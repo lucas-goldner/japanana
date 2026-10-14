@@ -1,0 +1,101 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "appTitle": "Japanana",
+  "n2Grammar": "N2 grammar",
+  "n3Grammar": "N3 grammar",
+  "n4Grammar": "N4 grammar",
+  "conversational": "Conversation grammar",
+  "writing": "Writing grammar",
+  "randomizeCards": "Randomize cards",
+  "repeatFailedCards": "Repeat failed cards",
+  "startReview": "Start review",
+  "usages": "Usages",
+  "examples": "Examples",
+  "translations": "Translations",
+  "extras": "Extras",
+  "congratsOnFinising": "Congrats you finished {review}!",
+  "@congratsOnFinising": {
+    "description": "Congratulation message for finishing review",
+    "placeholders": {
+      "review": {
+        "type": "String",
+        "example": "N3 Grammar"
+      }
+    }
+  },
+  "startNextReview": "Start next review",
+  "lectureList": "Lecture list",
+  "next": "Next",
+  "richtig": "Correct",
+  "falsch": "Wrong",
+  "remember": "Remember",
+  "rememberedSection": "Grammar to remember",
+  "forget": "Forget",
+  "letsTalkAbout": "Let's talk about {title}",
+  "@letsTalkAbout": {
+    "description": "Introduction message for a grammar topic",
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "でしょう"
+      }
+    }
+  },
+  "whichKindOfUsage": "Which kind of usage?",
+  "@whichKindOfUsage": {
+    "description": "Question asking about usage type"
+  },
+  "dontForgetAboutTheseCases": "Don't forget about these cases:",
+  "@dontForgetAboutTheseCases": {
+    "description": "Message before showing extra cases"
+  },
+  "tryToGuess": "Try to guess",
+  "@tryToGuess": {
+    "description": "Button text to guess translation"
+  },
+  "statistics": "Statistics",
+  "@statistics": {
+    "description": "Statistics page title"
+  },
+  "noMistakesYet": "No mistakes yet!",
+  "@noMistakesYet": {
+    "description": "Message when no mistakes have been made"
+  },
+  "keepPracticing": "Keep practicing to track your progress",
+  "@keepPracticing": {
+    "description": "Encouragement message when no mistakes"
+  },
+  "mistakes": "Mistakes:",
+  "@mistakes": {
+    "description": "Label for mistake count"
+  },
+  "lastMistake": "Last mistake:",
+  "@lastMistake": {
+    "description": "Label for last mistake date"
+  },
+  "selectYourLecture": "Select your Lecture",
+  "@selectYourLecture": {
+    "description": "Title for lecture selection page"
+  },
+  "continueReview": "CONTINUE",
+  "@continueReview": {
+    "description": "Button text to continue existing review"
+  },
+  "completedLectures": "{count} completed",
+  "@completedLectures": {
+    "description": "Shows count of completed lectures",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "recentMistakes": "Recent Mistakes",
+  "@recentMistakes": {
+    "description": "Title for recent mistakes lecture type"
+  }
+}

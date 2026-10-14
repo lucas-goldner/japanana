@@ -1,233 +1,559 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:japanana/core/application/lecture_provider.dart';
+import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/presentation/widgets/note_background.dart';
+import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
-import 'package:japanana/features/in_review/presentation/widgets/lecture_card.dart';
-import 'package:japanana/features/in_review/presentation/widgets/lecture_progress.dart';
+import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
-import 'package:swipe_cards/swipe_cards.dart';
+import 'package:japanana/features/session/application/session_provider.dart';
 
-class InReview extends StatefulWidget {
+const _kButtonAnimationDuration = Duration(milliseconds: 900);
+const _kButtonAnimationDelay = 0.2;
+const _kButtonSlideDistance = 80.0;
+
+enum _ReviewStage {
+  intro,
+  usage,
+  examples,
+  extras,
+  finished,
+}
+
+class InReview extends HookConsumerWidget {
   const InReview(this.reviewOption, {super.key});
   final (LectureType?, ReviewSetupOptions?)? reviewOption;
 
   @override
-  State<InReview> createState() => _InReviewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final existingSession =
+        ref.watch(sessionProvider(reviewOption?.$1 ?? LectureType.writing));
+    final lectureType =
+        existingSession?.lectureType ?? reviewOption?.$1 ?? LectureType.writing;
+    final options = existingSession?.options ??
+        reviewOption?.$2 ??
+        const ReviewSetupOptions(
+          randomize: false,
+          repeatOnFalseCard: false,
+        );
 
-class _InReviewState extends State<InReview> with RestorationMixin {
-  final RestorableEnum _restorableLectureType = RestorableEnum<LectureType>(
-    LectureType.writing,
-    values: LectureType.values,
-  );
-  final RestorableInt _reviewProgress = RestorableInt(0);
-
-  @override
-  String? get restorationId => 'inReview';
-
-  @override
-  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
-    registerForRestoration(_restorableLectureType, 'inReviewLectureType');
-    registerForRestoration(_reviewProgress, 'reviewProgressKey');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => reviewSection(widget.reviewOption?.$1),
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _restorableLectureType.dispose();
-  }
-
-  void reviewSection(LectureType? value) {
-    if (value == null) return;
-    setState(() {
-      _restorableLectureType.value = value;
-    });
-  }
-
-  LectureType get reviewingLecture =>
-      widget.reviewOption?.$1 ?? _restorableLectureType.value as LectureType;
-
-  @override
-  Widget build(BuildContext context) => Center(
-        child: _InReviewContent(
-          reviewOption: (
-            reviewingLecture,
-            widget.reviewOption?.$2 ??
-                const ReviewSetupOptions(
-                  randomize: false,
-                  repeatOnFalseCard: false,
-                )
-          ),
-          reviewProgress: _reviewProgress,
-        ),
-      );
-}
-
-class _InReviewContent extends StatefulHookConsumerWidget {
-  const _InReviewContent({
-    required this.reviewOption,
-    required this.reviewProgress,
-  });
-  final (LectureType, ReviewSetupOptions) reviewOption;
-  final RestorableInt reviewProgress;
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _InReviewContentState();
-}
-
-class _InReviewContentState extends ConsumerState<_InReviewContent> {
-  late final MatchEngine matchEngine;
-  late final ReviewSetupOptions _options;
-  List<Lecture> lectures = [];
-
-  void _onNope(lecture) {
-    if (_options.repeatOnFalseCard) matchEngine.rewindMatch();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _options = widget.reviewOption.$2;
-    lectures = ref
+    final lectures = ref
         .read(lectureProvider.notifier)
-        .getLecturesForReviewOption(widget.reviewOption.$1);
-    if (_options.randomize) lectures.shuffle();
-    matchEngine = MatchEngine(
-      swipeItems: lectures
-          .map(
-            (lecture) => SwipeItem(
-              content: LectureCard(lecture),
-              nopeAction: () => _onNope(lecture),
-            ),
-          )
-          .toList(),
+        .getLecturesForReviewOption(lectureType);
+
+    final shuffledLectures = useState<List<Lecture>>(() {
+      final list = [...lectures];
+      if (existingSession?.completedLectureIds.isNotEmpty ?? false) {
+        list.removeWhere(
+          (lecture) =>
+              existingSession!.completedLectureIds.contains(lecture.id),
+        );
+      }
+      if (options.randomize) list.shuffle();
+      return list;
+    }());
+
+    final currentLectureIndex = useState(0);
+    final currentStage = useState(_ReviewStage.intro);
+    final selectedUsageIndex = useState<int?>(null);
+    final wrongSelections = useState<Set<int>>({});
+    final currentExampleIndex = useState(0);
+    final showTranslation = useState(false);
+    final messages = useState<List<ChatMessageData>>([]);
+    final scrollController = useScrollController();
+    final usageOptions = useState<List<String>>([]);
+    final buttonAnimationController = useAnimationController(
+      duration: _kButtonAnimationDuration,
     );
-  }
 
-  void increaseProgress(
-    RestorableInt restorableProgress,
-    ValueNotifier<int> reviewProgress,
-    int newValue,
-  ) {
-    setState(() {
-      restorableProgress.value = newValue;
-      reviewProgress.value == newValue;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final reviewProgress = useState(0);
-    final done = useState(false);
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: context.colorScheme.inversePrimary,
-        title: Text(
-          key: K.getInReviewAppTitleForReviewOption(
-            widget.reviewOption.$1,
-          ),
-          widget.reviewOption.$1.getLocalizedTitle(context),
-          style: context.textTheme.headlineSmall,
-        ),
-      ),
-      body: Stack(
-        children: [
-          Visibility(
-            visible: done.value,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      context.l10n.congratsOnFinising(
-                        widget.reviewOption.$1.getLocalizedTitle(context),
-                      ),
-                      style: context.textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      key: K.startNextReviewButton,
-                      onPressed: () =>
-                          context.popUntilPath(AppRoutes.reviewSelection.path),
-                      child: Text(
-                        context.l10n.startNextReview.toUpperCase(),
-                        style: context.textTheme.bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+    useEffect(
+      () {
+        if (shuffledLectures.value.isNotEmpty) {
+          messages.value = [
+            ChatMessageData(
+              text: l10n.letsTalkAbout(shuffledLectures.value[0].title),
+              isUser: false,
             ),
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: SwipeCards(
-                  key: K.inReviewCardStack,
-                  matchEngine: matchEngine,
-                  itemBuilder: (context, index) =>
-                      LectureCard(lectures[widget.reviewProgress.value]),
-                  onStackFinished: () => done.value = true,
-                  itemChanged: (item, index) => increaseProgress(
-                    widget.reviewProgress,
-                    reviewProgress,
-                    index,
-                  ),
-                  fillSpace: false,
+          ];
+        }
+        return null;
+      },
+      [],
+    );
+
+    void addMessage(String text, {required bool isUser}) {
+      messages.value = [
+        ...messages.value,
+        ChatMessageData(text: text, isUser: isUser),
+      ];
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (scrollController.hasClients) {
+          scrollController.animateTo(
+            scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
+
+    void handleUsageSelection(int index, List<String> usageOptions) {
+      if (selectedUsageIndex.value != null) return;
+
+      final currentLecture = shuffledLectures.value[currentLectureIndex.value];
+      final selectedUsage = usageOptions[index];
+      final isCorrect = currentLecture.usages.contains(selectedUsage);
+
+      if (!isCorrect) {
+        wrongSelections.value = {...wrongSelections.value, index};
+        // Track the mistake
+        ref
+            .read(mistakenLecturesProvider.notifier)
+            .addMistake(currentLecture.id);
+      } else {
+        selectedUsageIndex.value = index;
+        addMessage(selectedUsage, isUser: true);
+
+        Future.delayed(const Duration(milliseconds: 500), () {
+          currentStage.value = _ReviewStage.examples;
+          showTranslation.value = false;
+
+          if (currentLecture.examples.isNotEmpty) {
+            addMessage(currentLecture.examples[0], isUser: false);
+          }
+        });
+      }
+    }
+
+    void handleGuessTranslation() {
+      final currentLecture = shuffledLectures.value[currentLectureIndex.value];
+      showTranslation.value = true;
+
+      if (currentExampleIndex.value < currentLecture.translations.length) {
+        addMessage(
+          currentLecture.translations[currentExampleIndex.value],
+          isUser: true,
+        );
+      }
+
+      Future.delayed(const Duration(milliseconds: 250), () {
+        if (currentExampleIndex.value < currentLecture.examples.length - 1) {
+          currentExampleIndex.value++;
+          showTranslation.value = false;
+          addMessage(
+            currentLecture.examples[currentExampleIndex.value],
+            isUser: false,
+          );
+        } else {
+          currentStage.value = _ReviewStage.extras;
+
+          if (currentLecture.extras != null &&
+              currentLecture.extras!.isNotEmpty) {
+            final dontForgetMessage = l10n.dontForgetAboutTheseCases;
+            addMessage(dontForgetMessage, isUser: false);
+            for (final extra in currentLecture.extras!) {
+              Future.delayed(const Duration(milliseconds: 100), () {
+                addMessage(extra, isUser: false);
+              });
+            }
+          }
+
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (currentLectureIndex.value < shuffledLectures.value.length - 1) {
+              // Mark current lecture as completed
+              final completedLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+              ref
+                  .read(sessionProvider(lectureType).notifier)
+                  .markLectureCompleted(completedLecture.id);
+
+              currentLectureIndex.value++;
+              currentStage.value = _ReviewStage.intro;
+              selectedUsageIndex.value = null;
+              wrongSelections.value = {};
+              currentExampleIndex.value = 0;
+              showTranslation.value = false;
+
+              final nextLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+
+              // Add separator before new lecture
+              messages.value = [
+                ...messages.value,
+                ChatMessageData(
+                  text: nextLecture.title,
+                  isUser: false,
+                  isSeparator: true,
+                ),
+              ];
+
+              final letsTalkMessage = l10n.letsTalkAbout(nextLecture.title);
+              addMessage(
+                letsTalkMessage,
+                isUser: false,
+              );
+
+              // Regenerate usage options for new lecture
+              final newLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+              final options = <String>[];
+              final usedUsages = <String>{};
+
+              if (newLecture.usages.isNotEmpty) {
+                final correctUsage = newLecture.usages[
+                    DateTime.now().millisecondsSinceEpoch %
+                        newLecture.usages.length];
+                options.add(correctUsage);
+                usedUsages.add(correctUsage);
+              }
+
+              final otherLectures = shuffledLectures.value
+                  .where((l) => l.id != newLecture.id)
+                  .toList();
+
+              // Collect all possible usages from other lectures
+              final allOtherUsages = <String>[];
+              for (final lecture in otherLectures) {
+                allOtherUsages.addAll(lecture.usages);
+              }
+
+              // If not enough usages from other lectures, use current's
+              if (allOtherUsages.isEmpty) {
+                allOtherUsages.addAll(newLecture.usages);
+              }
+
+              // Shuffle and add unique usages
+              allOtherUsages.shuffle();
+              for (final usage in allOtherUsages) {
+                if (options.length >= 4) break;
+                if (!usedUsages.contains(usage)) {
+                  options.add(usage);
+                  usedUsages.add(usage);
+                }
+              }
+
+              // If still not enough options, duplicate some
+              while (options.length < 4 && options.isNotEmpty) {
+                options.add(options[options.length % options.length]);
+              }
+
+              options.shuffle();
+              usageOptions.value = options;
+            } else {
+              // Mark final lecture as completed
+              final completedLecture =
+                  shuffledLectures.value[currentLectureIndex.value];
+              ref
+                  .read(sessionProvider(lectureType).notifier)
+                  .markLectureCompleted(completedLecture.id);
+
+              currentStage.value = _ReviewStage.finished;
+
+              // Clear session when review is finished
+              ref.read(sessionProvider(lectureType).notifier).clearSession();
+            }
+          });
+        }
+      });
+    }
+
+    void generateUsageOptions() {
+      if (currentStage.value == _ReviewStage.intro) {
+        currentStage.value = _ReviewStage.usage;
+        addMessage(l10n.whichKindOfUsage, isUser: false);
+      }
+    }
+
+    useEffect(
+      () {
+        if (currentStage.value == _ReviewStage.intro) {
+          Future.delayed(const Duration(seconds: 1), generateUsageOptions);
+        } else if (currentStage.value == _ReviewStage.usage) {
+          buttonAnimationController.forward(from: 0);
+        }
+        return null;
+      },
+      [currentStage.value],
+    );
+
+    final currentLecture =
+        currentLectureIndex.value < shuffledLectures.value.length
+            ? shuffledLectures.value[currentLectureIndex.value]
+            : null;
+
+    // Initialize usage options when current lecture changes
+    useEffect(
+      () {
+        if (currentLecture == null || shuffledLectures.value.isEmpty) {
+          usageOptions.value = [];
+          return null;
+        }
+
+        final options = <String>[];
+        final usedUsages = <String>{};
+
+        // Add one correct usage from current lecture
+        if (currentLecture.usages.isNotEmpty) {
+          final correctUsage = currentLecture.usages[
+              DateTime.now().millisecondsSinceEpoch %
+                  currentLecture.usages.length];
+          options.add(correctUsage);
+          usedUsages.add(correctUsage);
+        }
+
+        // Add 3 random usages from other lectures
+        final otherLectures = shuffledLectures.value
+            .where((l) => l.id != currentLecture.id)
+            .toList();
+
+        // Collect all possible usages from other lectures
+        final allOtherUsages = <String>[];
+        for (final lecture in otherLectures) {
+          allOtherUsages.addAll(lecture.usages);
+        }
+
+        // If not enough usages from other lectures, use current's
+        if (allOtherUsages.isEmpty) {
+          allOtherUsages.addAll(currentLecture.usages);
+        }
+
+        // Shuffle and add unique usages
+        allOtherUsages.shuffle();
+        for (final usage in allOtherUsages) {
+          if (options.length >= 4) break;
+          if (!usedUsages.contains(usage)) {
+            options.add(usage);
+            usedUsages.add(usage);
+          }
+        }
+
+        // If still not enough options, duplicate some
+        while (options.length < 4 && options.isNotEmpty) {
+          options.add(options[options.length % options.length]);
+        }
+
+        // Shuffle the options
+        options.shuffle();
+        usageOptions.value = options;
+        return null;
+      },
+      [currentLectureIndex.value],
+    );
+
+    return Stack(
+      children: [
+        const NoteBackground(),
+        Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CustomScrollView(
+            controller: scrollController,
+            slivers: [
+              SliverAppBar(
+                title: Text(
+                  lectureType.getLocalizedTitle(context),
+                  style: context.textTheme.headlineSmall,
+                ),
+                floating: true,
+                scrolledUnderElevation: 4,
+                elevation: 4,
+                backgroundColor: context.colorScheme.secondary,
+                surfaceTintColor: context.colorScheme.secondary,
+              ),
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final message = messages.value[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      child: ChatMessage(
+                        text: message.text,
+                        isUser: message.isUser,
+                        index: index,
+                        isSeparator: message.isSeparator,
+                        fontFamily: context.textTheme.notoSansJPFont,
+                      ),
+                    );
+                  },
+                  childCount: messages.value.length,
                 ),
               ),
-              const Spacer(),
-              if (widget.reviewOption.$1 != LectureType.remember)
-                ElevatedButton.icon(
-                  onPressed: () {
-                    ref
-                        .read(lectureProvider.notifier)
-                        .putLectureInRememberChamber(
-                          lectures[widget.reviewProgress.value].id,
-                        );
-                  },
-                  label: Text(context.l10n.remember),
-                  icon: const Icon(Icons.save),
-                )
-              else
-                ElevatedButton.icon(
-                  onPressed: () {
-                    ref
-                        .read(lectureProvider.notifier)
-                        .banishLectureFromRememberChamber(
-                          lectures[widget.reviewProgress.value].id,
-                        );
-                  },
-                  label: Text(context.l10n.forget),
-                  icon: const Icon(Icons.remove_circle),
+              if (currentStage.value == _ReviewStage.usage &&
+                  selectedUsageIndex.value == null)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: List.generate(
+                        usageOptions.value.length,
+                        (index) {
+                          final isWrong = wrongSelections.value.contains(index);
+                          final isCorrect = selectedUsageIndex.value == index;
+
+                          return AnimatedBuilder(
+                            animation: buttonAnimationController,
+                            builder: (context, child) {
+                              final delay = index * _kButtonAnimationDelay;
+                              final animationValue =
+                                  ((buttonAnimationController.value - delay) /
+                                          (1 - delay))
+                                      .clamp(0.0, 1.0);
+                              return Opacity(
+                                opacity: animationValue,
+                                child: Transform.translate(
+                                  offset: Offset(
+                                    0,
+                                    _kButtonSlideDistance *
+                                        (1 - animationValue),
+                                  ),
+                                  child: child,
+                                ),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                ScribbleBorderButton(
+                                  onPressed: () => handleUsageSelection(
+                                    index,
+                                    usageOptions.value,
+                                  ),
+                                  minHeight: 100,
+                                  borderColor: isWrong
+                                      ? Colors.red
+                                      : isCorrect
+                                          ? Colors.green
+                                          : Colors.black,
+                                  fontFamily: context.textTheme.notoSansJPFont,
+                                  fontWeight: FontWeight.bold,
+                                  child: Container(
+                                    width: double.infinity,
+                                    color: isWrong
+                                        ? Colors.red.withValues(alpha: 0.1)
+                                        : isCorrect
+                                            ? Colors.green
+                                                .withValues(alpha: 0.1)
+                                            : Colors.transparent,
+                                    padding: const EdgeInsets.all(20),
+                                    child: Text(
+                                      usageOptions.value[index],
+                                      style: isWrong
+                                          ? context.textTheme.bodyLarge
+                                              ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.red,
+                                            )
+                                          : isCorrect
+                                              ? context.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.green,
+                                                )
+                                              : null, // Use default theme style
+                                    ),
+                                  ),
+                                ),
+                                if (isWrong) const _MistakeMarker(),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              const SizedBox(height: 20),
-              LectureProgress(widget.reviewProgress.value, lectures.length),
+              if (currentStage.value == _ReviewStage.examples &&
+                  !showTranslation.value)
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: ScribbleBorderButton(
+                      onPressed: handleGuessTranslation,
+                      minHeight: 100,
+                      fontFamily: context.textTheme.notoSansJPFont,
+                      fontWeight: FontWeight.bold,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Text(
+                          l10n.tryToGuess,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              if (currentStage.value == _ReviewStage.finished)
+                SliverFillRemaining(
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            l10n.congratsOnFinising(
+                              lectureType.getLocalizedTitle(context),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 20),
+                          ScribbleBorderButton(
+                            key: K.startNextReviewButton,
+                            onPressed: () => context.popUntilPath(
+                              AppRoutes.reviewSelection.path,
+                            ),
+                            minHeight: 80,
+                            fontFamily: context.textTheme.notoSansJPFont,
+                            fontWeight: FontWeight.bold,
+                            child: Text(
+                              l10n.startNextReview.toUpperCase(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
+}
+
+class _MistakeMarker extends StatelessWidget {
+  const _MistakeMarker();
+
+  @override
+  Widget build(BuildContext context) => Positioned(
+        top: 6,
+        right: 6,
+        child: Stack(
+          children: [
+            Icon(
+              Icons.close,
+              color: context.colorScheme.primary,
+              size: 60,
+            ),
+            Positioned(
+              top: 6,
+              left: 6,
+              child: Icon(
+                Icons.close,
+                color: context.colorScheme.error,
+                size: 48,
+              ),
+            ),
+          ],
+        ),
+      );
 }
