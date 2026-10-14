@@ -7,6 +7,11 @@ analyzer:
     - "bin/cache/**"
     - "lib/generated_plugin_registrant.dart"
     - "integration_test/test_bundle.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - macos/**
 
   language:
     strict-casts: true
@@ -35,6 +40,7 @@ linter:
     diagnostic_describe_all_properties: false
     public_member_api_docs: false
     prefer_double_quotes: false
-    prefer_final_parameters: false
     prefer_relative_imports: false
+    specify_nonobvious_local_variable_types: false
+    document_ignores: false
     unnecessary_final: false
