@@ -1,0 +1,85 @@
+workflows:
+  ios-testflight:
+    name: iOS TestFlight
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: 3.47.5
+      xcode: latest
+      cocoapods: default
+      groups:
+        - discord
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.lucas-goldner.hikou
+    scripts:
+      - name: Check out submodules
+        script: |
+          git submodule update --init --recursive
+
+      - name: Install dependencies
+        script: |
+          flutter pub get
+
+      - name: Analyze
+        script: |
+          flutter analyze
+          dart run custom_lint
+
+      - name: Run tests
+        script: |
+          flutter test
+
+      - name: Set up code signing
+        script: |
+          xcode-project use-profiles
+
+      - name: Build iOS app
+        script: |
+          flutter build ipa --release \
+            --build-number=$(($BUILD_NUMBER + 7)) \
+            --export-options-plist=/Users/builder/export_options.plist
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+
+    integrations:
+      app_store_connect: Lucas Goldner AppStore
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true
+      scripts:
+        - name: Discord notification
+          script: |
+            curl -H "Content-Type: application/json" \
+              -X POST \
+              -d "{\"content\": \"**Japanana iOS Build #$BUILD_NUMBER** finished with status: **$FCI_BUILD_STEP_STATUS**\nBranch: $FCI_BRANCH\nCommit: $FCI_COMMIT\"}" \
+              "$DISCORD_WEBHOOK_URL"
+
+  macos-build:
+    name: macOS Build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: 3.47.5
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Check out submodules
+        script: |
+          git submodule update --init --recursive
+
+      - name: Install dependencies
+        script: |
+          flutter pub get
+
+      - name: Build macOS app
+        script: |
+          flutter build macos --release \
+            --build-number=$(($BUILD_NUMBER + 7))
+
+    artifacts:
+      - build/macos/Build/Products/Release/*.app
