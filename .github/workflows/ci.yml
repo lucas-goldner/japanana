@@ -1,0 +1,27 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  flutter_test:
+    name: Run flutter analyze and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          submodules: recursive
+      - name: Flutter get
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.5
+          channel: "stable"
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: dart run custom_lint
+      - run: flutter test
