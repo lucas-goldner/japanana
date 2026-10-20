@@ -254,26 +254,21 @@ class _BookCover extends HookWidget {
         ),
         AnimatedBuilder(
           animation: animation,
-          builder: (context, _) => Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 32),
-              child: SizedBox(
-                height: _BookShelfState.fixedHeight,
-                width: _BookShelfState.coverWidth * 0.75,
-                child: FittedBox(
-                  child: Text(
-                    book.lectureType
-                        .getLocalizedShortTitle(context)
-                        .characters
-                        .map((e) => e == ' ' ? '\n' : e)
-                        .join(),
-                    style: context.textTheme.headlineSmall?.copyWith(
-                      color: Colors.white
-                          .withAlpha((animation.value * 255).toInt()),
-                      fontFamily: context.textTheme.notoSansJPFont,
-                      fontWeight: FontWeight.bold,
-                    ),
+          builder: (context, _) => Padding(
+            padding: const EdgeInsets.only(left: 36, top: 18, right: 12),
+            child: SizedBox(
+              width: _BookShelfState.coverWidth - 48,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topLeft,
+                child: Text(
+                  book.lectureType.getLocalizedShortTitle(context),
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    color: Colors.white
+                        .withAlpha((animation.value * 255).toInt()),
+                    fontFamily: context.textTheme.notoSansJPFont,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
               ),
@@ -324,7 +319,7 @@ class _BookSpine extends StatelessWidget {
                       color: Colors.white,
                       fontFamily: context.textTheme.notoSansJPFont,
                       fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                      fontSize: 15,
                       height: 1.1,
                     ),
                   ),
