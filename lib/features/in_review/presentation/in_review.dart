@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:japanana/core/application/lecture_provider.dart';
+import 'package:japanana/core/application/random_provider.dart';
 import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
@@ -48,6 +49,7 @@ class InReview extends HookConsumerWidget {
     final lectures = ref
         .read(lectureProvider.notifier)
         .getLecturesForReviewOption(lectureType);
+    final random = ref.read(randomProvider);
 
     final shuffledLectures = useState<List<Lecture>>(() {
       final list = [...lectures];
@@ -57,7 +59,7 @@ class InReview extends HookConsumerWidget {
               existingSession!.completedLectureIds.contains(lecture.id),
         );
       }
-      if (options.randomize) list.shuffle();
+      if (options.randomize) list.shuffle(random);
       return list;
     }());
 
@@ -208,9 +210,8 @@ class InReview extends HookConsumerWidget {
               final usedUsages = <String>{};
 
               if (newLecture.usages.isNotEmpty) {
-                final correctUsage = newLecture.usages[
-                    DateTime.now().millisecondsSinceEpoch %
-                        newLecture.usages.length];
+                final correctUsage = newLecture
+                    .usages[random.nextInt(newLecture.usages.length)];
                 options.add(correctUsage);
                 usedUsages.add(correctUsage);
               }
@@ -231,7 +232,7 @@ class InReview extends HookConsumerWidget {
               }
 
               // Shuffle and add unique usages
-              allOtherUsages.shuffle();
+              allOtherUsages.shuffle(random);
               for (final usage in allOtherUsages) {
                 if (options.length >= 4) break;
                 if (!usedUsages.contains(usage)) {
@@ -245,7 +246,7 @@ class InReview extends HookConsumerWidget {
                 options.add(options[options.length % options.length]);
               }
 
-              options.shuffle();
+              options.shuffle(random);
               usageOptions.value = options;
             } else {
               // Mark final lecture as completed
@@ -302,9 +303,8 @@ class InReview extends HookConsumerWidget {
 
         // Add one correct usage from current lecture
         if (currentLecture.usages.isNotEmpty) {
-          final correctUsage = currentLecture.usages[
-              DateTime.now().millisecondsSinceEpoch %
-                  currentLecture.usages.length];
+          final correctUsage = currentLecture
+              .usages[random.nextInt(currentLecture.usages.length)];
           options.add(correctUsage);
           usedUsages.add(correctUsage);
         }
@@ -326,7 +326,7 @@ class InReview extends HookConsumerWidget {
         }
 
         // Shuffle and add unique usages
-        allOtherUsages.shuffle();
+        allOtherUsages.shuffle(random);
         for (final usage in allOtherUsages) {
           if (options.length >= 4) break;
           if (!usedUsages.contains(usage)) {
@@ -341,7 +341,7 @@ class InReview extends HookConsumerWidget {
         }
 
         // Shuffle the options
-        options.shuffle();
+        options.shuffle(random);
         usageOptions.value = options;
         return null;
       },
