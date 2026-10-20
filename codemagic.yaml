@@ -59,14 +59,19 @@ workflows:
               -d "{\"content\": \"**Japanana iOS Build #$BUILD_NUMBER** finished with status: **$FCI_BUILD_STEP_STATUS**\nBranch: $FCI_BRANCH\nCommit: $FCI_COMMIT\"}" \
               "$DISCORD_WEBHOOK_URL"
 
-  macos-build:
-    name: macOS Build
+  macos-testflight:
+    name: macOS TestFlight
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
       flutter: 3.47.5
       xcode: latest
       cocoapods: default
+      groups:
+        - discord
+        - appstore_credentials
+      vars:
+        BUNDLE_ID: com.lucas-goldner.hikou
     scripts:
       - name: Check out submodules
         script: |
@@ -76,10 +81,59 @@ workflows:
         script: |
           flutter pub get
 
+      - name: Analyze
+        script: |
+          flutter analyze
+          dart run custom_lint
+
+      - name: Run tests
+        script: |
+          flutter test
+
+      - name: Set up code signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --platform MAC_OS \
+            --type MAC_APP_STORE \
+            --create
+          app-store-connect certificates list \
+            --type MAC_INSTALLER_DISTRIBUTION \
+            --save
+          keychain add-certificates
+          xcode-project use-profiles
+
       - name: Build macOS app
         script: |
           flutter build macos --release \
             --build-number=$(($BUILD_NUMBER + 7))
 
+      - name: Package signed installer
+        script: |
+          APP_PATH=$(find build/macos/Build/Products/Release -maxdepth 1 -name "*.app" | head -1)
+          PKG_PATH="${APP_PATH%.app}.pkg"
+          xcrun productbuild --component "$APP_PATH" /Applications/ unsigned.pkg
+          INSTALLER_CERT_NAME=$(keychain list-certificates \
+            | jq '.[] | select(.common_name | contains("Mac Developer Installer")) | .common_name' \
+            | xargs)
+          xcrun productsign --sign "$INSTALLER_CERT_NAME" unsigned.pkg "$PKG_PATH"
+          rm -f unsigned.pkg
+
     artifacts:
-      - build/macos/Build/Products/Release/*.app
+      - build/macos/**/*.pkg
+
+    integrations:
+      app_store_connect: Lucas Goldner AppStore
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        expire_build_submitted_for_review: true
+      scripts:
+        - name: Discord notification
+          script: |
+            curl -H "Content-Type: application/json" \
+              -X POST \
+              -d "{\"content\": \"**Japanana macOS Build #$BUILD_NUMBER** finished with status: **$FCI_BUILD_STEP_STATUS**\nBranch: $FCI_BRANCH\nCommit: $FCI_COMMIT\"}" \
+              "$DISCORD_WEBHOOK_URL"
