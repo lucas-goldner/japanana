@@ -26,6 +26,9 @@ flutter run -d 'iPhone 15'
 # Run unit tests
 flutter test
 
+# Regenerate golden screenshots (light and dark) after intended UI changes
+flutter test test/golden --update-goldens
+
 # Run integration tests with Patrol
 patrol test -t integration_test/patrol -d 'iPhone 15'
 
@@ -97,6 +100,8 @@ The app uses Riverpod with Flutter Hooks for state management:
 - Material 3 design system
 - Custom animations including page curl effects
 - Scribble-style UI elements for playful learning experience
+- Light and dark ("midnight notebook") themes; the app follows the system setting
+- Colors outside the `ColorScheme` (scribble borders, answer feedback, bookshelf tint) live in the `AppColors` theme extension (`context.appColors`); avoid hardcoded colors so both themes stay correct
 
 ## Important Technical Details
 
@@ -120,6 +125,7 @@ const _kButtonSlideDistance = 80.0;
 ### Testing Approach
 - Unit tests for business logic and providers
 - Integration tests using Patrol for user flows
+- Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`); rendered on Linux to match CI
 - Test data fixtures in JSON format
 
 ### Statistics and Mistake Tracking

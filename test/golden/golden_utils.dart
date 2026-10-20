@@ -24,6 +24,7 @@ const _kGoldenPixelRatio = 2.0;
 /// Theme variants every screen golden is rendered in.
 final goldenThemes = <String, ThemeData>{
   'light': lightTheme,
+  'dark': darkTheme,
 };
 
 /// Loads the app fonts before any golden test runs.

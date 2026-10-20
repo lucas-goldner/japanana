@@ -79,16 +79,19 @@ ColorScheme colorSchemeLight = ColorScheme.light(
   onSurface: _defaultColorScheme.onSurface,
 );
 
-ColorScheme colorSchemeDark = ColorScheme.dark(
-  primary: const Color(0xffF8D318),
-  onPrimary: _defaultColorScheme.onPrimary,
-  secondary: const Color(0xff171002),
-  onSecondary: const Color(0xffF7F5FF),
-  tertiary: const Color(0xff592049),
-  error: _defaultColorScheme.error,
-  onError: _defaultColorScheme.onError,
-  surface: const Color(0xff171002),
-  onSurface: _defaultColorScheme.onSurface,
+// "Midnight notebook": navy paper with banana yellow accents.
+ColorScheme colorSchemeDark = const ColorScheme.dark(
+  primary: Color(0xffF8D318),
+  onPrimary: Color(0xff171002),
+  primaryContainer: Color(0xffF8D318),
+  secondary: Color(0xff1A1E29),
+  onSecondary: Color(0xffECE9F7),
+  secondaryContainer: Color(0xffF8D318),
+  tertiary: Color(0xffD05557),
+  surface: Color(0xff232937),
+  onSurface: Color(0xffECE9F7),
+  surfaceContainerLow: Color(0xff2D3446),
+  surfaceContainerHigh: Color(0xff2D3446),
 );
 
 extension TextThemeEX on TextTheme {
@@ -164,11 +167,11 @@ class AppColors extends ThemeExtension<AppColors> {
   );
 
   static const dark = AppColors(
-    scribbleBorder: Colors.white,
-    scribbleShadow: Colors.white24,
-    correct: Colors.greenAccent,
-    wrong: Colors.redAccent,
-    bookshelfTint: Color(0xFF592049),
+    scribbleBorder: Color(0xffECE9F7),
+    scribbleShadow: Color(0x73F8D318),
+    correct: Color(0xff7BD88F),
+    wrong: Color(0xffFF6B6B),
+    bookshelfTint: Color(0xffC0585B),
   );
 
   /// Border of hand drawn buttons and the default answer options.
