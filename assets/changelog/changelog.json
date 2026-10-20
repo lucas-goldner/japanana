@@ -1,0 +1,38 @@
+[
+  {
+    "version": "1.0.3",
+    "date": "2026-10-20",
+    "changes": {
+      "en": [
+        "A bold new neubrutalist look across the whole app",
+        "Dark mode that follows your device, or pick it in Settings",
+        "Thicker books on the shelf with short, readable titles",
+        "Settings: language, theme, daily reminders, backups and more",
+        "Japanese app language"
+      ],
+      "ja": [
+        "アプリ全体が大胆なネオブルータリズムのデザインに",
+        "端末に合わせるダークモード（設定で切り替えも可能）",
+        "本棚の本が太くなり、短く読みやすいタイトルに",
+        "設定：言語、テーマ、毎日のリマインダー、バックアップなど",
+        "アプリの表示言語に日本語を追加"
+      ]
+    }
+  },
+  {
+    "version": "1.0.2",
+    "date": "2025-07-17",
+    "changes": {
+      "en": [
+        "Statistics screen that tracks your mistakes",
+        "Recent mistakes book to review what you got wrong",
+        "Continue unfinished reviews where you left off"
+      ],
+      "ja": [
+        "間違いを記録する統計画面",
+        "間違えた文法を復習できる「最近の間違い」",
+        "途中の復習を続きから再開"
+      ]
+    }
+  }
+]

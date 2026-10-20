@@ -57,7 +57,7 @@ class OpenSettingsButton extends HookWidget {
           ),
           Positioned(
             child: _RotatingText(
-              text: 'Settings',
+              text: context.l10n.settings,
               radius: 60,
               textStyle: context.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.bold,

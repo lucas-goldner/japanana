@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Japanana is a Flutter application for learning Japanese grammar through interactive review sessions. The app supports multiple languages (English, German, Japanese) and uses a flashcard-style review system with animations and progress tracking.
+Japanana is a Flutter application for learning Japanese grammar through interactive review sessions. The app supports English and Japanese and uses a flashcard-style review system with animations and progress tracking.
 
 ## Common Development Commands
 
@@ -69,7 +69,7 @@ The project follows Clean Architecture with clear separation of concerns:
 - **data/**: Repository implementations and data sources
 - **domain/**: Domain models (Lecture, LectureType) and repository interfaces
 - **presentation/**: Shared UI components, themes, and styling
-- **l10n/**: Localization files (app_en.arb, app_de.arb, app_ja.arb)
+- **l10n/**: Localization files (app_en.arb, app_ja.arb)
 - **router.dart**: Navigation configuration using go_router
 
 ### Feature Modules (`lib/features/`)
@@ -128,6 +128,18 @@ const _kButtonSlideDistance = 80.0;
 - Integration tests using Patrol for user flows
 - Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`); rendered on Linux to match CI
 - Test data fixtures in JSON format
+
+### Settings
+Each item on the settings canvas (`features/settings/`) opens a sheet or an external action:
+- **Language** (System / English / 日本語) and **Theme** (System / Light / Dark): `appSettingsProvider`, persisted in SharedPreferences and applied in `main.dart`
+- **Notifications** and **Daily Reminder**: local notifications through `ReminderService` (flutter_local_notifications)
+- **Reset Progress** and **Export & Sync**: `ProgressController` + `ProgressBackup` (JSON backup file on every platform, iCloud on iOS/macOS via icloud_storage_plus)
+- **Subscription** (supporter badge) and **Donation** (tips): RevenueCat via `PurchasesService` and `storeProvider`
+- **Send Feedback**, **Rate the App** and the link items: `ExternalActions` (url_launcher, in_app_review)
+- **See Changelog**: `assets/changelog/changelog.json` with English and Japanese entries; add an entry for every release
+- Platform services sit behind providers so tests override them with the fakes in `test/golden/golden_fakes.dart`
+- Links, the support email, the App Store id and the iCloud container live in `core/app_config.dart` (placeholders marked TODO)
+- RevenueCat keys are passed at build time: `--dart-define=REVENUECAT_APPLE_API_KEY=... --dart-define=REVENUECAT_GOOGLE_API_KEY=...`; without them the store sheets show "store unavailable"
 
 ### Statistics and Mistake Tracking
 The app includes a comprehensive mistake tracking system:

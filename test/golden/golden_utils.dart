@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
+import 'package:japanana/core/application/preferences_provider.dart';
 import 'package:japanana/core/application/random_provider.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
 import 'package:japanana/core/data/lecture_repository.dart';
@@ -13,8 +14,13 @@ import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/l10n/app_localizations.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/features/settings/data/backup_storage.dart';
+import 'package:japanana/features/settings/data/external_actions.dart';
+import 'package:japanana/features/settings/data/purchases_service.dart';
+import 'package:japanana/features/settings/data/reminder_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'golden_fakes.dart';
 import 'golden_fixtures.dart';
 
 /// Logical size of an iPhone 15 screen.
@@ -77,7 +83,14 @@ Future<void> pumpGoldenScreen(
   required ThemeData theme,
   Map<String, Object> preferences = const {},
   List<Lecture>? lectures,
+  PurchasesService? purchases,
+  BackupStorage? backupStorage,
+  ReminderService? reminders,
+  Locale locale = const Locale('en'),
 }) async {
+  // Cached asset futures belong to the previous test's fake async zone and
+  // never complete in this one.
+  rootBundle.clear();
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
 
@@ -103,6 +116,14 @@ Future<void> pumpGoldenScreen(
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        preferencesProvider.overrideWithValue(prefs),
+        purchasesServiceProvider
+            .overrideWithValue(purchases ?? FakePurchasesService()),
+        backupStorageProvider
+            .overrideWithValue(backupStorage ?? FakeBackupStorage()),
+        reminderServiceProvider
+            .overrideWithValue(reminders ?? FakeReminderService()),
+        externalActionsProvider.overrideWithValue(FakeExternalActions()),
         sharedPreferencesProvider.overrideWithValue(
           SharedPreferencesRepositoryImpl(prefs),
         ),
@@ -124,7 +145,7 @@ Future<void> pumpGoldenScreen(
       child: MaterialApp(
         theme: theme,
         debugShowCheckedModeBanner: false,
-        locale: const Locale('en'),
+        locale: locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: screen,

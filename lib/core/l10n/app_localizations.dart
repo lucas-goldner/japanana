@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
-import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
 import 'app_localizations_ja.dart';
 
@@ -95,7 +94,6 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('de'),
     Locale('en'),
     Locale('ja'),
   ];
@@ -357,6 +355,354 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Mistakes'**
   String get recentMistakesShort;
+
+  /// Title of the settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingLanguage;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingTheme;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get settingNotifications;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get settingSubscription;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Reminder'**
+  String get settingReminder;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Progress'**
+  String get settingResetProgress;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Export & Sync'**
+  String get settingExportSync;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Send Feedback'**
+  String get settingSendFeedback;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Donation'**
+  String get settingDonation;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Follow on X'**
+  String get settingFollowOnX;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get settingWebsite;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get settingPrivacyPolicy;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get settingTermsOfUse;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Rate the App'**
+  String get settingRateTheApp;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'Other Apps'**
+  String get settingOtherApps;
+
+  /// Settings item
+  ///
+  /// In en, this message translates to:
+  /// **'See Changelog'**
+  String get settingChangelog;
+
+  /// Language option that follows the device
+  ///
+  /// In en, this message translates to:
+  /// **'Same as device'**
+  String get languageSystem;
+
+  /// Language option, always written in English
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Language option, always written in Japanese
+  ///
+  /// In en, this message translates to:
+  /// **'日本語'**
+  String get languageJapanese;
+
+  /// Theme option that follows the device
+  ///
+  /// In en, this message translates to:
+  /// **'Same as device'**
+  String get themeSystem;
+
+  /// Theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get themeLight;
+
+  /// Theme option
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get themeDark;
+
+  /// Explains the notifications setting
+  ///
+  /// In en, this message translates to:
+  /// **'Get a nudge when it is time to review.'**
+  String get notificationsDescription;
+
+  /// Switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications'**
+  String get notificationsEnabled;
+
+  /// Shown when notification permission was denied
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are turned off for Japanana. Turn them on in your device settings.'**
+  String get notificationsDenied;
+
+  /// Explains the daily reminder setting
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time and Japanana reminds you every day.'**
+  String get reminderDescription;
+
+  /// Switch label
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me every day'**
+  String get reminderEnabled;
+
+  /// Label of the reminder time button
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder time'**
+  String get reminderTime;
+
+  /// Title of the daily reminder notification
+  ///
+  /// In en, this message translates to:
+  /// **'Time for Japanese!'**
+  String get reminderNotificationTitle;
+
+  /// Body of the daily reminder notification
+  ///
+  /// In en, this message translates to:
+  /// **'A few grammar cards are waiting for you.'**
+  String get reminderNotificationBody;
+
+  /// Explains what resetting deletes
+  ///
+  /// In en, this message translates to:
+  /// **'Deletes your mistakes, saved lectures and unfinished reviews. This cannot be undone.'**
+  String get resetDescription;
+
+  /// Button that starts the reset
+  ///
+  /// In en, this message translates to:
+  /// **'Reset progress'**
+  String get resetButton;
+
+  /// Button that confirms the reset
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, delete everything'**
+  String get resetConfirm;
+
+  /// Shown after resetting
+  ///
+  /// In en, this message translates to:
+  /// **'Your progress was reset.'**
+  String get resetDone;
+
+  /// Explains export and sync
+  ///
+  /// In en, this message translates to:
+  /// **'Back up your mistakes, saved lectures and unfinished reviews, or move them to another device.'**
+  String get exportDescription;
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Export backup file'**
+  String get exportFile;
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Import backup file'**
+  String get importFile;
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Back up to iCloud'**
+  String get iCloudBackup;
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from iCloud'**
+  String get iCloudRestore;
+
+  /// Shown after a backup succeeded
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved.'**
+  String get backupSaved;
+
+  /// Shown after a restore succeeded
+  ///
+  /// In en, this message translates to:
+  /// **'Backup restored.'**
+  String get backupRestored;
+
+  /// Shown when backup or restore failed
+  ///
+  /// In en, this message translates to:
+  /// **'That did not work. Check the file or your iCloud connection and try again.'**
+  String get backupFailed;
+
+  /// Explains the supporter subscription
+  ///
+  /// In en, this message translates to:
+  /// **'Become a Japanana Supporter to help keep the app growing. You get a supporter badge as a thank you.'**
+  String get subscriptionDescription;
+
+  /// Shown when the subscription is active
+  ///
+  /// In en, this message translates to:
+  /// **'You are a Japanana Supporter. Thank you!'**
+  String get subscriptionActive;
+
+  /// Subscription period
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get subscriptionMonthly;
+
+  /// Subscription period
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get subscriptionYearly;
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get restorePurchases;
+
+  /// Shown when purchases cannot be loaded
+  ///
+  /// In en, this message translates to:
+  /// **'The store is not available right now. Try again later.'**
+  String get storeUnavailable;
+
+  /// Explains the tip jar
+  ///
+  /// In en, this message translates to:
+  /// **'Enjoying Japanana? Leave a tip to support development.'**
+  String get donationDescription;
+
+  /// Shown after a tip
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you so much for your support!'**
+  String get donationThanks;
+
+  /// Badge shown to supporters
+  ///
+  /// In en, this message translates to:
+  /// **'Supporter'**
+  String get supporterBadge;
+
+  /// Button that closes a sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// Subject of the feedback email
+  ///
+  /// In en, this message translates to:
+  /// **'Japanana feedback'**
+  String get feedbackSubject;
+
+  /// First line of the feedback email
+  ///
+  /// In en, this message translates to:
+  /// **'Hi! Here is my feedback:'**
+  String get feedbackBody;
+
+  /// Shown when a link could not be opened
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link.'**
+  String get linkFailed;
+
+  /// Heading of a changelog entry
+  ///
+  /// In en, this message translates to:
+  /// **'Version {version}'**
+  String changelogVersion(String version);
+
+  /// Shown when restoring from iCloud finds no backup
+  ///
+  /// In en, this message translates to:
+  /// **'There is no iCloud backup yet.'**
+  String get iCloudEmpty;
 }
 
 class _AppLocalizationsDelegate
@@ -370,7 +716,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['de', 'en', 'ja'].contains(locale.languageCode);
+      <String>['en', 'ja'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -379,8 +725,6 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'de':
-      return AppLocalizationsDe();
     case 'en':
       return AppLocalizationsEn();
     case 'ja':

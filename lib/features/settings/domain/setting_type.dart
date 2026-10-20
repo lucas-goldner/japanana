@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:japanana/core/extensions.dart';
 
 enum SettingType {
   language,
@@ -18,23 +19,23 @@ enum SettingType {
   otherApps,
   seeChangelog;
 
-  String get label => switch (this) {
-        SettingType.language => 'Language',
-        SettingType.theme => 'Theme',
-        SettingType.notifications => 'Notifications',
-        SettingType.subscription => 'Subscription',
-        SettingType.reminder => 'Daily\nReminder',
-        SettingType.resetProgress => 'Reset\nProgress',
-        SettingType.exportSyncData => 'Export & Sync',
-        SettingType.sendFeedback => 'Send\nFeedback',
-        SettingType.donation => 'Donation',
-        SettingType.followOnX => 'Follow on X',
-        SettingType.website => 'Website',
-        SettingType.privacyPolicy => 'Privacy\nPolicy',
-        SettingType.termsOfUse => 'Terms of Use',
-        SettingType.rateTheApp => 'Rate the App',
-        SettingType.otherApps => 'Other\nApps',
-        SettingType.seeChangelog => 'See\nChangelog',
+  String label(BuildContext context) => switch (this) {
+        SettingType.language => context.l10n.settingLanguage,
+        SettingType.theme => context.l10n.settingTheme,
+        SettingType.notifications => context.l10n.settingNotifications,
+        SettingType.subscription => context.l10n.settingSubscription,
+        SettingType.reminder => context.l10n.settingReminder,
+        SettingType.resetProgress => context.l10n.settingResetProgress,
+        SettingType.exportSyncData => context.l10n.settingExportSync,
+        SettingType.sendFeedback => context.l10n.settingSendFeedback,
+        SettingType.donation => context.l10n.settingDonation,
+        SettingType.followOnX => context.l10n.settingFollowOnX,
+        SettingType.website => context.l10n.settingWebsite,
+        SettingType.privacyPolicy => context.l10n.settingPrivacyPolicy,
+        SettingType.termsOfUse => context.l10n.settingTermsOfUse,
+        SettingType.rateTheApp => context.l10n.settingRateTheApp,
+        SettingType.otherApps => context.l10n.settingOtherApps,
+        SettingType.seeChangelog => context.l10n.settingChangelog,
       };
 
   IconData get icon => switch (this) {
@@ -56,54 +57,17 @@ enum SettingType {
         SettingType.seeChangelog => Icons.history_outlined,
       };
 
-  VoidCallback getOnTap() => switch (this) {
-        SettingType.language => () {
-            // TODO(dev): Implement language selection
-          },
-        SettingType.theme => () {
-            // TODO(dev): Implement theme selection
-          },
-        SettingType.notifications => () {
-            // TODO(dev): Implement notification settings
-          },
-        SettingType.subscription => () {
-            // TODO(dev): Implement subscription settings
-          },
-        SettingType.reminder => () {
-            // TODO(dev): Implement daily reminder settings
-          },
-        SettingType.resetProgress => () {
-            // TODO(dev): Implement reset progress
-          },
-        SettingType.exportSyncData => () {
-            // TODO(dev): Implement export and sync data
-          },
-        SettingType.sendFeedback => () {
-            // TODO(dev): Implement send feedback
-          },
-        SettingType.donation => () {
-            // TODO(dev): Implement donation
-          },
-        SettingType.followOnX => () {
-            // TODO(dev): Open X profile
-          },
-        SettingType.website => () {
-            // TODO(dev): Open website
-          },
-        SettingType.privacyPolicy => () {
-            // TODO(dev): Open privacy policy
-          },
-        SettingType.termsOfUse => () {
-            // TODO(dev): Open terms of use
-          },
-        SettingType.rateTheApp => () {
-            // TODO(dev): Open app store for rating
-          },
-        SettingType.otherApps => () {
-            // TODO(dev): Open other apps
-          },
-        SettingType.seeChangelog => () {
-            // TODO(dev): Show changelog
-          },
+  /// Whether tapping the setting leaves the app (link, email or store)
+  /// instead of opening a sheet.
+  bool get isExternal => switch (this) {
+        SettingType.sendFeedback ||
+        SettingType.followOnX ||
+        SettingType.website ||
+        SettingType.privacyPolicy ||
+        SettingType.termsOfUse ||
+        SettingType.rateTheApp ||
+        SettingType.otherApps =>
+          true,
+        _ => false,
       };
 }
