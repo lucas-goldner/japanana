@@ -49,11 +49,18 @@ class OpenStatisticsButton extends HookWidget {
                 Container(
                   width: 24,
                   height: h,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: context.colorScheme.primary,
-                      width: 6,
-                    ),
+                  decoration: context.neo.decoration(
+                    color: i.isEven
+                        ? context.neo.card
+                        : context.colorScheme.tertiary,
+                    borderRadius: BorderRadius.zero,
+                  ).copyWith(
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.neo.shadow,
+                        offset: const Offset(3, 3),
+                      ),
+                    ],
                   ),
                 ),
                 Positioned(

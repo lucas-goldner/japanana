@@ -13,7 +13,9 @@ final statisticsProvider =
     Provider<List<Mistake>>((ref) => ref.watch(mistakenLecturesProvider));
 
 class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
-  late SharedPreferences _prefs;
+  // A mistake can be added before the initial load finished, so always
+  // resolve the instance instead of caching it in a late field.
+  Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
 
   @override
   List<Mistake> build() {
@@ -22,8 +24,8 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
   }
 
   Future<void> _loadMistakes() async {
-    _prefs = await SharedPreferences.getInstance();
-    final mistakesJson = _prefs.getStringList(_mistakesKey) ?? [];
+    final prefs = await _prefs;
+    final mistakesJson = prefs.getStringList(_mistakesKey) ?? [];
 
     final mistakes = mistakesJson.map(Mistake.fromJson).toList()
       ..sort((a, b) => b.lastMistakeDate.compareTo(a.lastMistakeDate));
@@ -63,11 +65,11 @@ class MistakenLecturesNotifier extends Notifier<List<Mistake>> {
 
   Future<void> _saveMistakes() async {
     final mistakesJson = state.map((m) => m.toJson()).toList();
-    await _prefs.setStringList(_mistakesKey, mistakesJson);
+    await (await _prefs).setStringList(_mistakesKey, mistakesJson);
   }
 
   Future<void> clearMistakes() async {
     state = [];
-    await _prefs.remove(_mistakesKey);
+    await (await _prefs).remove(_mistakesKey);
   }
 }

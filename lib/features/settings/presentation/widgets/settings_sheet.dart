@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/changelog_sheet.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/data_sheets.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/preference_sheets.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/store_sheets.dart';
+
+/// Largest share of the screen height a settings sheet may cover.
+const _kMaxSheetHeightFactor = 0.85;
 
 class SettingsModal extends StatelessWidget {
   const SettingsModal({
@@ -22,174 +29,93 @@ class SettingsModal extends StatelessWidget {
     );
   }
 
+  Widget _content() => switch (settingType) {
+        SettingType.language => const LanguageSheet(),
+        SettingType.theme => const ThemeSheet(),
+        SettingType.notifications => const NotificationsSheet(),
+        SettingType.reminder => const ReminderSheet(),
+        SettingType.resetProgress => const ResetProgressSheet(),
+        SettingType.exportSyncData => const ExportSyncSheet(),
+        SettingType.subscription => const SubscriptionSheet(),
+        SettingType.donation => const DonationSheet(),
+        SettingType.seeChangelog => const ChangelogSheet(),
+        // External settings open a link instead of a sheet.
+        _ => const SizedBox.shrink(),
+      };
+
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          color: context.colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
-          ),
+  Widget build(BuildContext context) => ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * _kMaxSheetHeightFactor,
         ),
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Handle bar
-              Container(
-                margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: context.colorScheme.onSurface.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
-                ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: context.colorScheme.surface,
+            border: Border(
+              top: BorderSide(
+                color: context.neo.border,
+                width: context.neo.borderWidth,
               ),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Hero(
-                      tag: settingType,
-                      child: Icon(
-                        settingType.icon,
-                        color: context.colorScheme.primary,
-                        size: 48,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      settingType.label,
-                      style: context.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24),
-                    _buildContent(context),
-                    const SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            ),
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(context.neo.radius * 2),
+            ),
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Handle bar
+                Container(
+                  margin: const EdgeInsets.only(top: 12),
+                  width: 48,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: context.neo.border,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+                Flexible(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(24, 20, 28, 28),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Cancel'),
+                        Center(
+                          child: Hero(
+                            tag: settingType,
+                            child: Container(
+                              width: 84,
+                              height: 84,
+                              decoration: context.neo.decoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                settingType.icon,
+                                color: context.neo.onCard,
+                                size: 40,
+                              ),
+                            ),
+                          ),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            settingType.getOnTap().call();
-                          },
-                          child: const Text('Confirm'),
+                        const SizedBox(height: 16),
+                        Text(
+                          settingType.label(context),
+                          style: context.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
+                        const SizedBox(height: 20),
+                        _content(),
                       ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
-
-  Widget _buildContent(BuildContext context) {
-    switch (settingType) {
-      case SettingType.language:
-        return Text(
-          'Change the app language',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.theme:
-        return Text(
-          'Switch between light and dark theme',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.notifications:
-        return Text(
-          'Configure notification preferences',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.subscription:
-        return Text(
-          'Manage your subscription',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.reminder:
-        return Text(
-          'Set up daily study reminders',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.resetProgress:
-        return Text(
-          'Reset all your learning progress',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.exportSyncData:
-        return Text(
-          'Export or sync your data',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.sendFeedback:
-        return Text(
-          'Send us your feedback',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.donation:
-        return Text(
-          'Support the app development',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.followOnX:
-        return Text(
-          'Follow us on X (Twitter)',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.website:
-        return Text(
-          'Visit our website',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.privacyPolicy:
-        return Text(
-          'Read our privacy policy',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.termsOfUse:
-        return Text(
-          'Read the terms of use',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.rateTheApp:
-        return Text(
-          'Rate the app on the store',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.otherApps:
-        return Text(
-          'Check out our other apps',
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-      case SettingType.seeChangelog:
-        return Text(
-          "See what's new in this version",
-          style: context.textTheme.bodyMedium,
-          textAlign: TextAlign.center,
-        );
-    }
-  }
 }

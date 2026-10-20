@@ -97,5 +97,446 @@
   "recentMistakes": "Recent Mistakes",
   "@recentMistakes": {
     "description": "Title for recent mistakes lecture type"
+  },
+  "writingShort": "Writing",
+  "@writingShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "conversationalShort": "Talk",
+  "@conversationalShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n2Short": "N2",
+  "@n2Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n3Short": "N3",
+  "@n3Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n4Short": "N4",
+  "@n4Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "rememberedShort": "Saved",
+  "@rememberedShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "recentMistakesShort": "Mistakes",
+  "@recentMistakesShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Title of the settings screen"
+  },
+  "settingLanguage": "Language",
+  "@settingLanguage": {
+    "description": "Settings item"
+  },
+  "settingTheme": "Theme",
+  "@settingTheme": {
+    "description": "Settings item"
+  },
+  "settingNotifications": "Notifications",
+  "@settingNotifications": {
+    "description": "Settings item"
+  },
+  "settingSubscription": "Subscription",
+  "@settingSubscription": {
+    "description": "Settings item"
+  },
+  "settingReminder": "Daily Reminder",
+  "@settingReminder": {
+    "description": "Settings item"
+  },
+  "settingResetProgress": "Reset Progress",
+  "@settingResetProgress": {
+    "description": "Settings item"
+  },
+  "settingExportSync": "Export & Sync",
+  "@settingExportSync": {
+    "description": "Settings item"
+  },
+  "settingSendFeedback": "Send Feedback",
+  "@settingSendFeedback": {
+    "description": "Settings item"
+  },
+  "settingDonation": "Donation",
+  "@settingDonation": {
+    "description": "Settings item"
+  },
+  "settingFollowOnX": "Follow on X",
+  "@settingFollowOnX": {
+    "description": "Settings item"
+  },
+  "settingWebsite": "Website",
+  "@settingWebsite": {
+    "description": "Settings item"
+  },
+  "settingPrivacyPolicy": "Privacy Policy",
+  "@settingPrivacyPolicy": {
+    "description": "Settings item"
+  },
+  "settingTermsOfUse": "Terms of Use",
+  "@settingTermsOfUse": {
+    "description": "Settings item"
+  },
+  "settingRateTheApp": "Rate the App",
+  "@settingRateTheApp": {
+    "description": "Settings item"
+  },
+  "settingOtherApps": "Other Apps",
+  "@settingOtherApps": {
+    "description": "Settings item"
+  },
+  "settingChangelog": "See Changelog",
+  "@settingChangelog": {
+    "description": "Settings item"
+  },
+  "languageSystem": "Same as device",
+  "@languageSystem": {
+    "description": "Language option that follows the device"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Language option, always written in English"
+  },
+  "languageJapanese": "日本語",
+  "@languageJapanese": {
+    "description": "Language option, always written in Japanese"
+  },
+  "themeSystem": "Same as device",
+  "@themeSystem": {
+    "description": "Theme option that follows the device"
+  },
+  "themeLight": "Light",
+  "@themeLight": {
+    "description": "Theme option"
+  },
+  "themeDark": "Dark",
+  "@themeDark": {
+    "description": "Theme option"
+  },
+  "notificationsDescription": "Get a nudge when it is time to review.",
+  "@notificationsDescription": {
+    "description": "Explains the notifications setting"
+  },
+  "notificationsEnabled": "Allow notifications",
+  "@notificationsEnabled": {
+    "description": "Switch label"
+  },
+  "notificationsDenied": "Notifications are turned off for Japanana. Turn them on in your device settings.",
+  "@notificationsDenied": {
+    "description": "Shown when notification permission was denied"
+  },
+  "reminderDescription": "Pick a time and Japanana reminds you every day.",
+  "@reminderDescription": {
+    "description": "Explains the daily reminder setting"
+  },
+  "reminderEnabled": "Remind me every day",
+  "@reminderEnabled": {
+    "description": "Switch label"
+  },
+  "reminderTime": "Reminder time",
+  "@reminderTime": {
+    "description": "Label of the reminder time button"
+  },
+  "reminderNotificationTitle": "Time for Japanese!",
+  "@reminderNotificationTitle": {
+    "description": "Title of the daily reminder notification"
+  },
+  "reminderNotificationBody": "A few grammar cards are waiting for you.",
+  "@reminderNotificationBody": {
+    "description": "Body of the daily reminder notification"
+  },
+  "resetDescription": "Deletes your mistakes, saved lectures and unfinished reviews. This cannot be undone.",
+  "@resetDescription": {
+    "description": "Explains what resetting deletes"
+  },
+  "resetButton": "Reset progress",
+  "@resetButton": {
+    "description": "Button that starts the reset"
+  },
+  "resetConfirm": "Yes, delete everything",
+  "@resetConfirm": {
+    "description": "Button that confirms the reset"
+  },
+  "resetDone": "Your progress was reset.",
+  "@resetDone": {
+    "description": "Shown after resetting"
+  },
+  "exportDescription": "Back up your mistakes, saved lectures and unfinished reviews, or move them to another device.",
+  "@exportDescription": {
+    "description": "Explains export and sync"
+  },
+  "exportFile": "Export backup file",
+  "@exportFile": {
+    "description": "Button"
+  },
+  "importFile": "Import backup file",
+  "@importFile": {
+    "description": "Button"
+  },
+  "iCloudBackup": "Back up to iCloud",
+  "@iCloudBackup": {
+    "description": "Button"
+  },
+  "iCloudRestore": "Restore from iCloud",
+  "@iCloudRestore": {
+    "description": "Button"
+  },
+  "backupSaved": "Backup saved.",
+  "@backupSaved": {
+    "description": "Shown after a backup succeeded"
+  },
+  "backupRestored": "Backup restored.",
+  "@backupRestored": {
+    "description": "Shown after a restore succeeded"
+  },
+  "backupFailed": "That did not work. Check the file or your iCloud connection and try again.",
+  "@backupFailed": {
+    "description": "Shown when backup or restore failed"
+  },
+  "subscriptionDescription": "Become a Japanana Supporter to help keep the app growing. You get a supporter badge as a thank you.",
+  "@subscriptionDescription": {
+    "description": "Explains the supporter subscription"
+  },
+  "subscriptionActive": "You are a Japanana Supporter. Thank you!",
+  "@subscriptionActive": {
+    "description": "Shown when the subscription is active"
+  },
+  "subscriptionMonthly": "Monthly",
+  "@subscriptionMonthly": {
+    "description": "Subscription period"
+  },
+  "subscriptionYearly": "Yearly",
+  "@subscriptionYearly": {
+    "description": "Subscription period"
+  },
+  "restorePurchases": "Restore purchases",
+  "@restorePurchases": {
+    "description": "Button"
+  },
+  "storeUnavailable": "The store is not available right now. Try again later.",
+  "@storeUnavailable": {
+    "description": "Shown when purchases cannot be loaded"
+  },
+  "donationDescription": "Enjoying Japanana? Leave a tip to support development.",
+  "@donationDescription": {
+    "description": "Explains the tip jar"
+  },
+  "donationThanks": "Thank you so much for your support!",
+  "@donationThanks": {
+    "description": "Shown after a tip"
+  },
+  "supporterBadge": "Supporter",
+  "@supporterBadge": {
+    "description": "Badge shown to supporters"
+  },
+  "close": "Close",
+  "@close": {
+    "description": "Button that closes a sheet"
+  },
+  "feedbackSubject": "Japanana feedback",
+  "@feedbackSubject": {
+    "description": "Subject of the feedback email"
+  },
+  "feedbackBody": "Hi! Here is my feedback:",
+  "@feedbackBody": {
+    "description": "First line of the feedback email"
+  },
+  "linkFailed": "Could not open the link.",
+  "@linkFailed": {
+    "description": "Shown when a link could not be opened"
+  },
+  "changelogVersion": "Version {version}",
+  "@changelogVersion": {
+    "description": "Heading of a changelog entry",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "iCloudEmpty": "There is no iCloud backup yet.",
+  "@iCloudEmpty": {
+    "description": "Shown when restoring from iCloud finds no backup"
+  },
+  "statsDayStreak": "day streak",
+  "@statsDayStreak": {
+    "description": "Statistics screen"
+  },
+  "statsLongestStreak": "{days, plural, =1{Longest: 1 day} other{Longest: {days} days}}",
+  "@statsLongestStreak": {
+    "description": "Statistics screen",
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "statsCardsReviewed": "Cards reviewed",
+  "@statsCardsReviewed": {
+    "description": "Statistics screen"
+  },
+  "statsFirstTryAccuracy": "First-try accuracy",
+  "@statsFirstTryAccuracy": {
+    "description": "Statistics screen"
+  },
+  "statsMinutesStudied": "Minutes studied",
+  "@statsMinutesStudied": {
+    "description": "Statistics screen"
+  },
+  "statsLecturesMastered": "Lectures mastered",
+  "@statsLecturesMastered": {
+    "description": "Statistics screen"
+  },
+  "statsVsLastWeek": "{change} vs last week",
+  "@statsVsLastWeek": {
+    "description": "Statistics screen",
+    "placeholders": {
+      "change": {
+        "type": "String"
+      }
+    }
+  },
+  "statsActivity": "Activity",
+  "@statsActivity": {
+    "description": "Statistics screen"
+  },
+  "statsLess": "Less",
+  "@statsLess": {
+    "description": "Statistics screen"
+  },
+  "statsMore": "More",
+  "@statsMore": {
+    "description": "Statistics screen"
+  },
+  "statsCardsPerDay": "Cards per day",
+  "@statsCardsPerDay": {
+    "description": "Statistics screen"
+  },
+  "statsLast7Days": "7 days",
+  "@statsLast7Days": {
+    "description": "Statistics screen"
+  },
+  "statsLast30Days": "30 days",
+  "@statsLast30Days": {
+    "description": "Statistics screen"
+  },
+  "statsCorrect": "Correct",
+  "@statsCorrect": {
+    "description": "Statistics screen"
+  },
+  "statsWrong": "Wrong",
+  "@statsWrong": {
+    "description": "Statistics screen"
+  },
+  "statsMastery": "Mastery by book",
+  "@statsMastery": {
+    "description": "Statistics screen"
+  },
+  "statsMastered": "Mastered",
+  "@statsMastered": {
+    "description": "Statistics screen"
+  },
+  "statsLearning": "Learning",
+  "@statsLearning": {
+    "description": "Statistics screen"
+  },
+  "statsUnseen": "New",
+  "@statsUnseen": {
+    "description": "Statistics screen"
+  },
+  "statsAccuracyByWeek": "First-try accuracy by week",
+  "@statsAccuracyByWeek": {
+    "description": "Statistics screen"
+  },
+  "statsThisWeek": "This week",
+  "@statsThisWeek": {
+    "description": "Statistics screen"
+  },
+  "statsWeeksAgo": "{count} weeks ago",
+  "@statsWeeksAgo": {
+    "description": "Statistics screen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsWeakSpots": "Weak spots",
+  "@statsWeakSpots": {
+    "description": "Statistics screen"
+  },
+  "statsMostMissed": "Most missed",
+  "@statsMostMissed": {
+    "description": "Statistics screen"
+  },
+  "statsMixedUp": "Often mixed up",
+  "@statsMixedUp": {
+    "description": "Statistics screen"
+  },
+  "statsTimes": "{count}×",
+  "@statsTimes": {
+    "description": "Statistics screen",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsWrongShare": "{percent} wrong",
+  "@statsWrongShare": {
+    "description": "Statistics screen",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "statsSeeAll": "See all",
+  "@statsSeeAll": {
+    "description": "Statistics screen"
+  },
+  "statsReviewWeakSpots": "Review weak spots",
+  "@statsReviewWeakSpots": {
+    "description": "Statistics screen"
+  },
+  "timeJustNow": "Just now",
+  "@timeJustNow": {
+    "description": "Relative time"
+  },
+  "timeMinutesAgo": "{count, plural, =1{1 minute ago} other{{count} minutes ago}}",
+  "@timeMinutesAgo": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeHoursAgo": "{count, plural, =1{1 hour ago} other{{count} hours ago}}",
+  "@timeHoursAgo": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeDaysAgo": "{count, plural, =1{1 day ago} other{{count} days ago}}",
+  "@timeDaysAgo": {
+    "description": "Relative time",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsNotEnoughData": "Not enough data yet. Keep reviewing!",
+  "@statsNotEnoughData": {
+    "description": "Shown in a statistics chart that has no data yet"
   }
 }

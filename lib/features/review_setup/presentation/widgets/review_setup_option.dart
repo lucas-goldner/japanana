@@ -14,23 +14,30 @@ class ReviewSetupOption extends StatelessWidget {
   final void Function(bool?)? onChanged;
 
   @override
-  Widget build(BuildContext context) => Row(
-        children: [
-          Flexible(
-            flex: 8,
-            fit: FlexFit.tight,
-            child: Text(
-              label,
-              style: context.textTheme.headlineSmall,
-              textAlign: TextAlign.start,
-            ),
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onChanged == null ? null : () => onChanged!(!value),
+        child: Container(
+          padding: const EdgeInsets.only(left: 20, right: 8),
+          constraints: const BoxConstraints(minHeight: 72),
+          decoration: context.neo.decoration(),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    color: context.neo.onCard,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ),
+              Checkbox(
+                materialTapTargetSize: MaterialTapTargetSize.padded,
+                value: value,
+                onChanged: onChanged,
+              ),
+            ],
           ),
-          const Spacer(),
-          Checkbox(
-            materialTapTargetSize: MaterialTapTargetSize.padded,
-            value: value,
-            onChanged: onChanged,
-          ),
-        ],
+        ),
       );
 }

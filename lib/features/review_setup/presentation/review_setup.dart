@@ -4,8 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/presentation/widgets/neo_button.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
-import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/presentation/widgets/transition/page_curl_transition.dart';
 import 'package:japanana/features/in_review/presentation/in_review.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
@@ -47,43 +48,26 @@ class ReviewSetup extends HookConsumerWidget {
           const NoteBackground(),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(left: 48),
+              padding: const EdgeInsets.fromLTRB(20, 28, 20, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SizedBox(
-                    height: 20,
+                  ReviewSetupOption(
+                    label: context.l10n.randomizeCards,
+                    value: reviewOptions.value.randomize,
+                    onChanged: (value) => reviewOptions.value =
+                        reviewOptions.value.copyWith(randomize: value),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ReviewSetupOption(
-                          label: context.l10n.randomizeCards,
-                          value: reviewOptions.value.randomize,
-                          onChanged: (value) => reviewOptions.value =
-                              reviewOptions.value.copyWith(randomize: value),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ReviewSetupOption(
-                          label: context.l10n.repeatFailedCards,
-                          value: reviewOptions.value.repeatOnFalseCard,
-                          onChanged: (value) => reviewOptions.value =
-                              reviewOptions.value
-                                  .copyWith(repeatOnFalseCard: value),
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 20),
+                  ReviewSetupOption(
+                    label: context.l10n.repeatFailedCards,
+                    value: reviewOptions.value.repeatOnFalseCard,
+                    onChanged: (value) => reviewOptions.value =
+                        reviewOptions.value.copyWith(repeatOnFalseCard: value),
                   ),
                   const Spacer(),
                   if (hasSessionForType) ...[
-                    ScribbleBorderButton(
+                    NeoButton(
                       onPressed: () {
                         if (reviewSection != null) {
                           final session =
@@ -93,31 +77,31 @@ class ReviewSetup extends HookConsumerWidget {
                           }
                         }
                       },
-                      minHeight: 80,
-                      borderColor: Colors.green,
+                      minHeight: 72,
+                      color: context.neo.correctFill,
+                      foregroundColor: context.neo.onFeedback,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'CONTINUE',
-                            style: context.textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
+                            context.l10n.continueReview,
+                            style: _buttonTextStyle(context),
                           ),
                           Text(
-                            '${existingSession.completedLectureIds.length} '
-                            'completed',
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: Colors.green,
+                            context.l10n.completedLectures(
+                              existingSession.completedLectureIds.length,
+                            ),
+                            style: TextStyle(
+                              fontFamily: context.textTheme.notoSansJPFont,
+                              fontWeight: FontWeight.normal,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                   ],
-                  ScribbleBorderButton(
+                  NeoButton(
                     key: K.startReviewButton,
                     onPressed: () async {
                       if (reviewSection case final LectureType type) {
@@ -131,13 +115,16 @@ class ReviewSetup extends HookConsumerWidget {
                         navigateToReview(context, reviewOptions.value);
                       }
                     },
-                    minHeight: 100,
+                    minHeight: 80,
+                    color: context.neo.accent,
+                    foregroundColor: context.neo.onAccent,
+                    shadowColor: context.neo.accentShadow,
                     child: Text(
                       context.l10n.startReview.toUpperCase(),
-                      style: context.textTheme.bodyLarge
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: _buttonTextStyle(context),
                     ),
                   ),
+                  const SizedBox(height: 8),
                 ],
               ),
             ),
@@ -147,3 +134,9 @@ class ReviewSetup extends HookConsumerWidget {
     );
   }
 }
+
+TextStyle _buttonTextStyle(BuildContext context) => TextStyle(
+      fontFamily: context.textTheme.notoSansJPFont,
+      fontSize: 16,
+      letterSpacing: 1,
+    );

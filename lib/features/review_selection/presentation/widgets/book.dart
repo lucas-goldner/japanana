@@ -233,37 +233,42 @@ class _BookCover extends HookWidget {
         SizedBox(
           width: _BookShelfState.coverWidth,
           height: _BookShelfState.fixedHeight,
-          child: ColoredBox(color: book.primaryColor),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: book.primaryColor,
+              border: Border.all(
+                color: context.neo.border,
+                width: context.neo.borderWidth,
+              ),
+            ),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 8),
+          padding: EdgeInsets.only(left: 8, top: context.neo.borderWidth),
           child: SizedBox(
             width: 20,
-            height: _BookShelfState.fixedHeight,
+            height:
+                _BookShelfState.fixedHeight - context.neo.borderWidth * 2,
             child: ColoredBox(color: book.secondaryColor),
           ),
         ),
         AnimatedBuilder(
           animation: animation,
-          builder: (context, _) => Align(
-            alignment: Alignment.bottomLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 32),
-              child: SizedBox(
-                height: _BookShelfState.fixedHeight,
-                width: _BookShelfState.coverWidth * 0.75,
-                child: FittedBox(
-                  child: Text(
-                    book.lectureType
-                        .getLocalizedTitle(context)
-                        .characters
-                        .map((e) => e == ' ' ? '\n' : e)
-                        .join(),
-                    style: context.textTheme.headlineSmall?.copyWith(
-                      color: Colors.white
-                          .withAlpha((animation.value * 255).toInt()),
-                      fontFamily: context.textTheme.notoSansJPFont,
-                    ),
+          builder: (context, _) => Padding(
+            padding: const EdgeInsets.only(left: 36, top: 18, right: 12),
+            child: SizedBox(
+              width: _BookShelfState.coverWidth - 48,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.topLeft,
+                child: Text(
+                  book.lectureType.getLocalizedShortTitle(context),
+                  style: context.textTheme.headlineSmall?.copyWith(
+                    color: Colors.white
+                        .withAlpha((animation.value * 255).toInt()),
+                    fontFamily: context.textTheme.notoSansJPFont,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
                   ),
                 ),
               ),
@@ -294,21 +299,29 @@ class _BookSpine extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: book.primaryColor,
-                  width: 2,
+                  color: context.neo.border,
+                  width: context.neo.borderWidth,
                 ),
               ),
-              child: FittedBox(
-                child: Text(
-                  textAlign: TextAlign.center,
-                  book.lectureType
-                      .getLocalizedTitle(context)
-                      .characters
-                      .map((e) => '$e\n')
-                      .join(),
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontFamily: context.textTheme.notoSansJPFont,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                // Same letter size on every spine, shrunk only when a long
+                // title would not fit.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    book.lectureType
+                        .getLocalizedShortTitle(context)
+                        .characters
+                        .join('\n'),
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontFamily: context.textTheme.notoSansJPFont,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      height: 1.1,
+                    ),
                   ),
                 ),
               ),
