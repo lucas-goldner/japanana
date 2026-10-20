@@ -122,9 +122,7 @@ class _BookShelfBackground extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                context.theme.brightness == Brightness.light
-                    ? const Color(0xFFD05557)
-                    : const Color(0xFF592049),
+                context.appColors.bookshelfTint,
                 BlendMode.modulate,
               ),
               image: const AssetImage('assets/images/noisy.webp'),

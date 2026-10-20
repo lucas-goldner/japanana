@@ -35,6 +35,7 @@ class InReview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final appColors = context.appColors;
     final existingSession =
         ref.watch(sessionProvider(reviewOption?.$1 ?? LectureType.writing));
     final lectureType =
@@ -429,18 +430,19 @@ class InReview extends HookConsumerWidget {
                                   ),
                                   minHeight: 100,
                                   borderColor: isWrong
-                                      ? Colors.red
+                                      ? appColors.wrong
                                       : isCorrect
-                                          ? Colors.green
-                                          : Colors.black,
+                                          ? appColors.correct
+                                          : null,
                                   fontFamily: context.textTheme.notoSansJPFont,
                                   fontWeight: FontWeight.bold,
                                   child: Container(
                                     width: double.infinity,
                                     color: isWrong
-                                        ? Colors.red.withValues(alpha: 0.1)
+                                        ? appColors.wrong
+                                            .withValues(alpha: 0.1)
                                         : isCorrect
-                                            ? Colors.green
+                                            ? appColors.correct
                                                 .withValues(alpha: 0.1)
                                             : Colors.transparent,
                                     padding: const EdgeInsets.all(20),
@@ -450,13 +452,13 @@ class InReview extends HookConsumerWidget {
                                           ? context.textTheme.bodyLarge
                                               ?.copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.red,
+                                              color: appColors.wrong,
                                             )
                                           : isCorrect
                                               ? context.textTheme.bodyLarge
                                                   ?.copyWith(
                                                   fontWeight: FontWeight.bold,
-                                                  color: Colors.green,
+                                                  color: appColors.correct,
                                                 )
                                               : null, // Use default theme style
                                     ),

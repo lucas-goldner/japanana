@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:japanana/core/extensions.dart';
 
 class ScribbleBorderButton extends StatefulWidget {
   const ScribbleBorderButton({
@@ -7,8 +8,8 @@ class ScribbleBorderButton extends StatefulWidget {
     required this.child,
     super.key,
     this.strokeWidth = 2.0,
-    this.borderColor = Colors.black,
-    this.shadowColor = Colors.black26,
+    this.borderColor,
+    this.shadowColor,
     this.padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
     this.minHeight = 48,
     this.fontFamily,
@@ -17,8 +18,11 @@ class ScribbleBorderButton extends StatefulWidget {
   final VoidCallback onPressed;
   final Widget child;
   final double strokeWidth;
-  final Color borderColor;
-  final Color shadowColor;
+  /// Defaults to the theme's scribble border color.
+  final Color? borderColor;
+
+  /// Defaults to the theme's scribble shadow color.
+  final Color? shadowColor;
 
   final EdgeInsets padding;
   final double minHeight;
@@ -57,8 +61,10 @@ class _ScribbleBorderButtonState extends State<ScribbleBorderButton>
             builder: (context, child) => CustomPaint(
               painter: _ScribbleBorderPainter(
                 strokeWidth: widget.strokeWidth,
-                borderColor: widget.borderColor,
-                shadowColor: widget.shadowColor,
+                borderColor:
+                    widget.borderColor ?? context.appColors.scribbleBorder,
+                shadowColor:
+                    widget.shadowColor ?? context.appColors.scribbleShadow,
                 animationValue: _controller.value,
               ),
               child: child,

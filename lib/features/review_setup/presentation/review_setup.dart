@@ -94,7 +94,7 @@ class ReviewSetup extends HookConsumerWidget {
                         }
                       },
                       minHeight: 80,
-                      borderColor: Colors.green,
+                      borderColor: context.appColors.correct,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -102,14 +102,14 @@ class ReviewSetup extends HookConsumerWidget {
                             'CONTINUE',
                             style: context.textTheme.bodyLarge?.copyWith(
                               fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                              color: context.appColors.correct,
                             ),
                           ),
                           Text(
                             '${existingSession.completedLectureIds.length} '
                             'completed',
                             style: context.textTheme.bodySmall?.copyWith(
-                              color: Colors.green,
+                              color: context.appColors.correct,
                             ),
                           ),
                         ],
