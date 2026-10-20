@@ -9,8 +9,8 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/presentation/widgets/neo_button.dart';
 import 'package:japanana/core/presentation/widgets/note_background.dart';
-import 'package:japanana/core/presentation/widgets/scribble_border_button.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
@@ -35,7 +35,7 @@ class InReview extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final appColors = context.appColors;
+    final neo = context.neo;
     final existingSession =
         ref.watch(sessionProvider(reviewOption?.$1 ?? LectureType.writing));
     final lectureType =
@@ -363,10 +363,6 @@ class InReview extends HookConsumerWidget {
                   style: context.textTheme.headlineSmall,
                 ),
                 floating: true,
-                scrolledUnderElevation: 4,
-                elevation: 4,
-                backgroundColor: context.colorScheme.secondary,
-                surfaceTintColor: context.colorScheme.secondary,
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
@@ -421,51 +417,44 @@ class InReview extends HookConsumerWidget {
                                 ),
                               );
                             },
-                            child: Stack(
-                              children: [
-                                ScribbleBorderButton(
-                                  onPressed: () => handleUsageSelection(
-                                    index,
-                                    usageOptions.value,
-                                  ),
-                                  minHeight: 100,
-                                  borderColor: isWrong
-                                      ? appColors.wrong
-                                      : isCorrect
-                                          ? appColors.correct
-                                          : null,
-                                  fontFamily: context.textTheme.notoSansJPFont,
-                                  fontWeight: FontWeight.bold,
-                                  child: Container(
-                                    width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 18),
+                              child: Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  NeoButton(
+                                    onPressed: () => handleUsageSelection(
+                                      index,
+                                      usageOptions.value,
+                                    ),
+                                    minHeight: 80,
                                     color: isWrong
-                                        ? appColors.wrong
-                                            .withValues(alpha: 0.1)
+                                        ? neo.wrongFill
                                         : isCorrect
-                                            ? appColors.correct
-                                                .withValues(alpha: 0.1)
-                                            : Colors.transparent,
-                                    padding: const EdgeInsets.all(20),
-                                    child: Text(
-                                      usageOptions.value[index],
-                                      style: isWrong
-                                          ? context.textTheme.bodyLarge
-                                              ?.copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              color: appColors.wrong,
-                                            )
-                                          : isCorrect
-                                              ? context.textTheme.bodyLarge
-                                                  ?.copyWith(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: appColors.correct,
-                                                )
-                                              : null, // Use default theme style
+                                            ? neo.correctFill
+                                            : null,
+                                    foregroundColor: isWrong || isCorrect
+                                        ? neo.onFeedback
+                                        : null,
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: Text(
+                                        usageOptions.value[index],
+                                        style: TextStyle(
+                                          fontFamily:
+                                              context.textTheme.notoSansJPFont,
+                                          fontSize: 16,
+                                          decoration: isWrong
+                                              ? TextDecoration.lineThrough
+                                              : null,
+                                          decorationThickness: 2,
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                if (isWrong) const _MistakeMarker(),
-                              ],
+                                  if (isWrong) const _MistakeMarker(),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -478,15 +467,18 @@ class InReview extends HookConsumerWidget {
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.all(16),
-                    child: ScribbleBorderButton(
+                    child: NeoButton(
                       onPressed: handleGuessTranslation,
-                      minHeight: 100,
-                      fontFamily: context.textTheme.notoSansJPFont,
-                      fontWeight: FontWeight.bold,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          l10n.tryToGuess,
+                      minHeight: 80,
+                      color: neo.accent,
+                      foregroundColor: neo.onAccent,
+                      shadowColor: neo.accentShadow,
+                      child: Text(
+                        l10n.tryToGuess.toUpperCase(),
+                        style: TextStyle(
+                          fontFamily: context.textTheme.notoSansJPFont,
+                          fontSize: 16,
+                          letterSpacing: 1,
                         ),
                       ),
                     ),
@@ -505,18 +497,27 @@ class InReview extends HookConsumerWidget {
                               lectureType.getLocalizedTitle(context),
                             ),
                             textAlign: TextAlign.center,
+                            style: context.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          const SizedBox(height: 20),
-                          ScribbleBorderButton(
+                          const SizedBox(height: 28),
+                          NeoButton(
                             key: K.startNextReviewButton,
                             onPressed: () => context.popUntilPath(
                               AppRoutes.reviewSelection.path,
                             ),
-                            minHeight: 80,
-                            fontFamily: context.textTheme.notoSansJPFont,
-                            fontWeight: FontWeight.bold,
+                            minHeight: 72,
+                            color: neo.accent,
+                            foregroundColor: neo.onAccent,
+                            shadowColor: neo.accentShadow,
                             child: Text(
                               l10n.startNextReview.toUpperCase(),
+                              style: TextStyle(
+                                fontFamily: context.textTheme.notoSansJPFont,
+                                fontSize: 16,
+                                letterSpacing: 1,
+                              ),
                             ),
                           ),
                         ],
@@ -536,26 +537,27 @@ class _MistakeMarker extends StatelessWidget {
   const _MistakeMarker();
 
   @override
-  Widget build(BuildContext context) => Positioned(
-        top: 6,
-        right: 6,
-        child: Stack(
-          children: [
-            Icon(
-              Icons.close,
-              color: context.colorScheme.primary,
-              size: 60,
-            ),
-            Positioned(
-              top: 6,
-              left: 6,
-              child: Icon(
-                Icons.close,
-                color: context.colorScheme.error,
-                size: 48,
-              ),
-            ),
-          ],
+  Widget build(BuildContext context) {
+    final neo = context.neo;
+    return Positioned(
+      top: -12,
+      right: -8,
+      child: Transform.rotate(
+        angle: 0.2,
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: neo.decoration(
+            color: context.colorScheme.error,
+            shape: BoxShape.circle,
+          ).copyWith(
+            boxShadow: [
+              BoxShadow(color: neo.shadow, offset: const Offset(3, 3)),
+            ],
+          ),
+          child: const Icon(Icons.close, color: Colors.white, size: 24),
         ),
-      );
+      ),
+    );
+  }
 }

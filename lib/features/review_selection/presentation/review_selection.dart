@@ -180,7 +180,7 @@ class _AnimatedReviewSelectionTitle extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 20),
           child: Text(
-            'Select your Lecture',
+            context.l10n.selectYourLecture,
             style: context.textTheme.displayLarge?.copyWith(
               color: context.colorScheme.primary,
               fontWeight: FontWeight.bold,

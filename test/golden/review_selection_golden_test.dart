@@ -57,7 +57,7 @@ void main() {
     );
     await pumpFor(tester, _kIntroAnimationsDuration);
 
-    final n3Spine = 'N3 grammar'.split('').map((c) => '$c\n').join();
+    const n3Spine = 'N\n3';
     await tester.tap(find.text(n3Spine), warnIfMissed: false);
     await pumpFor(tester, const Duration(seconds: 2));
 

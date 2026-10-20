@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:japanana/core/presentation/style/neo_theme.dart';
 import 'package:japanana/features/review_selection/presentation/style/books_theme.dart';
 
 final ThemeData lightTheme = buildJapananaTheme(
   colorScheme: colorSchemeLight,
-  appColors: AppColors.light,
+  neoTheme: NeoTheme.light,
   booksTheme: BooksTheme(),
 );
 
 final ThemeData darkTheme = buildJapananaTheme(
   colorScheme: colorSchemeDark,
-  appColors: AppColors.dark,
+  neoTheme: NeoTheme.dark,
   booksTheme: BooksTheme.dark(),
 );
 
 ThemeData buildJapananaTheme({
   required ColorScheme colorScheme,
-  required AppColors appColors,
+  required NeoTheme neoTheme,
   required BooksTheme booksTheme,
 }) {
   final textTheme = buildTextTheme(colorScheme.brightness);
@@ -23,6 +24,16 @@ ThemeData buildJapananaTheme({
     colorScheme: colorScheme,
     textTheme: textTheme,
     scaffoldBackgroundColor: colorScheme.surface,
+    checkboxTheme: CheckboxThemeData(
+      side: BorderSide(color: neoTheme.border, width: neoTheme.borderWidth),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+      fillColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.selected)
+            ? neoTheme.accent
+            : Colors.transparent,
+      ),
+      checkColor: WidgetStateProperty.all(neoTheme.onAccent),
+    ),
     iconButtonTheme: IconButtonThemeData(
       style: ButtonStyle(
         splashFactory: NoSplash.splashFactory,
@@ -33,6 +44,15 @@ ThemeData buildJapananaTheme({
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: colorScheme.secondary,
+      surfaceTintColor: colorScheme.secondary,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      shape: Border(
+        bottom: BorderSide(
+          color: neoTheme.border,
+          width: neoTheme.borderWidth,
+        ),
+      ),
       iconTheme: IconThemeData(
         color: colorScheme.onSecondary,
       ),
@@ -42,7 +62,7 @@ ThemeData buildJapananaTheme({
     ),
     extensions: [
       booksTheme,
-      appColors,
+      neoTheme,
       LinearPercentIndicatorColors(
         backgroundColor: colorScheme.onSurface,
         progressLabelTextColor: colorScheme.onPrimary,
@@ -145,77 +165,4 @@ class LinearPercentIndicatorColors
   String toString() =>
       // ignore: lines_longer_than_80_chars
       'LinearPercentIndicatorColors(progressLabelTextColor: $progressLabelTextColor, progressColor: $progressColor, backgroundColor: $backgroundColor)';
-}
-
-/// App specific colors that aren't covered by the [ColorScheme].
-@immutable
-class AppColors extends ThemeExtension<AppColors> {
-  const AppColors({
-    required this.scribbleBorder,
-    required this.scribbleShadow,
-    required this.correct,
-    required this.wrong,
-    required this.bookshelfTint,
-  });
-
-  static const light = AppColors(
-    scribbleBorder: Colors.black,
-    scribbleShadow: Colors.black26,
-    correct: Colors.green,
-    wrong: Colors.red,
-    bookshelfTint: Color(0xFFD05557),
-  );
-
-  static const dark = AppColors(
-    scribbleBorder: Color(0xffECE9F7),
-    scribbleShadow: Color(0x73F8D318),
-    correct: Color(0xff7BD88F),
-    wrong: Color(0xffFF6B6B),
-    bookshelfTint: Color(0xffC0585B),
-  );
-
-  /// Border of hand drawn buttons and the default answer options.
-  final Color scribbleBorder;
-
-  /// Offset "shadow" stroke drawn below hand drawn buttons.
-  final Color scribbleShadow;
-
-  /// Highlights a correct answer or a session that can be continued.
-  final Color correct;
-
-  /// Highlights a wrong answer.
-  final Color wrong;
-
-  /// Tint multiplied onto the noisy bookshelf texture.
-  final Color bookshelfTint;
-
-  @override
-  AppColors copyWith({
-    Color? scribbleBorder,
-    Color? scribbleShadow,
-    Color? correct,
-    Color? wrong,
-    Color? bookshelfTint,
-  }) =>
-      AppColors(
-        scribbleBorder: scribbleBorder ?? this.scribbleBorder,
-        scribbleShadow: scribbleShadow ?? this.scribbleShadow,
-        correct: correct ?? this.correct,
-        wrong: wrong ?? this.wrong,
-        bookshelfTint: bookshelfTint ?? this.bookshelfTint,
-      );
-
-  @override
-  AppColors lerp(AppColors? other, double t) {
-    if (other is! AppColors) {
-      return this;
-    }
-    return AppColors(
-      scribbleBorder: Color.lerp(scribbleBorder, other.scribbleBorder, t)!,
-      scribbleShadow: Color.lerp(scribbleShadow, other.scribbleShadow, t)!,
-      correct: Color.lerp(correct, other.correct, t)!,
-      wrong: Color.lerp(wrong, other.wrong, t)!,
-      bookshelfTint: Color.lerp(bookshelfTint, other.bookshelfTint, t)!,
-    );
-  }
 }

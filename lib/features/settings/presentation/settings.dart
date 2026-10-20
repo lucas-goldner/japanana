@@ -81,8 +81,6 @@ class Settings extends HookConsumerWidget {
             'Settings',
             style: context.textTheme.headlineSmall,
           ),
-          backgroundColor: context.colorScheme.secondary,
-          surfaceTintColor: context.colorScheme.secondary,
         ),
         body: WidgetCanvas(
           controller: controller,
@@ -128,17 +126,32 @@ class _SettingCanvasItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              settingType.icon,
-              color: context.colorScheme.primary,
-              size: 32,
+            Container(
+              width: 60,
+              height: 60,
+              decoration: context.neo.decoration(
+                color: settingType == SettingType.subscription
+                    ? context.neo.accent
+                    : null,
+                shadowColor: settingType == SettingType.subscription
+                    ? context.neo.accentShadow
+                    : null,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                settingType.icon,
+                color: settingType == SettingType.subscription
+                    ? context.neo.onAccent
+                    : context.neo.onCard,
+                size: 28,
+              ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             Text(
               settingType.label,
               style: context.textTheme.labelMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: context.colorScheme.onSurface,
+                fontWeight: FontWeight.bold,
+                color: context.colorScheme.onSecondary,
               ),
               textAlign: TextAlign.center,
               maxLines: 2,

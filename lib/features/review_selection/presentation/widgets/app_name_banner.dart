@@ -11,8 +11,22 @@ class AppNameBanner extends StatelessWidget {
           angle: -0.1,
           child: SizedBox(
             height: 24,
-            child: ColoredBox(
-              color: context.colorScheme.primary,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: context.colorScheme.primary,
+                border: Border.symmetric(
+                  horizontal: BorderSide(
+                    color: context.neo.border,
+                    width: context.neo.borderWidth,
+                  ),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.neo.accentShadow,
+                    offset: Offset(0, context.neo.shadowOffset.dy),
+                  ),
+                ],
+              ),
               child: Marquee(
                 text: 'Japanana \u25B6\u25B6\u25B6',
                 style: context.textTheme.bodyLarge?.copyWith(

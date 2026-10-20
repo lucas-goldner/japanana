@@ -43,5 +43,12 @@
   "selectYourLecture": "Wähle deine Lerneinheit",
   "continueReview": "FORTFAHREN",
   "completedLectures": "{count} abgeschlossen",
-  "recentMistakes": "Letzte Fehler"
+  "recentMistakes": "Letzte Fehler",
+  "writingShort": "Schreiben",
+  "conversationalShort": "Reden",
+  "n2Short": "N2",
+  "n3Short": "N3",
+  "n4Short": "N4",
+  "rememberedShort": "Gemerkt",
+  "recentMistakesShort": "Fehler"
 }

@@ -233,13 +233,22 @@ class _BookCover extends HookWidget {
         SizedBox(
           width: _BookShelfState.coverWidth,
           height: _BookShelfState.fixedHeight,
-          child: ColoredBox(color: book.primaryColor),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: book.primaryColor,
+              border: Border.all(
+                color: context.neo.border,
+                width: context.neo.borderWidth,
+              ),
+            ),
+          ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 8),
+          padding: EdgeInsets.only(left: 8, top: context.neo.borderWidth),
           child: SizedBox(
             width: 20,
-            height: _BookShelfState.fixedHeight,
+            height:
+                _BookShelfState.fixedHeight - context.neo.borderWidth * 2,
             child: ColoredBox(color: book.secondaryColor),
           ),
         ),
@@ -255,7 +264,7 @@ class _BookCover extends HookWidget {
                 child: FittedBox(
                   child: Text(
                     book.lectureType
-                        .getLocalizedTitle(context)
+                        .getLocalizedShortTitle(context)
                         .characters
                         .map((e) => e == ' ' ? '\n' : e)
                         .join(),
@@ -263,6 +272,7 @@ class _BookCover extends HookWidget {
                       color: Colors.white
                           .withAlpha((animation.value * 255).toInt()),
                       fontFamily: context.textTheme.notoSansJPFont,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -294,21 +304,29 @@ class _BookSpine extends StatelessWidget {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: book.primaryColor,
-                  width: 2,
+                  color: context.neo.border,
+                  width: context.neo.borderWidth,
                 ),
               ),
-              child: FittedBox(
-                child: Text(
-                  textAlign: TextAlign.center,
-                  book.lectureType
-                      .getLocalizedTitle(context)
-                      .characters
-                      .map((e) => '$e\n')
-                      .join(),
-                  style: context.textTheme.headlineSmall?.copyWith(
-                    color: Colors.white,
-                    fontFamily: context.textTheme.notoSansJPFont,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                // Same letter size on every spine, shrunk only when a long
+                // title would not fit.
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    book.lectureType
+                        .getLocalizedShortTitle(context)
+                        .characters
+                        .join('\n'),
+                    style: context.textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontFamily: context.textTheme.notoSansJPFont,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                      height: 1.1,
+                    ),
                   ),
                 ),
               ),

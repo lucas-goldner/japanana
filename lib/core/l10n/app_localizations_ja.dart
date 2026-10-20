@@ -122,4 +122,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get recentMistakes => '最近の間違い';
+
+  @override
+  String get writingShort => '作文';
+
+  @override
+  String get conversationalShort => '会話';
+
+  @override
+  String get n2Short => 'N2';
+
+  @override
+  String get n3Short => 'N3';
+
+  @override
+  String get n4Short => 'N4';
+
+  @override
+  String get rememberedShort => '保存';
+
+  @override
+  String get recentMistakesShort => '間違い';
 }

@@ -72,8 +72,9 @@ class LectureList extends HookConsumerWidget {
     final lectures = showSavedLectures.value ? savedLectures : allLectures;
     final currentAllLectures = useState(allLectures);
     final currentSavedLectures = useState(savedLectures);
-    final currentLectures =
-        showSavedLectures.value ? currentSavedLectures : currentAllLectures;
+    final currentLectures = showSavedLectures.value
+        ? currentSavedLectures
+        : currentAllLectures;
     final searchQueryController = useTextEditingController();
 
     return Scaffold(
@@ -85,42 +86,44 @@ class LectureList extends HookConsumerWidget {
         actions: [
           IconButton(
             icon: Icon(
-              Icons.save,
-              color: context.colorScheme.secondaryContainer,
+              showSavedLectures.value ? Icons.bookmark : Icons.bookmark_border,
+              color: context.colorScheme.onSecondary,
             ),
             onPressed: () => showSavedLectures.value = !showSavedLectures.value,
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(80),
+          preferredSize: const Size.fromHeight(88),
           child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 8,
-            ),
-            child: SearchBar(
-              onChanged: (value) => _onSearch(
-                lectures: lectures,
-                currentLectures: currentLectures,
-                query: value,
-                textEditingController: searchQueryController,
-              ),
-              controller: searchQueryController,
-              trailing: [
-                IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    color: context.colorScheme.secondaryContainer,
-                  ),
-                  onPressed: searchQueryController.text.isEmpty
-                      ? null
-                      : () => _resetSearch(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+            child: DecoratedBox(
+              decoration: context.neo.decoration(),
+              child: SearchBar(
+                elevation: const WidgetStatePropertyAll(0),
+                backgroundColor: const WidgetStatePropertyAll(
+                  Colors.transparent,
+                ),
+                leading: Icon(Icons.search, color: context.neo.onCard),
+                onChanged: (value) => _onSearch(
+                  lectures: lectures,
+                  currentLectures: currentLectures,
+                  query: value,
+                  textEditingController: searchQueryController,
+                ),
+                controller: searchQueryController,
+                trailing: [
+                  IconButton(
+                    icon: Icon(Icons.close, color: context.neo.onCard),
+                    onPressed: searchQueryController.text.isEmpty
+                        ? null
+                        : () => _resetSearch(
                             lectures: lectures,
                             currentLectures: currentLectures,
                             textEditingController: searchQueryController,
                           ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

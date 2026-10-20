@@ -40,7 +40,7 @@ Future<void> _guessAllTranslations(
   Lecture lecture,
 ) async {
   for (var i = 0; i < lecture.examples.length; i++) {
-    await tester.tap(find.text('Try to guess'));
+    await tester.tap(find.text('TRY TO GUESS'));
     await pumpFor(tester, _kMessageDuration);
   }
 }

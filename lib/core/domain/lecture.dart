@@ -19,6 +19,17 @@ enum LectureType {
         LectureType.remember => context.l10n.rememberedSection,
         LectureType.recentMistakes => context.l10n.recentMistakes
       };
+
+  /// Compact title that fits on a book spine.
+  String getLocalizedShortTitle(BuildContext context) => switch (this) {
+        LectureType.n2 => context.l10n.n2Short,
+        LectureType.n3 => context.l10n.n3Short,
+        LectureType.n4 => context.l10n.n4Short,
+        LectureType.conversational => context.l10n.conversationalShort,
+        LectureType.writing => context.l10n.writingShort,
+        LectureType.remember => context.l10n.rememberedShort,
+        LectureType.recentMistakes => context.l10n.recentMistakesShort
+      };
 }
 
 class Lecture {

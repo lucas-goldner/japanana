@@ -44,12 +44,14 @@ class OpenSettingsButton extends HookWidget {
           AnimatedRotation(
             duration: rotationController.duration ?? Duration.zero,
             turns: rotationValue,
-            child: IconButton(
-              onPressed: openSettings,
-              icon: Icon(
-                Icons.settings_outlined,
-                size: 80,
-                color: context.colorScheme.primary,
+            child: Container(
+              width: 84,
+              height: 84,
+              decoration: context.neo.decoration(shape: BoxShape.circle),
+              child: Icon(
+                Icons.settings,
+                size: 52,
+                color: context.neo.onCard,
               ),
             ),
           ),

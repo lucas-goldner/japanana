@@ -97,5 +97,33 @@
   "recentMistakes": "Recent Mistakes",
   "@recentMistakes": {
     "description": "Title for recent mistakes lecture type"
+  },
+  "writingShort": "Writing",
+  "@writingShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "conversationalShort": "Talk",
+  "@conversationalShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n2Short": "N2",
+  "@n2Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n3Short": "N3",
+  "@n3Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "n4Short": "N4",
+  "@n4Short": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "rememberedShort": "Saved",
+  "@rememberedShort": {
+    "description": "Short lecture type title shown on a book spine"
+  },
+  "recentMistakesShort": "Mistakes",
+  "@recentMistakesShort": {
+    "description": "Short lecture type title shown on a book spine"
   }
 }

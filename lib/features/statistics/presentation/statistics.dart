@@ -37,9 +37,6 @@ class Statistics extends HookConsumerWidget {
                 l10n.statistics,
                 style: context.textTheme.headlineSmall,
               ),
-              backgroundColor: context.colorScheme.secondary,
-              surfaceTintColor: context.colorScheme.secondary,
-              elevation: 4,
             ),
             body: mistakes.isEmpty
                 ? Center(
@@ -48,16 +45,26 @@ class Statistics extends HookConsumerWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(
-                            Icons.trending_up,
-                            size: 64,
-                            color: context.colorScheme.primary
-                                .withValues(alpha: 0.5),
+                          Container(
+                            width: 104,
+                            height: 104,
+                            decoration: context.neo.decoration(
+                              color: context.neo.accent,
+                              shadowColor: context.neo.accentShadow,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.trending_up,
+                              size: 56,
+                              color: context.neo.onAccent,
+                            ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 24),
                           Text(
                             l10n.noMistakesYet,
-                            style: context.textTheme.headlineSmall,
+                            style: context.textTheme.headlineSmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 8),
@@ -83,8 +90,9 @@ class Statistics extends HookConsumerWidget {
                         orElse: () => allLectures.first,
                       );
 
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 20),
+                        decoration: context.neo.decoration(),
                         child: ListTile(
                           contentPadding: const EdgeInsets.all(16),
                           title: Text(
@@ -115,20 +123,29 @@ class Statistics extends HookConsumerWidget {
                           ),
                           trailing: Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
+                              horizontal: 14,
                               vertical: 4,
                             ),
-                            decoration: BoxDecoration(
-                              color: _getMistakeColor(
-                                mistake.mistakeCount,
-                                context,
-                              ),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                            decoration: context.neo
+                                .decoration(
+                                  color: _getMistakeColor(
+                                    mistake.mistakeCount,
+                                    context,
+                                  ),
+                                  borderRadius: BorderRadius.circular(999),
+                                )
+                                .copyWith(
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: context.neo.shadow,
+                                      offset: const Offset(2, 2),
+                                    ),
+                                  ],
+                                ),
                             child: Text(
                               '${mistake.mistakeCount}',
-                              style: context.textTheme.labelMedium?.copyWith(
-                                color: Colors.white,
+                              style: context.textTheme.titleMedium?.copyWith(
+                                color: context.neo.onFeedback,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -182,11 +199,11 @@ class Statistics extends HookConsumerWidget {
 
   Color _getMistakeColor(int mistakeCount, BuildContext context) {
     if (mistakeCount == 1) {
-      return Colors.orange;
+      return context.neo.accent;
     } else if (mistakeCount <= 3) {
-      return Colors.deepOrange;
+      return const Color(0xffFFA94D);
     } else {
-      return Colors.red;
+      return context.neo.wrongFill;
     }
   }
 }

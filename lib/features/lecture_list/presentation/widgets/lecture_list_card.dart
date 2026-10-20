@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
 
 class LectureListCard extends StatelessWidget {
@@ -23,36 +24,34 @@ class LectureListCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () => _navigateToLectureDetail(context, lecture),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: context.colorScheme.primaryContainer,
-            width: 2,
-          ),
-        ),
-        child: SizedBox(
-          height: 150,
-          width: cardWidth,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 12, top: 8, right: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  '$lectureIndex. ${lecture.title}',
-                  style: context.textTheme.headlineLarge,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const Divider(),
-                Text(
-                  lecture.usages.join(', '),
-                  style: context.textTheme.headlineSmall,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+      child: Container(
+        width: cardWidth,
+        margin: const EdgeInsets.fromLTRB(16, 8, 20, 16),
+        padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
+        decoration: context.neo.decoration(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$lectureIndex. ${lecture.title}',
+              style: context.textTheme.headlineMedium?.copyWith(
+                color: context.neo.onCard,
+                fontFamily: context.textTheme.notoSansJPFont,
+                fontWeight: FontWeight.bold,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-          ),
+            Divider(color: context.neo.border, thickness: 2),
+            Text(
+              lecture.usages.join(', '),
+              style: context.textTheme.titleMedium?.copyWith(
+                color: context.neo.onCard,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

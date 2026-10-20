@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:japanana/core/extensions.dart';
+import 'package:japanana/core/presentation/widgets/neo_button.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
 
 class SettingsModal extends StatelessWidget {
@@ -26,8 +27,14 @@ class SettingsModal extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
         decoration: BoxDecoration(
           color: context.colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(20),
+          border: Border(
+            top: BorderSide(
+              color: context.neo.border,
+              width: context.neo.borderWidth,
+            ),
+          ),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(context.neo.radius * 2),
           ),
         ),
         child: SafeArea(
@@ -37,11 +44,11 @@ class SettingsModal extends StatelessWidget {
               // Handle bar
               Container(
                 margin: const EdgeInsets.only(top: 12),
-                width: 40,
-                height: 4,
+                width: 48,
+                height: 6,
                 decoration: BoxDecoration(
-                  color: context.colorScheme.onSurface.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(2),
+                  color: context.neo.border,
+                  borderRadius: BorderRadius.circular(3),
                 ),
               ),
               Padding(
@@ -51,10 +58,17 @@ class SettingsModal extends StatelessWidget {
                   children: [
                     Hero(
                       tag: settingType,
-                      child: Icon(
-                        settingType.icon,
-                        color: context.colorScheme.primary,
-                        size: 48,
+                      child: Container(
+                        width: 84,
+                        height: 84,
+                        decoration: context.neo.decoration(
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          settingType.icon,
+                          color: context.neo.onCard,
+                          size: 40,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -69,18 +83,27 @@ class SettingsModal extends StatelessWidget {
                     _buildContent(context),
                     const SizedBox(height: 24),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        TextButton(
-                          onPressed: () => Navigator.of(context).pop(),
-                          child: const Text('Cancel'),
+                        Expanded(
+                          child: NeoButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            minHeight: 56,
+                            child: const Text('Cancel'),
+                          ),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                            settingType.getOnTap().call();
-                          },
-                          child: const Text('Confirm'),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          child: NeoButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              settingType.getOnTap().call();
+                            },
+                            minHeight: 56,
+                            color: context.neo.accent,
+                            foregroundColor: context.neo.onAccent,
+                            shadowColor: context.neo.accentShadow,
+                            child: const Text('Confirm'),
+                          ),
                         ),
                       ],
                     ),

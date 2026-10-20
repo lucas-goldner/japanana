@@ -6,72 +6,47 @@ class NoteBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: NotebookBackgroundPainter(
+        painter: GridPaperPainter(
           backgroundColor: context.colorScheme.secondary,
-          lineColor: context.colorScheme.onSurface.withAlpha(40),
-          marginLineColor: context.colorScheme.primary,
+          lineColor: context.neo.grid,
         ),
         child: const SizedBox.expand(),
       );
 }
 
-class NotebookBackgroundPainter extends CustomPainter {
-  NotebookBackgroundPainter({
-    this.backgroundColor = const Color(0xFFFFF8E1), // a pale “paper” cream
-    this.lineColor = const Color(0xFF90CAF9), // a soft blue for rulings
-    this.marginLineColor = const Color(0xFFEF5350), // a pale red for the margin
-    this.lineSpacing = 32.0, // ~32px between each rule line
-    this.marginOffset = 48.0, // ~48px from the left edge
+/// Flat graph paper: a solid fill with an evenly spaced square grid.
+class GridPaperPainter extends CustomPainter {
+  GridPaperPainter({
+    required this.backgroundColor,
+    required this.lineColor,
+    this.cellSize = 24.0,
   });
 
-  /// The off‐white/cream background color of the “paper.”
   final Color backgroundColor;
-
-  /// The color of the horizontal ruling (e.g. light blue).
   final Color lineColor;
 
-  /// The color of the vertical margin line (e.g. light red).
-  final Color marginLineColor;
-
-  /// Vertical spacing between each horizontal line.
-  final double lineSpacing;
-
-  /// How far from the left edge to draw the vertical margin line.
-  final double marginOffset;
+  /// Width and height of one grid cell.
+  final double cellSize;
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 1) Fill the entire canvas with the “paper” color.
-    final fillPaint = Paint()..color = backgroundColor;
-    canvas.drawRect(Offset.zero & size, fillPaint);
+    canvas.drawRect(Offset.zero & size, Paint()..color = backgroundColor);
 
-    // 2) Draw horizontal lines every [lineSpacing] pixels.
-    final horizontalPaint = Paint()
+    final linePaint = Paint()
       ..color = lineColor
       ..strokeWidth = 1.0;
 
-    // Start drawing from y = lineSpacing (so the very top isn't lined),
-    // and continue until the bottom of the canvas.
-    for (var y = lineSpacing; y < size.height; y += lineSpacing) {
-      canvas.drawLine(
-        Offset(0, y),
-        Offset(size.width, y),
-        horizontalPaint,
-      );
+    for (var y = cellSize; y < size.height; y += cellSize) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), linePaint);
     }
-
-    // 3) Draw the vertical margin line at [marginOffset].
-    final verticalPaint = Paint()
-      ..color = marginLineColor
-      ..strokeWidth = 1.0;
-
-    canvas.drawLine(
-      Offset(marginOffset, 0),
-      Offset(marginOffset, size.height),
-      verticalPaint,
-    );
+    for (var x = cellSize; x < size.width; x += cellSize) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), linePaint);
+    }
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant GridPaperPainter oldDelegate) =>
+      oldDelegate.backgroundColor != backgroundColor ||
+      oldDelegate.lineColor != lineColor ||
+      oldDelegate.cellSize != cellSize;
 }

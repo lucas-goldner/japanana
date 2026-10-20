@@ -43,5 +43,12 @@
   "selectYourLecture": "講義を選択してください",
   "continueReview": "続行",
   "completedLectures": "{count}完了",
-  "recentMistakes": "最近の間違い"
+  "recentMistakes": "最近の間違い",
+  "writingShort": "作文",
+  "conversationalShort": "会話",
+  "n2Short": "N2",
+  "n3Short": "N3",
+  "n4Short": "N4",
+  "rememberedShort": "保存",
+  "recentMistakesShort": "間違い"
 }

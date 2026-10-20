@@ -122,4 +122,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recentMistakes => 'Recent Mistakes';
+
+  @override
+  String get writingShort => 'Writing';
+
+  @override
+  String get conversationalShort => 'Talk';
+
+  @override
+  String get n2Short => 'N2';
+
+  @override
+  String get n3Short => 'N3';
+
+  @override
+  String get n4Short => 'N4';
+
+  @override
+  String get rememberedShort => 'Saved';
+
+  @override
+  String get recentMistakesShort => 'Mistakes';
 }

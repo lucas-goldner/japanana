@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:japanana/core/l10n/app_localizations.dart';
-import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/presentation/style/neo_theme.dart';
 import 'package:japanana/features/review_selection/presentation/style/books_theme.dart';
 
 extension BuildContextExtension on BuildContext {
@@ -10,7 +10,7 @@ extension BuildContextExtension on BuildContext {
   TextTheme get textTheme => Theme.of(this).textTheme;
   ThemeData get theme => Theme.of(this);
   BooksTheme get booksTheme => Theme.of(this).extension<BooksTheme>()!;
-  AppColors get appColors => Theme.of(this).extension<AppColors>()!;
+  NeoTheme get neo => Theme.of(this).extension<NeoTheme>()!;
   T themeExtension<T>() => Theme.of(this).extension<T>()!;
   void popUntilPath(String ancestorPath) =>
       GoRouter.of(this).popUntilPath(this, ancestorPath);

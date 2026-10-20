@@ -99,9 +99,10 @@ The app uses Riverpod with Flutter Hooks for state management:
 - Custom theme defined in `core/presentation/style/japanana_theme.dart`
 - Material 3 design system
 - Custom animations including page curl effects
-- Scribble-style UI elements for playful learning experience
+- Neubrutalism style: thick outlines, flat fills and hard offset shadows on graph paper backgrounds
+  - Tokens live in the `NeoTheme` extension (`core/presentation/style/neo_theme.dart`, `context.neo`); use `context.neo.decoration()` for outlined cards and `NeoButton` (`core/presentation/widgets/neo_button.dart`) for buttons
+  - Avoid hardcoded colors so both themes stay correct
 - Light and dark ("midnight notebook") themes; the app follows the system setting
-- Colors outside the `ColorScheme` (scribble borders, answer feedback, bookshelf tint) live in the `AppColors` theme extension (`context.appColors`); avoid hardcoded colors so both themes stay correct
 
 ## Important Technical Details
 

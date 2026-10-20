@@ -26,7 +26,7 @@ class BookShelf extends StatefulWidget {
 class _BookShelfState extends State<BookShelf> {
   static const double fixedHeight = 200;
   static const double verticalPadding = 24;
-  static const double spineWidth = fixedHeight * 0.09;
+  static const double spineWidth = fixedHeight * 0.15;
   static const double coverWidth = fixedHeight * 0.7;
 
   @override
@@ -120,14 +120,19 @@ class _BookShelfBackground extends StatelessWidget {
         width: double.infinity,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              colorFilter: ColorFilter.mode(
-                context.appColors.bookshelfTint,
-                BlendMode.modulate,
+            color: context.neo.bookshelf,
+            border: Border.symmetric(
+              horizontal: BorderSide(
+                color: context.neo.border,
+                width: context.neo.borderWidth,
               ),
-              image: const AssetImage('assets/images/noisy.webp'),
-              repeat: ImageRepeat.repeat,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: context.neo.shadow,
+                offset: Offset(0, context.neo.shadowOffset.dy * 1.5),
+              ),
+            ],
           ),
         ),
       );

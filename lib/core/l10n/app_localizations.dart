@@ -315,6 +315,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recent Mistakes'**
   String get recentMistakes;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'Writing'**
+  String get writingShort;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'Talk'**
+  String get conversationalShort;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'N2'**
+  String get n2Short;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'N3'**
+  String get n3Short;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'N4'**
+  String get n4Short;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get rememberedShort;
+
+  /// Short lecture type title shown on a book spine
+  ///
+  /// In en, this message translates to:
+  /// **'Mistakes'**
+  String get recentMistakesShort;
 }
 
 class _AppLocalizationsDelegate

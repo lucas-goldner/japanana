@@ -4,6 +4,8 @@ import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/keys.dart';
+import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/core/presentation/widgets/neo_button.dart';
 import 'package:japanana/features/in_review/presentation/widgets/lecture_card_expandable_content.dart';
 
 class LectureDetail extends ConsumerWidget {
@@ -21,9 +23,11 @@ class LectureDetail extends ConsumerWidget {
           style: context.textTheme.headlineLarge,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 20, 20, 24),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: context.neo.decoration(),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,17 +35,22 @@ class LectureDetail extends ConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    key: K.lectureCardTitle,
-                    lecture.title,
-                    style: context.textTheme.headlineSmall,
+                  Flexible(
+                    child: Text(
+                      key: K.lectureCardTitle,
+                      lecture.title,
+                      style: context.textTheme.headlineSmall?.copyWith(
+                        fontFamily: context.textTheme.notoSansJPFont,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                   if (rememberedLectures
                       .where((element) => element.id == lecture.id)
                       .first
                       .types
                       .contains(LectureType.remember))
-                    ElevatedButton.icon(
+                    NeoButton(
                       onPressed: () {
                         ref
                             .read(lectureProvider.notifier)
@@ -49,11 +58,29 @@ class LectureDetail extends ConsumerWidget {
                               lecture.id,
                             );
                       },
-                      label: Text(context.l10n.forget),
-                      icon: const Icon(Icons.remove_circle),
+                      minHeight: 44,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      color: context.neo.wrongFill,
+                      foregroundColor: context.neo.onFeedback,
+                      shadowColor: context.neo.accentShadow,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.bookmark_remove,
+                            size: 20,
+                            color: context.neo.onFeedback,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(context.l10n.forget),
+                        ],
+                      ),
                     )
                   else
-                    ElevatedButton.icon(
+                    NeoButton(
                       onPressed: () {
                         ref
                             .read(lectureProvider.notifier)
@@ -61,8 +88,26 @@ class LectureDetail extends ConsumerWidget {
                               lecture.id,
                             );
                       },
-                      label: Text(context.l10n.remember),
-                      icon: const Icon(Icons.save),
+                      minHeight: 44,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      color: context.neo.accent,
+                      foregroundColor: context.neo.onAccent,
+                      shadowColor: context.neo.accentShadow,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.bookmark_add,
+                            size: 20,
+                            color: context.neo.onAccent,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(context.l10n.remember),
+                        ],
+                      ),
                     ),
                 ],
               ),
@@ -70,7 +115,11 @@ class LectureDetail extends ConsumerWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Divider(height: 12),
+                  Divider(
+                    height: 24,
+                    thickness: 2,
+                    color: context.neo.border,
+                  ),
                   LectureCardExpandableContent(
                     itemsToDisplay: lecture.usages,
                     label: context.l10n.usages,
