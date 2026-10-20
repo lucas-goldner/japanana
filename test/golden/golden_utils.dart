@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:japanana/core/application/clock_provider.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/application/preferences_provider.dart';
 import 'package:japanana/core/application/random_provider.dart';
@@ -141,6 +142,7 @@ Future<void> pumpGoldenScreen(
           ),
         ),
         randomProvider.overrideWithValue(Random(42)),
+        clockProvider.overrideWithValue(() => goldenNow),
       ],
       child: MaterialApp(
         theme: theme,

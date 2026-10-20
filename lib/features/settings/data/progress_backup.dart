@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/domain/shared_preferences_key.dart';
+import 'package:japanana/features/statistics/application/study_log_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Serializes the learner's progress (mistakes, saved lectures and unfinished
-/// review sessions) so it can be backed up, restored or reset.
+/// Serializes the learner's progress (mistakes, saved lectures, unfinished
+/// review sessions and the study log) so it can be backed up, restored or
+/// reset.
 // ignore: avoid_classes_with_only_static_members
 abstract final class ProgressBackup {
   static const formatVersion = 1;
@@ -14,6 +16,8 @@ abstract final class ProgressBackup {
   static final _listKeys = [
     _mistakesKey,
     SharedPreferencesKey.needToRememberLectures.value,
+    studyAnswersKey,
+    studySessionsKey,
   ];
 
   static final _stringKeys = [

@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/domain/mistake.dart';
 import 'package:japanana/core/domain/shared_preferences_key.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/session/domain/session.dart';
+import 'package:japanana/features/statistics/application/study_log_provider.dart';
+import 'package:japanana/features/statistics/domain/study_records.dart';
 
 final goldenLectures = [
   Lecture(
@@ -70,8 +73,11 @@ final goldenLectures = [
 
 /// Preferences that make the "remember" and "recent mistakes" books appear
 /// and fill the statistics screen.
+/// Fixed "now" of every golden, so time based screens never change.
+final goldenNow = DateTime(2026, 10, 20, 12);
+
 Map<String, Object> goldenMistakePreferences() {
-  final now = DateTime.now();
+  final now = goldenNow;
   return {
     SharedPreferencesKey.needToRememberLectures.value: ['n3-1'],
     'mistakes': [
@@ -107,3 +113,68 @@ Map<String, Object> goldenSessionPreferences(LectureType type) => {
         ).toMap(),
       ),
     };
+
+/// Sixteen weeks of reviews ending at [goldenNow], with a 12 day streak,
+/// improving accuracy and lectures that get mixed up.
+Map<String, Object> goldenStudyLogPreferences() {
+  final random = Random(7);
+  const errorRates = {
+    'n4-1': 0.65,
+    'n2-1': 0.5,
+    'n4-2': 0.45,
+    'n3-2': 0.35,
+    'n2-2': 0.2,
+    'n3-1': 0.1,
+    'n4-3': 0.05,
+  };
+  const mixedUpWith = {'n3-2': 'n4-3', 'n2-1': 'n2-2', 'n4-1': 'n4-2'};
+  final ids = errorRates.keys.toList();
+  final answers = <AnswerRecord>[];
+  final sessions = <SessionRecord>[];
+
+  for (var daysAgo = 111; daysAgo >= 0; daysAgo--) {
+    if (daysAgo > 11 && random.nextDouble() < 0.3) continue;
+    final day = DateTime(goldenNow.year, goldenNow.month, goldenNow.day)
+        .subtract(Duration(days: daysAgo));
+    final start = day.add(const Duration(hours: 9));
+    var time = start;
+    final cards = 3 + random.nextInt(daysAgo < 12 ? 14 : 10);
+    for (var card = 0; card < cards; card++) {
+      final id = ids[random.nextInt(ids.length)];
+      // Mistakes get rarer over time.
+      final errorRate = errorRates[id]! * (0.55 + 0.45 * daysAgo / 111);
+      if (random.nextDouble() < errorRate) {
+        time = time.add(const Duration(seconds: 20));
+        answers.add(
+          AnswerRecord(
+            time: time,
+            lectureId: id,
+            correct: false,
+            firstAttempt: true,
+            pickedLectureId:
+                mixedUpWith[id] ?? ids[(ids.indexOf(id) + 1) % ids.length],
+          ),
+        );
+      }
+      time = time.add(const Duration(seconds: 25));
+      answers.add(
+        AnswerRecord(
+          time: time,
+          lectureId: id,
+          correct: true,
+          firstAttempt: answers.isEmpty ||
+              answers.last.lectureId != id ||
+              answers.last.correct,
+        ),
+      );
+    }
+    sessions.add(
+      SessionRecord(start: start, end: time, cardsCompleted: cards),
+    );
+  }
+
+  return {
+    studyAnswersKey: [for (final answer in answers) answer.toJson()],
+    studySessionsKey: [for (final session in sessions) session.toJson()],
+  };
+}

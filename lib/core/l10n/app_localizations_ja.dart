@@ -320,4 +320,122 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get iCloudEmpty => 'iCloudにはまだバックアップがありません。';
+
+  @override
+  String get statsDayStreak => '日連続';
+
+  @override
+  String statsLongestStreak(int days) {
+    return '最長：$days日';
+  }
+
+  @override
+  String get statsCardsReviewed => '復習したカード';
+
+  @override
+  String get statsFirstTryAccuracy => '一発正解率';
+
+  @override
+  String get statsMinutesStudied => '学習時間（分）';
+
+  @override
+  String get statsLecturesMastered => '習得した講義';
+
+  @override
+  String statsVsLastWeek(String change) {
+    return '先週比 $change';
+  }
+
+  @override
+  String get statsActivity => 'アクティビティ';
+
+  @override
+  String get statsLess => '少';
+
+  @override
+  String get statsMore => '多';
+
+  @override
+  String get statsCardsPerDay => '1日のカード数';
+
+  @override
+  String get statsLast7Days => '7日';
+
+  @override
+  String get statsLast30Days => '30日';
+
+  @override
+  String get statsCorrect => '正解';
+
+  @override
+  String get statsWrong => '不正解';
+
+  @override
+  String get statsMastery => '本ごとの習得度';
+
+  @override
+  String get statsMastered => '習得';
+
+  @override
+  String get statsLearning => '学習中';
+
+  @override
+  String get statsUnseen => '未学習';
+
+  @override
+  String get statsAccuracyByWeek => '週ごとの一発正解率';
+
+  @override
+  String get statsThisWeek => '今週';
+
+  @override
+  String statsWeeksAgo(int count) {
+    return '$count週間前';
+  }
+
+  @override
+  String get statsWeakSpots => '苦手なところ';
+
+  @override
+  String get statsMostMissed => 'よく間違える文法';
+
+  @override
+  String get statsMixedUp => 'よく混同する組み合わせ';
+
+  @override
+  String statsTimes(int count) {
+    return '$count回';
+  }
+
+  @override
+  String statsWrongShare(String percent) {
+    return '$percent不正解';
+  }
+
+  @override
+  String get statsSeeAll => 'すべて見る';
+
+  @override
+  String get statsReviewWeakSpots => '苦手を復習する';
+
+  @override
+  String get timeJustNow => 'たった今';
+
+  @override
+  String timeMinutesAgo(int count) {
+    return '$count分前';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    return '$count時間前';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    return '$count日前';
+  }
+
+  @override
+  String get statsNotEnoughData => 'まだデータが足りません。復習を続けましょう！';
 }

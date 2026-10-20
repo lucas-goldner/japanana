@@ -6,6 +6,7 @@ import 'package:japanana/core/application/statistics_provider.dart';
 import 'package:japanana/features/session/application/session_provider.dart';
 import 'package:japanana/features/settings/data/backup_storage.dart';
 import 'package:japanana/features/settings/data/progress_backup.dart';
+import 'package:japanana/features/statistics/application/study_log_provider.dart';
 
 final progressControllerProvider = Provider<ProgressController>(
   ProgressController.new,
@@ -58,7 +59,8 @@ class ProgressController {
   Future<void> _reload() async {
     _ref
       ..invalidate(mistakenLecturesProvider)
-      ..invalidate(sessionProvider);
+      ..invalidate(sessionProvider)
+      ..invalidate(studyLogProvider);
     await _ref.read(lectureProvider.notifier).fetchLectures();
   }
 }

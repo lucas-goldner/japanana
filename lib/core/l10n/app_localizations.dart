@@ -703,6 +703,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'There is no iCloud backup yet.'**
   String get iCloudEmpty;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'day streak'**
+  String get statsDayStreak;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{Longest: 1 day} other{Longest: {days} days}}'**
+  String statsLongestStreak(int days);
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Cards reviewed'**
+  String get statsCardsReviewed;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'First-try accuracy'**
+  String get statsFirstTryAccuracy;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Minutes studied'**
+  String get statsMinutesStudied;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Lectures mastered'**
+  String get statsLecturesMastered;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'{change} vs last week'**
+  String statsVsLastWeek(String change);
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get statsActivity;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Less'**
+  String get statsLess;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get statsMore;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Cards per day'**
+  String get statsCardsPerDay;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'7 days'**
+  String get statsLast7Days;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'30 days'**
+  String get statsLast30Days;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get statsCorrect;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong'**
+  String get statsWrong;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Mastery by book'**
+  String get statsMastery;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered'**
+  String get statsMastered;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Learning'**
+  String get statsLearning;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get statsUnseen;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'First-try accuracy by week'**
+  String get statsAccuracyByWeek;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get statsThisWeek;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'{count} weeks ago'**
+  String statsWeeksAgo(int count);
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Weak spots'**
+  String get statsWeakSpots;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Most missed'**
+  String get statsMostMissed;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Often mixed up'**
+  String get statsMixedUp;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'{count}×'**
+  String statsTimes(int count);
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} wrong'**
+  String statsWrongShare(String percent);
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'See all'**
+  String get statsSeeAll;
+
+  /// Statistics screen
+  ///
+  /// In en, this message translates to:
+  /// **'Review weak spots'**
+  String get statsReviewWeakSpots;
+
+  /// Relative time
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get timeJustNow;
+
+  /// Relative time
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 minute ago} other{{count} minutes ago}}'**
+  String timeMinutesAgo(int count);
+
+  /// Relative time
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 hour ago} other{{count} hours ago}}'**
+  String timeHoursAgo(int count);
+
+  /// Relative time
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day ago} other{{count} days ago}}'**
+  String timeDaysAgo(int count);
+
+  /// Shown in a statistics chart that has no data yet
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data yet. Keep reviewing!'**
+  String get statsNotEnoughData;
 }
 
 class _AppLocalizationsDelegate

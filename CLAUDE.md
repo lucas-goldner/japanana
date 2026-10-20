@@ -138,15 +138,15 @@ Each item on the settings canvas (`features/settings/`) opens a sheet or an exte
 - **Send Feedback**, **Rate the App** and the link items: `ExternalActions` (url_launcher, in_app_review)
 - **See Changelog**: `assets/changelog/changelog.json` with English and Japanese entries; add an entry for every release
 - Platform services sit behind providers so tests override them with the fakes in `test/golden/golden_fakes.dart`
+- `SharedPreferences` is loaded in `main()` and provided at the root `ProviderScope` (`preferencesProvider`); don't add nested scopes with overrides, providers without declared dependencies can't see them
 - Links, the support email, the App Store id and the iCloud container live in `core/app_config.dart` (placeholders marked TODO)
 - RevenueCat keys are passed at build time: `--dart-define=REVENUECAT_APPLE_API_KEY=... --dart-define=REVENUECAT_GOOGLE_API_KEY=...`; without them the store sheets show "store unavailable"
 
 ### Statistics and Mistake Tracking
-The app includes a comprehensive mistake tracking system:
-- **Mistake Model** (`core/domain/mistake.dart`): Stores lecture ID, mistake count, and timestamp
-- **Statistics Provider** (`core/application/statistics_provider.dart`): 
-  - `mistakenLecturesProvider`: Manages mistakes with SharedPreferences persistence
-  - `statisticsProvider`: Provides sorted mistake data for UI consumption
-- **Automatic Tracking**: Wrong usage selections in review sessions are automatically tracked
-- **Statistics Screen**: Displays mistakes sorted by recency with color-coded frequency indicators
+The statistics screen (`features/statistics/`) is a dashboard built from a local study log:
+- **Study log** (`statistics/application/study_log_provider.dart`): every usage pick (`AnswerRecord`: lecture, right or wrong, first try or not, which lecture's usage was picked instead) and every review session (`SessionRecord`) is recorded by the review screen and stored in SharedPreferences (`study_answers`, `study_sessions`); included in backups and reset
+- **Calculator** (`statistics/domain/study_stats_calculator.dart`): pure function turning the log, lectures and mistakes into `StudyStats` (streaks, first-try accuracy, minutes studied, mastery per book, weekly accuracy, weak lectures, mixed-up pairs); a lecture counts as mastered after 3 right first tries in a row
+- **Dashboard** (`statistics_dashboard.dart`, charts in `widgets/neo_charts.dart`): streak, big numbers, activity heatmap, cards per day (7/30 days), mastery by book, accuracy by week, then weak spots with the recent mistakes preview; every chart has a "not enough data yet" state
+- **Mistakes** (`core/domain/mistake.dart`, `mistakenLecturesProvider`): still tracked per lecture; they feed the recent mistakes list (`RecentMistakesScreen`, opened from "See all") and the Recent Mistakes review started by "Review weak spots"
+- Time comes from `clockProvider` so goldens use a fixed date (`goldenNow` in `golden_fixtures.dart`, with a generated study log in `goldenStudyLogPreferences`)
 - **Navigation**: Stats button in review selection navigates to `/statistics` route

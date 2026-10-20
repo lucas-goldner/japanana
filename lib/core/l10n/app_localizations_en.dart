@@ -329,4 +329,146 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get iCloudEmpty => 'There is no iCloud backup yet.';
+
+  @override
+  String get statsDayStreak => 'day streak';
+
+  @override
+  String statsLongestStreak(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Longest: $days days',
+      one: 'Longest: 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsCardsReviewed => 'Cards reviewed';
+
+  @override
+  String get statsFirstTryAccuracy => 'First-try accuracy';
+
+  @override
+  String get statsMinutesStudied => 'Minutes studied';
+
+  @override
+  String get statsLecturesMastered => 'Lectures mastered';
+
+  @override
+  String statsVsLastWeek(String change) {
+    return '$change vs last week';
+  }
+
+  @override
+  String get statsActivity => 'Activity';
+
+  @override
+  String get statsLess => 'Less';
+
+  @override
+  String get statsMore => 'More';
+
+  @override
+  String get statsCardsPerDay => 'Cards per day';
+
+  @override
+  String get statsLast7Days => '7 days';
+
+  @override
+  String get statsLast30Days => '30 days';
+
+  @override
+  String get statsCorrect => 'Correct';
+
+  @override
+  String get statsWrong => 'Wrong';
+
+  @override
+  String get statsMastery => 'Mastery by book';
+
+  @override
+  String get statsMastered => 'Mastered';
+
+  @override
+  String get statsLearning => 'Learning';
+
+  @override
+  String get statsUnseen => 'New';
+
+  @override
+  String get statsAccuracyByWeek => 'First-try accuracy by week';
+
+  @override
+  String get statsThisWeek => 'This week';
+
+  @override
+  String statsWeeksAgo(int count) {
+    return '$count weeks ago';
+  }
+
+  @override
+  String get statsWeakSpots => 'Weak spots';
+
+  @override
+  String get statsMostMissed => 'Most missed';
+
+  @override
+  String get statsMixedUp => 'Often mixed up';
+
+  @override
+  String statsTimes(int count) {
+    return '$count×';
+  }
+
+  @override
+  String statsWrongShare(String percent) {
+    return '$percent wrong';
+  }
+
+  @override
+  String get statsSeeAll => 'See all';
+
+  @override
+  String get statsReviewWeakSpots => 'Review weak spots';
+
+  @override
+  String get timeJustNow => 'Just now';
+
+  @override
+  String timeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '1 minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '1 hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days ago',
+      one: '1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get statsNotEnoughData => 'Not enough data yet. Keep reviewing!';
 }

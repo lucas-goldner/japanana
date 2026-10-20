@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+import 'package:japanana/core/application/clock_provider.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/application/random_provider.dart';
 import 'package:japanana/core/application/statistics_provider.dart';
@@ -15,6 +16,7 @@ import 'package:japanana/core/router.dart';
 import 'package:japanana/features/in_review/presentation/widgets/chat_message.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/session/application/session_provider.dart';
+import 'package:japanana/features/statistics/application/study_log_provider.dart';
 
 const _kButtonAnimationDuration = Duration(milliseconds: 900);
 const _kButtonAnimationDelay = 0.2;
@@ -76,6 +78,24 @@ class InReview extends HookConsumerWidget {
     final buttonAnimationController = useAnimationController(
       duration: _kButtonAnimationDuration,
     );
+    final studyLog = ref.read(studyLogProvider.notifier);
+    final cardsCompleted = useRef(0);
+
+    // Record the session when leaving the review screen.
+    useEffect(
+      () {
+        final start = ref.read(clockProvider)();
+        return () {
+          if (cardsCompleted.value > 0) {
+            studyLog.recordSession(
+              start: start,
+              cardsCompleted: cardsCompleted.value,
+            );
+          }
+        };
+      },
+      [],
+    );
 
     useEffect(
       () {
@@ -109,11 +129,28 @@ class InReview extends HookConsumerWidget {
     }
 
     void handleUsageSelection(int index, List<String> usageOptions) {
-      if (selectedUsageIndex.value != null) return;
+      // Picking an option that was already marked wrong changes nothing.
+      if (selectedUsageIndex.value != null ||
+          wrongSelections.value.contains(index)) {
+        return;
+      }
 
       final currentLecture = shuffledLectures.value[currentLectureIndex.value];
       final selectedUsage = usageOptions[index];
       final isCorrect = currentLecture.usages.contains(selectedUsage);
+
+      studyLog.recordAnswer(
+        lectureId: currentLecture.id,
+        correct: isCorrect,
+        firstAttempt: wrongSelections.value.isEmpty,
+        pickedLectureId: isCorrect
+            ? null
+            : ref
+                .read(lectureProvider)
+                .where((lecture) => lecture.usages.contains(selectedUsage))
+                .firstOrNull
+                ?.id,
+      );
 
       if (!isCorrect) {
         wrongSelections.value = {...wrongSelections.value, index};
@@ -177,6 +214,7 @@ class InReview extends HookConsumerWidget {
               ref
                   .read(sessionProvider(lectureType).notifier)
                   .markLectureCompleted(completedLecture.id);
+              cardsCompleted.value++;
 
               currentLectureIndex.value++;
               currentStage.value = _ReviewStage.intro;
@@ -256,6 +294,7 @@ class InReview extends HookConsumerWidget {
               ref
                   .read(sessionProvider(lectureType).notifier)
                   .markLectureCompleted(completedLecture.id);
+              cardsCompleted.value++;
 
               currentStage.value = _ReviewStage.finished;
 
