@@ -9,68 +9,40 @@ import 'package:japanana/core/router.dart';
 import 'package:japanana/features/settings/application/app_settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized().deferFirstFrame();
-  runApp(const ProviderScope(child: JapananaApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // Loaded before the first frame and provided at the root, so every
+  // provider can read it synchronously.
+  final preferences = await SharedPreferences.getInstance();
+  runApp(
+    ProviderScope(
+      overrides: [
+        preferencesProvider.overrideWithValue(preferences),
+        sharedPreferencesProvider.overrideWithValue(
+          SharedPreferencesRepositoryImpl(preferences),
+        ),
+      ],
+      child: const JapananaApp(),
+    ),
+  );
 }
 
-class JapananaApp extends ConsumerStatefulWidget {
+class JapananaApp extends ConsumerWidget {
   const JapananaApp({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _JapananaAppState();
-}
-
-class _JapananaAppState extends ConsumerState<JapananaApp> {
-  Future<SharedPreferences>? _appLoader;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _appLoader ??= _loadApp(ref);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(appSettingsProvider);
+    return MaterialApp.router(
+      routerConfig: router,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: settings.language.locale,
+      debugShowCheckedModeBanner: false,
+      title: 'Japanana',
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: settings.themeMode,
+    );
   }
-
-  Future<SharedPreferences> _loadApp(WidgetRef ref) =>
-      SharedPreferences.getInstance();
-
-  @override
-  Widget build(BuildContext context) =>
-      FutureBuilder<SharedPreferences>(
-        future: _appLoader,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (!WidgetsBinding.instance.firstFrameRasterized) {
-              WidgetsBinding.instance.allowFirstFrame();
-            }
-
-            return ProviderScope(
-              overrides: [
-                preferencesProvider.overrideWithValue(snapshot.requireData),
-                sharedPreferencesProvider.overrideWithValue(
-                  SharedPreferencesRepositoryImpl(snapshot.requireData),
-                ),
-              ],
-              child: Consumer(
-                builder: (context, ref, _) {
-                  final settings = ref.watch(appSettingsProvider);
-                  return MaterialApp.router(
-                    routerConfig: router,
-                    localizationsDelegates:
-                        AppLocalizations.localizationsDelegates,
-                    supportedLocales: AppLocalizations.supportedLocales,
-                    locale: settings.language.locale,
-                    debugShowCheckedModeBanner: false,
-                    title: 'Japanana',
-                    theme: lightTheme,
-                    darkTheme: darkTheme,
-                    themeMode: settings.themeMode,
-                  );
-                },
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
-      );
 }
