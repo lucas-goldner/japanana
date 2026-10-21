@@ -78,5 +78,8 @@
 			<string>One</string>
 		</dict>
 	</dict>
+	<!-- Only standard HTTPS encryption, exempt from export compliance -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>
