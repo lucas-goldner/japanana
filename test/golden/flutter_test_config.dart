@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Share of pixels a golden may differ by on macOS. The goldens are rendered
-/// on Linux, and macOS anti-aliases text slightly differently (about 1-2%).
-const _kMacOSGoldenTolerance = 0.03;
+/// on Linux, and macOS anti-aliases text slightly differently (up to about 3%
+/// on text heavy screens).
+const _kMacOSGoldenTolerance = 0.04;
 
 /// Runs before every test file in this folder.
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {

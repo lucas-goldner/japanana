@@ -126,7 +126,7 @@ const _kButtonSlideDistance = 80.0;
 ### Testing Approach
 - Unit tests for business logic and providers
 - Integration tests using Patrol for user flows
-- Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`); rendered on Linux to match GitHub Actions. Linux compares them exactly; on macOS (local runs and Codemagic) `test/golden/flutter_test_config.dart` allows up to 3% differing pixels because macOS anti-aliases text differently. Regenerate goldens on Linux only
+- Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`); rendered on Linux to match GitHub Actions. Linux compares them exactly; on macOS (local runs and Codemagic) `test/golden/flutter_test_config.dart` allows up to 4% differing pixels because macOS anti-aliases text differently. Regenerate goldens on Linux only
 - Test data fixtures in JSON format
 
 ### Settings
