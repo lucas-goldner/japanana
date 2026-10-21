@@ -907,6 +907,624 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not enough data yet. Keep reviewing!'**
   String get statsNotEnoughData;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'…because the bus didn\'t come!'**
+  String get onbHookBubble;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Textbooks teach you Japanese.'**
+  String get onbHookTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Japanana teaches you to *speak* it.'**
+  String get onbHookTitle2;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onbGetStarted;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get onbContinue;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Why are you learning Japanese?'**
+  String get onbGoalTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the one that matters most.'**
+  String get onbGoalSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Talk with friends & family'**
+  String get onbGoalTalk;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Travel without freezing up'**
+  String get onbGoalTravel;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Anime & dramas without subtitles'**
+  String get onbGoalAnime;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Work or live in Japan'**
+  String get onbGoalWork;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Pass the JLPT'**
+  String get onbGoalJlpt;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Where is your Japanese today?'**
+  String get onbLevelTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe to your level. No pressure.'**
+  String get onbLevelSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Just starting'**
+  String get onbLevelN5;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Basics down, conversations shaky'**
+  String get onbLevelN4;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I read okay, speaking is hard'**
+  String get onbLevelN3;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Almost there'**
+  String get onbLevelN2;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Polishing the details'**
+  String get onbLevelN1;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s me'**
+  String get onbLevelConfirm;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'How long have you been studying?'**
+  String get onbYearsTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve been learning for'**
+  String get onbYearsLead;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{less than a year} =1{year} other{years}}'**
+  String onbYearsUnit(int count);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Someone speaks Japanese to you. You…'**
+  String get onbGapTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Freeze'**
+  String get onbGapFreeze;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Translate in my head'**
+  String get onbGapTranslate;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Answer naturally'**
+  String get onbGapNatural;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I freeze and panic a little'**
+  String get onbGapFreezeLabel;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I translate in my head first'**
+  String get onbGapTranslateLabel;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I answer naturally'**
+  String get onbGapNaturalLabel;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Do these sound like you?'**
+  String get onbPainsTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right if it\'s you.'**
+  String get onbPainsSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I can read it, but I can\'t say it.'**
+  String get onbPainCantSpeak;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Real Japanese sounds nothing like my textbook.'**
+  String get onbPainTextbook;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I forget grammar a week after learning it.'**
+  String get onbPainForget;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I mix up grammar that looks the same.'**
+  String get onbPainMixUp;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'ME TOO'**
+  String get onbPainAgree;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese has'**
+  String get onbMathPointsLead;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'grammar points you\'ll actually hear.'**
+  String get onbMathPointsTail;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Learning from textbooks alone, real conversations are'**
+  String get onbMathAloneLead;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'With Japanana, 10 minutes a day:'**
+  String get onbMathWithLead;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'months away.'**
+  String get onbMonthsAway;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'months.'**
+  String get onbMonths;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Estimate based on your level and 10 minutes a day.'**
+  String get onbMathNote;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Show me how'**
+  String get onbMathCta;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s how we fix that'**
+  String get onbFixTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Practise in real conversation-style chats'**
+  String get onbFixCantSpeak;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Grammar the way people actually use it'**
+  String get onbFixTextbook;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Weak spots come back before you forget'**
+  String get onbFixForget;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Japanana spots your mixed-up pairs'**
+  String get onbFixMixUp;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Speak sooner, not someday'**
+  String get onbCompareTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Time until you\'re comfortable in real conversations'**
+  String get onbCompareSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Textbook alone'**
+  String get onbCompareAlone;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'With Japanana'**
+  String get onbCompareWith;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'{count} mo'**
+  String onbMonthsShort(int count);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Learners like you'**
+  String get onbProofTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Sample reviews'**
+  String get onbProofSample;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Finally I understand what my partner\'s family actually says at dinner.'**
+  String get onbReview1;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Talks with partner'**
+  String get onbReview1Tag;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'The mixed-up pairs thing is scary accurate. It knew my weak spots.'**
+  String get onbReview2;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Anime fan'**
+  String get onbReview2Tag;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Ten minutes a day and my speaking finally caught up with my reading.'**
+  String get onbReview3;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'JLPT N3'**
+  String get onbReview3Tag;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Small time, big progress'**
+  String get onbRhythmTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'How much time can you give Japanese each day?'**
+  String get onbRhythmSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'MIN / DAY'**
+  String get onbMinPerDay;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Set my daily rhythm'**
+  String get onbRhythmCta;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Your Japanese, every evening'**
+  String get onbReminderTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'A gentle nudge keeps you going. You can change the time anytime.'**
+  String get onbReminderSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me at {time}'**
+  String onbReminderCta(String time);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get onbNotNow;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Building your path to natural Japanese'**
+  String get onbBuildingTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Matching grammar to your {level} level'**
+  String onbBuildingStep1(String level);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Finding the gaps textbooks skip'**
+  String get onbBuildingStep2;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Planning {minutes} minutes a day'**
+  String onbBuildingStep3(int minutes);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Your first conversation'**
+  String get onbDemoTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Nice! That\'s how natives use it 🎉'**
+  String get onbDemoGood;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'A great first step'**
+  String get onbSnapshotTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'FIRST CONVERSATION'**
+  String get onbStampBottom;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'First try'**
+  String get onbSnapshotFirstTry;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Right'**
+  String get onbSnapshotRight;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Almost'**
+  String get onbSnapshotMissed;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Your level'**
+  String get onbSnapshotLevel;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Watch out for'**
+  String get onbSnapshotWatch;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Next up'**
+  String get onbSnapshotNext;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Share my stamp'**
+  String get onbShareStamp;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'I just had my first Japanese conversation on Japanana: {title} 🍌'**
+  String onbShareText(String title);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'See my plan'**
+  String get onbSeePlan;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan is ready'**
+  String get onbPlanTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Natural conversations by'**
+  String get onbPlanSubtitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Today · {level}'**
+  String onbPlanToday(String level);
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Natural conversations'**
+  String get onbPlanGoal;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s go'**
+  String get onbPlanCta;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Speak Japanese with confidence'**
+  String get onbPaywallTitle;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get onbTrialToday;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Every lesson and your full plan unlocked'**
+  String get onbTrialTodayText;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Day 5'**
+  String get onbTrialDay5;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll remind you before your trial ends'**
+  String get onbTrialDay5Text;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Day 7'**
+  String get onbTrialDay7;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Your trial ends. Cancel anytime before'**
+  String get onbTrialDay7Text;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Best value'**
+  String get onbBestValue;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Start my free week'**
+  String get onbStartTrial;
+
+  /// Onboarding
+  ///
+  /// In en, this message translates to:
+  /// **'Maybe later'**
+  String get onbMaybeLater;
 }
 
 class _AppLocalizationsDelegate

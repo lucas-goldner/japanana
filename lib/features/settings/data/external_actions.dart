@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:japanana/core/app_config.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final externalActionsProvider =
@@ -19,6 +21,13 @@ abstract interface class ExternalActions {
 
   /// Shows the native rating prompt, or the store listing as a fallback.
   Future<void> rateApp();
+
+  /// Asks the system to show its rating prompt. The system decides whether
+  /// it actually appears, so nothing opens when it doesn't.
+  Future<void> requestReview();
+
+  /// Opens the share sheet with [text].
+  Future<void> shareText(String text, {Rect? shareOrigin});
 }
 
 class DeviceExternalActions implements ExternalActions {
@@ -59,4 +68,18 @@ class DeviceExternalActions implements ExternalActions {
       await review.openStoreListing(appStoreId: AppConfig.appStoreId);
     }
   }
+
+  @override
+  Future<void> requestReview() async {
+    final review = InAppReview.instance;
+    if (await review.isAvailable()) {
+      await review.requestReview();
+    }
+  }
+
+  @override
+  Future<void> shareText(String text, {Rect? shareOrigin}) =>
+      SharePlus.instance.share(
+        ShareParams(text: text, sharePositionOrigin: shareOrigin),
+      );
 }

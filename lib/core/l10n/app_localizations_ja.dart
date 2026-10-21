@@ -438,4 +438,333 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get statsNotEnoughData => 'まだデータが足りません。復習を続けましょう！';
+
+  @override
+  String get onbHookBubble => '（バスが来なかったから！）';
+
+  @override
+  String get onbHookTitle => '教科書は日本語を教えてくれる。';
+
+  @override
+  String get onbHookTitle2 => 'Japananaは日本語を*話せる*ようにしてくれる。';
+
+  @override
+  String get onbGetStarted => 'はじめる';
+
+  @override
+  String get onbContinue => '次へ';
+
+  @override
+  String get onbGoalTitle => '日本語を学ぶ理由は？';
+
+  @override
+  String get onbGoalSubtitle => '一番大事なものを選んでね。';
+
+  @override
+  String get onbGoalTalk => '友達や家族と話したい';
+
+  @override
+  String get onbGoalTravel => '旅行で固まらずに話したい';
+
+  @override
+  String get onbGoalAnime => 'アニメやドラマを字幕なしで';
+
+  @override
+  String get onbGoalWork => '日本で働く・暮らす';
+
+  @override
+  String get onbGoalJlpt => 'JLPTに合格したい';
+
+  @override
+  String get onbLevelTitle => '今の日本語のレベルは？';
+
+  @override
+  String get onbLevelSubtitle => 'スワイプして選んでね。気楽にどうぞ。';
+
+  @override
+  String get onbLevelN5 => '始めたばかり';
+
+  @override
+  String get onbLevelN4 => '基礎はOK、会話はまだ不安';
+
+  @override
+  String get onbLevelN3 => '読めるけど、話すのは難しい';
+
+  @override
+  String get onbLevelN2 => 'あと少し';
+
+  @override
+  String get onbLevelN1 => '細かいところを磨きたい';
+
+  @override
+  String get onbLevelConfirm => 'これが私';
+
+  @override
+  String get onbYearsTitle => 'どのくらい勉強してる？';
+
+  @override
+  String get onbYearsLead => '勉強歴';
+
+  @override
+  String onbYearsUnit(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '年',
+      zero: '1年未満',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get onbGapTitle => '日本語で話しかけられたら…';
+
+  @override
+  String get onbGapFreeze => '固まる';
+
+  @override
+  String get onbGapTranslate => '頭の中で翻訳';
+
+  @override
+  String get onbGapNatural => '自然に答える';
+
+  @override
+  String get onbGapFreezeLabel => '固まって少し焦る';
+
+  @override
+  String get onbGapTranslateLabel => 'まず頭の中で翻訳する';
+
+  @override
+  String get onbGapNaturalLabel => '自然に答えられる';
+
+  @override
+  String get onbPainsTitle => 'これ、あなたのこと？';
+
+  @override
+  String get onbPainsSubtitle => '当てはまったら右にスワイプ。';
+
+  @override
+  String get onbPainCantSpeak => '読めるのに、話せない。';
+
+  @override
+  String get onbPainTextbook => '本物の日本語は教科書と全然違う。';
+
+  @override
+  String get onbPainForget => '覚えた文法を一週間で忘れる。';
+
+  @override
+  String get onbPainMixUp => '似た文法をよく混同する。';
+
+  @override
+  String get onbPainAgree => 'わかる！';
+
+  @override
+  String get onbMathPointsLead => '日本語には';
+
+  @override
+  String get onbMathPointsTail => '個の、実際に耳にする文法があります。';
+
+  @override
+  String get onbMathAloneLead => '教科書だけだと、自然な会話まで';
+
+  @override
+  String get onbMathWithLead => 'Japananaで1日10分なら：';
+
+  @override
+  String get onbMonthsAway => 'か月';
+
+  @override
+  String get onbMonths => 'か月';
+
+  @override
+  String get onbMathNote => 'レベルと1日10分をもとにした目安です。';
+
+  @override
+  String get onbMathCta => 'どうやって？';
+
+  @override
+  String get onbFixTitle => 'Japananaならこう解決';
+
+  @override
+  String get onbFixCantSpeak => '会話形式のチャットで練習';
+
+  @override
+  String get onbFixTextbook => '実際に使われる形で文法を学ぶ';
+
+  @override
+  String get onbFixForget => '忘れる前に苦手が戻ってくる';
+
+  @override
+  String get onbFixMixUp => '混同している組み合わせを見つける';
+
+  @override
+  String get onbCompareTitle => '「いつか」じゃなく「もうすぐ」話せる';
+
+  @override
+  String get onbCompareSubtitle => '自然な会話に慣れるまでの時間';
+
+  @override
+  String get onbCompareAlone => '教科書だけ';
+
+  @override
+  String get onbCompareWith => 'Japananaと一緒';
+
+  @override
+  String onbMonthsShort(int count) {
+    return '$countか月';
+  }
+
+  @override
+  String get onbProofTitle => 'あなたのような学習者';
+
+  @override
+  String get onbProofSample => 'サンプルレビュー';
+
+  @override
+  String get onbReview1 => 'パートナーの家族が夕食で話していることが、やっとわかるようになった。';
+
+  @override
+  String get onbReview1Tag => 'パートナーと会話';
+
+  @override
+  String get onbReview2 => '混同ペアの機能が怖いほど正確。苦手がバレてた。';
+
+  @override
+  String get onbReview2Tag => 'アニメ好き';
+
+  @override
+  String get onbReview3 => '1日10分で、やっと話す力が読む力に追いついた。';
+
+  @override
+  String get onbReview3Tag => 'JLPT N3';
+
+  @override
+  String get onbRhythmTitle => '短い時間で、大きな前進';
+
+  @override
+  String get onbRhythmSubtitle => '1日に何分、日本語に使える？';
+
+  @override
+  String get onbMinPerDay => '分 / 日';
+
+  @override
+  String get onbRhythmCta => '毎日のペースを決める';
+
+  @override
+  String get onbReminderTitle => '毎晩、あなたの日本語を';
+
+  @override
+  String get onbReminderSubtitle => 'やさしいリマインダーで続けやすく。時間はいつでも変えられます。';
+
+  @override
+  String onbReminderCta(String time) {
+    return '$timeにリマインド';
+  }
+
+  @override
+  String get onbNotNow => '今はしない';
+
+  @override
+  String get onbBuildingTitle => '自然な日本語への道をつくっています';
+
+  @override
+  String onbBuildingStep1(String level) {
+    return '$levelレベルに合わせた文法を選択';
+  }
+
+  @override
+  String get onbBuildingStep2 => '教科書が飛ばすところを探す';
+
+  @override
+  String onbBuildingStep3(int minutes) {
+    return '1日$minutes分のプランを作成';
+  }
+
+  @override
+  String get onbDemoTitle => 'はじめての会話';
+
+  @override
+  String get onbDemoGood => 'いいね！ネイティブもそう使います 🎉';
+
+  @override
+  String get onbSnapshotTitle => '最高の第一歩';
+
+  @override
+  String get onbStampBottom => 'はじめての会話';
+
+  @override
+  String get onbSnapshotFirstTry => '一発で';
+
+  @override
+  String get onbSnapshotRight => '正解';
+
+  @override
+  String get onbSnapshotMissed => 'もう少し';
+
+  @override
+  String get onbSnapshotLevel => 'あなたのレベル';
+
+  @override
+  String get onbSnapshotWatch => '気をつけたい文法';
+
+  @override
+  String get onbSnapshotNext => '次の文法';
+
+  @override
+  String get onbShareStamp => 'スタンプをシェア';
+
+  @override
+  String onbShareText(String title) {
+    return 'Japananaではじめての日本語会話をしました：$title 🍌';
+  }
+
+  @override
+  String get onbSeePlan => 'プランを見る';
+
+  @override
+  String get onbPlanTitle => 'プランができました';
+
+  @override
+  String get onbPlanSubtitle => '自然な会話ができるのは';
+
+  @override
+  String onbPlanToday(String level) {
+    return '今日 · $level';
+  }
+
+  @override
+  String get onbPlanGoal => '自然な会話';
+
+  @override
+  String get onbPlanCta => 'はじめよう';
+
+  @override
+  String get onbPaywallTitle => '自信をもって日本語を話そう';
+
+  @override
+  String get onbTrialToday => '今日';
+
+  @override
+  String get onbTrialTodayText => 'すべてのレッスンとプランが使い放題';
+
+  @override
+  String get onbTrialDay5 => '5日目';
+
+  @override
+  String get onbTrialDay5Text => '無料期間が終わる前にお知らせします';
+
+  @override
+  String get onbTrialDay7 => '7日目';
+
+  @override
+  String get onbTrialDay7Text => '無料期間終了。それまでならいつでも解約OK';
+
+  @override
+  String get onbBestValue => 'おすすめ';
+
+  @override
+  String get onbStartTrial => '1週間無料で始める';
+
+  @override
+  String get onbMaybeLater => 'あとで';
 }

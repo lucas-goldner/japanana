@@ -4,6 +4,7 @@ import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/features/in_review/presentation/in_review.dart';
 import 'package:japanana/features/lecture_detail/presentation/lecture_detail.dart';
 import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
+import 'package:japanana/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
 import 'package:japanana/features/review_setup/domain/review_setup_options.dart';
 import 'package:japanana/features/review_setup/presentation/review_setup.dart';
@@ -17,15 +18,20 @@ enum AppRoutes {
   lectureList('/lectureList'),
   lectureDetail('/lectureDetail'),
   statistics('/statistics'),
-  settings('/settings');
+  settings('/settings'),
+  onboarding('/onboarding');
 
   const AppRoutes(this.path);
   final String path;
 }
 
-final router = GoRouter(
-  initialLocation: AppRoutes.reviewSelection.path,
+GoRouter createRouter({String? initialLocation}) => GoRouter(
+  initialLocation: initialLocation ?? AppRoutes.reviewSelection.path,
   routes: [
+    GoRoute(
+      path: AppRoutes.onboarding.path,
+      builder: (context, state) => const OnboardingScreen(),
+    ),
     GoRoute(
       path: AppRoutes.reviewSelection.path,
       builder: (context, state) => const ReviewSelection(),
