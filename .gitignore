@@ -46,3 +46,5 @@ app.*.map.json
 
 # Patrol
 integration_test/test_bundle.dart
+# Golden test failure diffs
+test/golden/failures/

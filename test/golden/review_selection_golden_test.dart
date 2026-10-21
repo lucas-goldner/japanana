@@ -1,3 +1,6 @@
+@Tags(['golden'])
+library;
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:japanana/features/review_selection/presentation/review_selection.dart';
 
