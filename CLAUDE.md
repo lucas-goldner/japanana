@@ -26,11 +26,7 @@ flutter run -d 'iPhone 15'
 # Run unit tests
 flutter test
 
-# Run everything except the golden screenshot tests (use this on macOS/Windows)
-flutter test --exclude-tags golden
-
-# Regenerate golden screenshots (light and dark) after intended UI changes.
-# Only on Linux, the goldens are rendered there to match GitHub Actions.
+# Regenerate golden screenshots (light and dark) after intended UI changes
 flutter test test/golden --update-goldens
 
 # Run integration tests with Patrol
@@ -130,7 +126,7 @@ const _kButtonSlideDistance = 80.0;
 ### Testing Approach
 - Unit tests for business logic and providers
 - Integration tests using Patrol for user flows
-- Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`). They are tagged `golden` and rendered on Linux to match GitHub Actions; Codemagic (macOS) runs `flutter test --exclude-tags golden` because macOS renders text slightly differently. Every new golden test file needs `@Tags(['golden'])`
+- Golden tests in `test/golden/` render every screen in light and dark mode with fixture data (`golden_fixtures.dart`); rendered on Linux to match GitHub Actions. Linux compares them exactly; on macOS (local runs and Codemagic) `test/golden/flutter_test_config.dart` allows up to 3% differing pixels because macOS anti-aliases text differently. Regenerate goldens on Linux only
 - Test data fixtures in JSON format
 
 ### Settings

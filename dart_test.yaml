@@ -1,5 +1,0 @@
-tags:
-  # Screenshot tests. The reference images are rendered on Linux (GitHub
-  # Actions); other platforms anti-alias text differently, so run them only
-  # on Linux and use `flutter test --exclude-tags golden` elsewhere.
-  golden:

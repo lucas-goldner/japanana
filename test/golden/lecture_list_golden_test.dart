@@ -1,7 +1,3 @@
-@Tags(['golden'])
-library;
-
-import 'package:flutter_test/flutter_test.dart';
 import 'package:japanana/features/lecture_detail/presentation/lecture_detail.dart';
 import 'package:japanana/features/lecture_list/presentation/lecture_list.dart';
 

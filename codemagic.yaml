@@ -28,9 +28,7 @@ workflows:
 
       - name: Run tests
         script: |
-          # Goldens are rendered on Linux and checked by GitHub Actions;
-          # macOS anti-aliases text differently.
-          flutter test --exclude-tags golden
+          flutter test
 
       - name: Set up code signing
         script: |
@@ -90,9 +88,7 @@ workflows:
 
       - name: Run tests
         script: |
-          # Goldens are rendered on Linux and checked by GitHub Actions;
-          # macOS anti-aliases text differently.
-          flutter test --exclude-tags golden
+          flutter test
 
       - name: Set up code signing
         script: |
