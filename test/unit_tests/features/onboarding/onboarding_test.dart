@@ -78,12 +78,13 @@ void main() {
       );
     });
 
-    test('skips for learners who already studied', () async {
+    test('shows for learners who already studied', () async {
       expect(
-        shouldShowOnboarding(await prefs({'mistakes': <String>[]})),
-        isFalse,
+        shouldShowOnboarding(
+          await prefs({'mistakes': <String>[], 'session_n4': '{}'}),
+        ),
+        isTrue,
       );
-      expect(shouldShowOnboarding(await prefs({'session_n4': '{}'})), isFalse);
     });
   });
 

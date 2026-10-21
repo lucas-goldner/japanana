@@ -3,27 +3,17 @@ import 'package:japanana/core/application/clock_provider.dart';
 import 'package:japanana/core/application/lecture_provider.dart';
 import 'package:japanana/core/application/preferences_provider.dart';
 import 'package:japanana/core/domain/lecture.dart';
-import 'package:japanana/core/domain/shared_preferences_key.dart';
 import 'package:japanana/features/onboarding/domain/learning_plan.dart';
 import 'package:japanana/features/onboarding/domain/onboarding_answers.dart';
-import 'package:japanana/features/statistics/application/study_log_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const onboardingAnswersKey = 'onboarding_answers';
 const onboardingCompletedKey = 'onboarding_completed';
 
-/// Whether a fresh install should start with the onboarding. Learners who
-/// already studied before the onboarding existed skip it.
-bool shouldShowOnboarding(SharedPreferences prefs) {
-  if (prefs.getBool(onboardingCompletedKey) ?? false) return false;
-  final progressKeys = [
-    studyAnswersKey,
-    studySessionsKey,
-    'mistakes',
-    for (final key in SharedPreferencesKey.values) key.value,
-  ];
-  return !progressKeys.any(prefs.containsKey);
-}
+/// Whether the app should start with the onboarding. Everyone sees it once,
+/// existing learners included.
+bool shouldShowOnboarding(SharedPreferences prefs) =>
+    !(prefs.getBool(onboardingCompletedKey) ?? false);
 
 final onboardingProvider =
     NotifierProvider<OnboardingNotifier, OnboardingAnswers>(

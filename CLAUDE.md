@@ -144,7 +144,7 @@ Each item on the settings canvas (`features/settings/`) opens a sheet or an exte
 - RevenueCat keys are passed at build time: `--dart-define=REVENUECAT_APPLE_API_KEY=... --dart-define=REVENUECAT_GOOGLE_API_KEY=...`; without them the store sheets show "store unavailable"
 
 ### Onboarding
-A fresh install starts on `/onboarding` (`features/onboarding/`); `main()` picks the start route with `shouldShowOnboarding(prefs)`, which is false once `onboarding_completed` is set or when the learner already has progress (study log, mistakes or sessions):
+Every user starts on `/onboarding` once (`features/onboarding/`), existing learners included; `main()` picks the start route with `shouldShowOnboarding(prefs)`, which is false once `onboarding_completed` is set:
 - **Steps** (`OnboardingStep` in `onboarding_screen.dart`, widgets in `presentation/steps/`): hook, goal, level, years, speaking gap, pain cards, the math, fixes, comparison, sample reviews (native rating prompt), daily minutes, reminder (sets the 20:30 reminder), plan building, a real first conversation, snapshot stamp (share), plan date and the supporter paywall (always dismissable, falls back to "Continue" when the store is unavailable)
 - **Answers** (`OnboardingAnswers`, `onboardingProvider`) persist as JSON under `onboarding_answers`; `LearningPlan` estimates months alone vs with daily practice from the lecture counts (`learningPlanProvider`)
 - The demo step records its answers in the study log and mistakes like a review
