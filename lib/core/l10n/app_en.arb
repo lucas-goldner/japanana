@@ -538,5 +538,452 @@
   "statsNotEnoughData": "Not enough data yet. Keep reviewing!",
   "@statsNotEnoughData": {
     "description": "Shown in a statistics chart that has no data yet"
+  },
+  "onbHookBubble": "…because the bus didn't come!",
+  "@onbHookBubble": {
+    "description": "Onboarding"
+  },
+  "onbHookTitle": "Textbooks teach you Japanese.",
+  "@onbHookTitle": {
+    "description": "Onboarding"
+  },
+  "onbHookTitle2": "Japanana teaches you to *speak* it.",
+  "@onbHookTitle2": {
+    "description": "Onboarding"
+  },
+  "onbGetStarted": "Get started",
+  "@onbGetStarted": {
+    "description": "Onboarding"
+  },
+  "onbContinue": "Continue",
+  "@onbContinue": {
+    "description": "Onboarding"
+  },
+  "onbGoalTitle": "Why are you learning Japanese?",
+  "@onbGoalTitle": {
+    "description": "Onboarding"
+  },
+  "onbGoalSubtitle": "Pick the one that matters most.",
+  "@onbGoalSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbGoalTalk": "Talk with friends & family",
+  "@onbGoalTalk": {
+    "description": "Onboarding"
+  },
+  "onbGoalTravel": "Travel without freezing up",
+  "@onbGoalTravel": {
+    "description": "Onboarding"
+  },
+  "onbGoalAnime": "Anime & dramas without subtitles",
+  "@onbGoalAnime": {
+    "description": "Onboarding"
+  },
+  "onbGoalWork": "Work or live in Japan",
+  "@onbGoalWork": {
+    "description": "Onboarding"
+  },
+  "onbGoalJlpt": "Pass the JLPT",
+  "@onbGoalJlpt": {
+    "description": "Onboarding"
+  },
+  "onbLevelTitle": "Where is your Japanese today?",
+  "@onbLevelTitle": {
+    "description": "Onboarding"
+  },
+  "onbLevelSubtitle": "Swipe to your level. No pressure.",
+  "@onbLevelSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbLevelN5": "Just starting",
+  "@onbLevelN5": {
+    "description": "Onboarding"
+  },
+  "onbLevelN4": "Basics down, conversations shaky",
+  "@onbLevelN4": {
+    "description": "Onboarding"
+  },
+  "onbLevelN3": "I read okay, speaking is hard",
+  "@onbLevelN3": {
+    "description": "Onboarding"
+  },
+  "onbLevelN2": "Almost there",
+  "@onbLevelN2": {
+    "description": "Onboarding"
+  },
+  "onbLevelN1": "Polishing the details",
+  "@onbLevelN1": {
+    "description": "Onboarding"
+  },
+  "onbLevelConfirm": "That's me",
+  "@onbLevelConfirm": {
+    "description": "Onboarding"
+  },
+  "onbYearsTitle": "How long have you been studying?",
+  "@onbYearsTitle": {
+    "description": "Onboarding"
+  },
+  "onbYearsLead": "I've been learning for",
+  "@onbYearsLead": {
+    "description": "Onboarding"
+  },
+  "onbYearsUnit": "{count, plural, =0{less than a year} =1{year} other{years}}",
+  "@onbYearsUnit": {
+    "description": "Onboarding",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onbGapTitle": "Someone speaks Japanese to you. You…",
+  "@onbGapTitle": {
+    "description": "Onboarding"
+  },
+  "onbGapFreeze": "Freeze",
+  "@onbGapFreeze": {
+    "description": "Onboarding"
+  },
+  "onbGapTranslate": "Translate in my head",
+  "@onbGapTranslate": {
+    "description": "Onboarding"
+  },
+  "onbGapNatural": "Answer naturally",
+  "@onbGapNatural": {
+    "description": "Onboarding"
+  },
+  "onbGapFreezeLabel": "I freeze and panic a little",
+  "@onbGapFreezeLabel": {
+    "description": "Onboarding"
+  },
+  "onbGapTranslateLabel": "I translate in my head first",
+  "@onbGapTranslateLabel": {
+    "description": "Onboarding"
+  },
+  "onbGapNaturalLabel": "I answer naturally",
+  "@onbGapNaturalLabel": {
+    "description": "Onboarding"
+  },
+  "onbPainsTitle": "Do these sound like you?",
+  "@onbPainsTitle": {
+    "description": "Onboarding"
+  },
+  "onbPainsSubtitle": "Swipe right if it's you.",
+  "@onbPainsSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbPainCantSpeak": "I can read it, but I can't say it.",
+  "@onbPainCantSpeak": {
+    "description": "Onboarding"
+  },
+  "onbPainTextbook": "Real Japanese sounds nothing like my textbook.",
+  "@onbPainTextbook": {
+    "description": "Onboarding"
+  },
+  "onbPainForget": "I forget grammar a week after learning it.",
+  "@onbPainForget": {
+    "description": "Onboarding"
+  },
+  "onbPainMixUp": "I mix up grammar that looks the same.",
+  "@onbPainMixUp": {
+    "description": "Onboarding"
+  },
+  "onbPainAgree": "ME TOO",
+  "@onbPainAgree": {
+    "description": "Onboarding"
+  },
+  "onbMathPointsLead": "Japanese has",
+  "@onbMathPointsLead": {
+    "description": "Onboarding"
+  },
+  "onbMathPointsTail": "grammar points you'll actually hear.",
+  "@onbMathPointsTail": {
+    "description": "Onboarding"
+  },
+  "onbMathAloneLead": "Learning from textbooks alone, real conversations are",
+  "@onbMathAloneLead": {
+    "description": "Onboarding"
+  },
+  "onbMathWithLead": "With Japanana, 10 minutes a day:",
+  "@onbMathWithLead": {
+    "description": "Onboarding"
+  },
+  "onbMonthsAway": "months away.",
+  "@onbMonthsAway": {
+    "description": "Onboarding"
+  },
+  "onbMonths": "months.",
+  "@onbMonths": {
+    "description": "Onboarding"
+  },
+  "onbMathNote": "Estimate based on your level and 10 minutes a day.",
+  "@onbMathNote": {
+    "description": "Onboarding"
+  },
+  "onbMathCta": "Show me how",
+  "@onbMathCta": {
+    "description": "Onboarding"
+  },
+  "onbFixTitle": "Here's how we fix that",
+  "@onbFixTitle": {
+    "description": "Onboarding"
+  },
+  "onbFixCantSpeak": "Practise in real conversation-style chats",
+  "@onbFixCantSpeak": {
+    "description": "Onboarding"
+  },
+  "onbFixTextbook": "Grammar the way people actually use it",
+  "@onbFixTextbook": {
+    "description": "Onboarding"
+  },
+  "onbFixForget": "Weak spots come back before you forget",
+  "@onbFixForget": {
+    "description": "Onboarding"
+  },
+  "onbFixMixUp": "Japanana spots your mixed-up pairs",
+  "@onbFixMixUp": {
+    "description": "Onboarding"
+  },
+  "onbCompareTitle": "Speak sooner, not someday",
+  "@onbCompareTitle": {
+    "description": "Onboarding"
+  },
+  "onbCompareSubtitle": "Time until you're comfortable in real conversations",
+  "@onbCompareSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbCompareAlone": "Textbook alone",
+  "@onbCompareAlone": {
+    "description": "Onboarding"
+  },
+  "onbCompareWith": "With Japanana",
+  "@onbCompareWith": {
+    "description": "Onboarding"
+  },
+  "onbMonthsShort": "{count} mo",
+  "@onbMonthsShort": {
+    "description": "Onboarding",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "onbProofTitle": "Learners like you",
+  "@onbProofTitle": {
+    "description": "Onboarding"
+  },
+  "onbProofSample": "Sample reviews",
+  "@onbProofSample": {
+    "description": "Onboarding"
+  },
+  "onbReview1": "Finally I understand what my partner's family actually says at dinner.",
+  "@onbReview1": {
+    "description": "Onboarding"
+  },
+  "onbReview1Tag": "Talks with partner",
+  "@onbReview1Tag": {
+    "description": "Onboarding"
+  },
+  "onbReview2": "The mixed-up pairs thing is scary accurate. It knew my weak spots.",
+  "@onbReview2": {
+    "description": "Onboarding"
+  },
+  "onbReview2Tag": "Anime fan",
+  "@onbReview2Tag": {
+    "description": "Onboarding"
+  },
+  "onbReview3": "Ten minutes a day and my speaking finally caught up with my reading.",
+  "@onbReview3": {
+    "description": "Onboarding"
+  },
+  "onbReview3Tag": "JLPT N3",
+  "@onbReview3Tag": {
+    "description": "Onboarding"
+  },
+  "onbRhythmTitle": "Small time, big progress",
+  "@onbRhythmTitle": {
+    "description": "Onboarding"
+  },
+  "onbRhythmSubtitle": "How much time can you give Japanese each day?",
+  "@onbRhythmSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbMinPerDay": "MIN / DAY",
+  "@onbMinPerDay": {
+    "description": "Onboarding"
+  },
+  "onbRhythmCta": "Set my daily rhythm",
+  "@onbRhythmCta": {
+    "description": "Onboarding"
+  },
+  "onbReminderTitle": "Your Japanese, every evening",
+  "@onbReminderTitle": {
+    "description": "Onboarding"
+  },
+  "onbReminderSubtitle": "A gentle nudge keeps you going. You can change the time anytime.",
+  "@onbReminderSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbReminderCta": "Remind me at {time}",
+  "@onbReminderCta": {
+    "description": "Onboarding",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "onbNotNow": "Not now",
+  "@onbNotNow": {
+    "description": "Onboarding"
+  },
+  "onbBuildingTitle": "Building your path to natural Japanese",
+  "@onbBuildingTitle": {
+    "description": "Onboarding"
+  },
+  "onbBuildingStep1": "Matching grammar to your {level} level",
+  "@onbBuildingStep1": {
+    "description": "Onboarding",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "onbBuildingStep2": "Finding the gaps textbooks skip",
+  "@onbBuildingStep2": {
+    "description": "Onboarding"
+  },
+  "onbBuildingStep3": "Planning {minutes} minutes a day",
+  "@onbBuildingStep3": {
+    "description": "Onboarding",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "onbDemoTitle": "Your first conversation",
+  "@onbDemoTitle": {
+    "description": "Onboarding"
+  },
+  "onbDemoGood": "Nice! That's how natives use it 🎉",
+  "@onbDemoGood": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotTitle": "A great first step",
+  "@onbSnapshotTitle": {
+    "description": "Onboarding"
+  },
+  "onbStampBottom": "FIRST CONVERSATION",
+  "@onbStampBottom": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotFirstTry": "First try",
+  "@onbSnapshotFirstTry": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotRight": "Right",
+  "@onbSnapshotRight": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotMissed": "Almost",
+  "@onbSnapshotMissed": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotLevel": "Your level",
+  "@onbSnapshotLevel": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotWatch": "Watch out for",
+  "@onbSnapshotWatch": {
+    "description": "Onboarding"
+  },
+  "onbSnapshotNext": "Next up",
+  "@onbSnapshotNext": {
+    "description": "Onboarding"
+  },
+  "onbShareStamp": "Share my stamp",
+  "@onbShareStamp": {
+    "description": "Onboarding"
+  },
+  "onbShareText": "I just had my first Japanese conversation on Japanana: {title} 🍌",
+  "@onbShareText": {
+    "description": "Onboarding",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSeePlan": "See my plan",
+  "@onbSeePlan": {
+    "description": "Onboarding"
+  },
+  "onbPlanTitle": "Your plan is ready",
+  "@onbPlanTitle": {
+    "description": "Onboarding"
+  },
+  "onbPlanSubtitle": "Natural conversations by",
+  "@onbPlanSubtitle": {
+    "description": "Onboarding"
+  },
+  "onbPlanToday": "Today · {level}",
+  "@onbPlanToday": {
+    "description": "Onboarding",
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "onbPlanGoal": "Natural conversations",
+  "@onbPlanGoal": {
+    "description": "Onboarding"
+  },
+  "onbPlanCta": "Let's go",
+  "@onbPlanCta": {
+    "description": "Onboarding"
+  },
+  "onbPaywallTitle": "Speak Japanese with confidence",
+  "@onbPaywallTitle": {
+    "description": "Onboarding"
+  },
+  "onbTrialToday": "Today",
+  "@onbTrialToday": {
+    "description": "Onboarding"
+  },
+  "onbTrialTodayText": "Every lesson and your full plan unlocked",
+  "@onbTrialTodayText": {
+    "description": "Onboarding"
+  },
+  "onbTrialDay5": "Day 5",
+  "@onbTrialDay5": {
+    "description": "Onboarding"
+  },
+  "onbTrialDay5Text": "We'll remind you before your trial ends",
+  "@onbTrialDay5Text": {
+    "description": "Onboarding"
+  },
+  "onbTrialDay7": "Day 7",
+  "@onbTrialDay7": {
+    "description": "Onboarding"
+  },
+  "onbTrialDay7Text": "Your trial ends. Cancel anytime before",
+  "@onbTrialDay7Text": {
+    "description": "Onboarding"
+  },
+  "onbBestValue": "Best value",
+  "@onbBestValue": {
+    "description": "Onboarding"
+  },
+  "onbStartTrial": "Start my free week",
+  "@onbStartTrial": {
+    "description": "Onboarding"
+  },
+  "onbMaybeLater": "Maybe later",
+  "@onbMaybeLater": {
+    "description": "Onboarding"
   }
 }

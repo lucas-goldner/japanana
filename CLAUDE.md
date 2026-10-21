@@ -83,6 +83,7 @@ Key features:
 - **review_setup/**: Configuration screen for review options
 - **lecture_list/**: Display and management of grammar lectures
 - **statistics/**: User progress tracking with mistake analytics
+- **onboarding/**: First launch flow that sells the app and builds a personal plan
 
 ### State Management Pattern
 The app uses Riverpod with Flutter Hooks for state management:
@@ -141,6 +142,15 @@ Each item on the settings canvas (`features/settings/`) opens a sheet or an exte
 - `SharedPreferences` is loaded in `main()` and provided at the root `ProviderScope` (`preferencesProvider`); don't add nested scopes with overrides, providers without declared dependencies can't see them
 - Links, the support email, the App Store id and the iCloud container live in `core/app_config.dart` (placeholders marked TODO)
 - RevenueCat keys are passed at build time: `--dart-define=REVENUECAT_APPLE_API_KEY=... --dart-define=REVENUECAT_GOOGLE_API_KEY=...`; without them the store sheets show "store unavailable"
+
+### Onboarding
+A fresh install starts on `/onboarding` (`features/onboarding/`); `main()` picks the start route with `shouldShowOnboarding(prefs)`, which is false once `onboarding_completed` is set or when the learner already has progress (study log, mistakes or sessions):
+- **Steps** (`OnboardingStep` in `onboarding_screen.dart`, widgets in `presentation/steps/`): hook, goal, level, years, speaking gap, pain cards, the math, fixes, comparison, sample reviews (native rating prompt), daily minutes, reminder (sets the 20:30 reminder), plan building, a real first conversation, snapshot stamp (share), plan date and the supporter paywall (always dismissable, falls back to "Continue" when the store is unavailable)
+- **Answers** (`OnboardingAnswers`, `onboardingProvider`) persist as JSON under `onboarding_answers`; `LearningPlan` estimates months alone vs with daily practice from the lecture counts (`learningPlanProvider`)
+- The demo step records its answers in the study log and mistakes like a review
+- **Motion** (`presentation/widgets/motion.dart`): `Reveal`, `BlurWords`, `RollingNumber`, `Float`, `Pulse`, `useDelayedProgress`; keep blur wrappers in the tree (`ImageFiltered(enabled:)`) so finishing an animation doesn't remount children
+- Each step paints its own tinted graph paper (`StepTint`); the reminder step is always night themed. The approved motion prototype was the reference for timings and copy
+- Golden tests start at any step with `OnboardingScreen(initialStep: ...)`
 
 ### Statistics and Mistake Tracking
 The statistics screen (`features/statistics/`) is a dashboard built from a local study log:

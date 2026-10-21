@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:japanana/core/application/preferences_provider.dart';
 import 'package:japanana/core/application/shared_preferences_provider.dart';
 import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
 import 'package:japanana/core/l10n/app_localizations.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
+import 'package:japanana/features/onboarding/application/onboarding_provider.dart';
 import 'package:japanana/features/settings/application/app_settings_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,13 +24,21 @@ Future<void> main() async {
           SharedPreferencesRepositoryImpl(preferences),
         ),
       ],
-      child: const JapananaApp(),
+      child: JapananaApp(
+        router: createRouter(
+          initialLocation: shouldShowOnboarding(preferences)
+              ? AppRoutes.onboarding.path
+              : null,
+        ),
+      ),
     ),
   );
 }
 
 class JapananaApp extends ConsumerWidget {
-  const JapananaApp({super.key});
+  const JapananaApp({required this.router, super.key});
+
+  final GoRouter router;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -133,4 +133,11 @@ class FakeExternalActions implements ExternalActions {
 
   @override
   Future<void> rateApp() async => opened.add('review');
+
+  @override
+  Future<void> requestReview() async => opened.add('review prompt');
+
+  @override
+  Future<void> shareText(String text, {Rect? shareOrigin}) async =>
+      opened.add('share:$text');
 }
