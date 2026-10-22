@@ -922,4 +922,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get recapFailed => '動画を作れませんでした。もう一度試してね。';
+
+  @override
+  String get settingAppIcon => 'アプリアイコン';
+
+  @override
+  String get appIconDescription => '好きなNanaを選んでね。ホーム画面のアイコンがすぐに変わります。';
+
+  @override
+  String get appIconSparkle => 'キラキラ';
+
+  @override
+  String get appIconFocusLines => '集中線';
+
+  @override
+  String get appIconDon => 'ドン!';
+
+  @override
+  String get appIconTalk => 'ば!';
+
+  @override
+  String get appIconSticker => 'ウインク';
+
+  @override
+  String get appIconSensei => '先生';
+
+  @override
+  String get appIconFailed => 'アイコンを変更できませんでした。もう一度試してね。';
 }

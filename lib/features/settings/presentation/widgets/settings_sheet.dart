@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/app_icon_sheet.dart';
 import 'package:japanana/features/settings/presentation/widgets/sheets/changelog_sheet.dart';
 import 'package:japanana/features/settings/presentation/widgets/sheets/data_sheets.dart';
 import 'package:japanana/features/settings/presentation/widgets/sheets/preference_sheets.dart';
@@ -32,6 +33,7 @@ class SettingsModal extends StatelessWidget {
   Widget _content() => switch (settingType) {
         SettingType.language => const LanguageSheet(),
         SettingType.theme => const ThemeSheet(),
+        SettingType.appIcon => const AppIconSheet(),
         SettingType.notifications => const NotificationsSheet(),
         SettingType.reminder => const ReminderSheet(),
         SettingType.resetProgress => const ResetProgressSheet(),

@@ -133,6 +133,7 @@ const _kButtonSlideDistance = 80.0;
 ### Settings
 Each item on the settings canvas (`features/settings/`) opens a sheet or an external action:
 - **Language** (System / English / 日本語) and **Theme** (System / Light / Dark): `appSettingsProvider`, persisted in SharedPreferences and applied in `main.dart`
+- **App Icon** (iOS only, hidden elsewhere): the default icon is Nana "Sparkle"; the alternates (`AppIcon` in `settings/domain/app_icon.dart`) are icon sets `AppIcon-<Name>.appiconset` in `ios/Runner/Assets.xcassets`, listed in `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` in the Xcode project, and switched through `AppIconService` (method channel `japanana/app_icon`, `AppIconSwitcher` in `AppDelegate.swift`); previews live in `assets/images/app_icons/`. To add an icon: add the icon set, its name to that build setting, an `AppIcon` value and a preview
 - **Notifications** and **Daily Reminder**: local notifications through `ReminderService` (flutter_local_notifications)
 - **Reset Progress** and **Export & Sync**: `ProgressController` + `ProgressBackup` (JSON backup file on every platform, iCloud on iOS/macOS via icloud_storage_plus)
 - **Subscription** (supporter badge) and **Donation** (tips): RevenueCat via `PurchasesService` and `storeProvider`

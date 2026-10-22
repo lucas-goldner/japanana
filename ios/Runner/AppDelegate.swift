@@ -7,6 +7,7 @@ import UserNotifications
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
   private var recapVideoEncoder: RecapVideoEncoder?
+  private var appIconSwitcher: AppIconSwitcher?
 
   override func application(
     _ application: UIApplication,
@@ -21,6 +22,47 @@ import UserNotifications
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "RecapVideoEncoder") {
       recapVideoEncoder = RecapVideoEncoder(messenger: registrar.messenger())
+    }
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "AppIconSwitcher") {
+      appIconSwitcher = AppIconSwitcher(messenger: registrar.messenger())
+    }
+  }
+}
+
+/// Switches the home screen icon between the alternate icons listed in
+/// ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES.
+final class AppIconSwitcher {
+  init(messenger: FlutterBinaryMessenger) {
+    let channel = FlutterMethodChannel(name: "japanana/app_icon", binaryMessenger: messenger)
+    channel.setMethodCallHandler { call, result in
+      let app = UIApplication.shared
+      switch call.method {
+      case "isSupported":
+        result(app.supportsAlternateIcons)
+      case "current":
+        result(app.alternateIconName)
+      case "set":
+        let name = call.arguments as? String
+        guard app.supportsAlternateIcons else {
+          result(FlutterError(code: "app_icon", message: "Alternate icons are not supported", details: nil))
+          return
+        }
+        if app.alternateIconName == name {
+          result(nil)
+          return
+        }
+        app.setAlternateIconName(name) { error in
+          DispatchQueue.main.async {
+            if let error = error {
+              result(FlutterError(code: "app_icon", message: error.localizedDescription, details: nil))
+            } else {
+              result(nil)
+            }
+          }
+        }
+      default:
+        result(FlutterMethodNotImplemented)
+      }
     }
   }
 }

@@ -1807,6 +1807,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t make the video. Try again.'**
   String get recapFailed;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'App Icon'**
+  String get settingAppIcon;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the Nana that suits you. Your home screen icon changes right away.'**
+  String get appIconDescription;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Sparkle'**
+  String get appIconSparkle;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Focus lines'**
+  String get appIconFocusLines;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'ドン!'**
+  String get appIconDon;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'ば!'**
+  String get appIconTalk;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Wink'**
+  String get appIconSticker;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Sensei'**
+  String get appIconSensei;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t change the icon. Try again.'**
+  String get appIconFailed;
 }
 
 class _AppLocalizationsDelegate

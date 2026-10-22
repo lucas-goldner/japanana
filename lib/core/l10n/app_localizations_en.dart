@@ -966,4 +966,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recapFailed => 'Couldn\'t make the video. Try again.';
+
+  @override
+  String get settingAppIcon => 'App Icon';
+
+  @override
+  String get appIconDescription =>
+      'Pick the Nana that suits you. Your home screen icon changes right away.';
+
+  @override
+  String get appIconSparkle => 'Sparkle';
+
+  @override
+  String get appIconFocusLines => 'Focus lines';
+
+  @override
+  String get appIconDon => 'ドン!';
+
+  @override
+  String get appIconTalk => 'ば!';
+
+  @override
+  String get appIconSticker => 'Wink';
+
+  @override
+  String get appIconSensei => 'Sensei';
+
+  @override
+  String get appIconFailed => 'Couldn\'t change the icon. Try again.';
 }

@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:japanana/features/settings/data/backup_storage.dart';
 import 'package:japanana/features/settings/data/purchases_service.dart';
+import 'package:japanana/features/settings/domain/app_icon.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
 import 'package:japanana/features/settings/presentation/settings.dart';
 import 'package:japanana/features/settings/presentation/widgets/settings_sheet.dart';
+import 'package:japanana/features/settings/presentation/widgets/sheets/app_icon_sheet.dart';
 
 import 'golden_fakes.dart';
 import 'golden_utils.dart';
@@ -117,6 +119,35 @@ void main() {
       tester,
       screen: 'settings',
       name: 'language',
+      themeName: themeName,
+    );
+  });
+
+  goldenTest('App icon sheet', (tester, theme, themeName) async {
+    await pumpSheet(tester, theme, SettingType.appIcon);
+    // Asset images decode outside the fake clock.
+    await tester.runAsync(() async {
+      for (final icon in AppIcon.values) {
+        await precacheImage(
+          AssetImage(icon.preview),
+          tester.element(find.byType(AppIconSheet)),
+        );
+      }
+    });
+    await tester.pump();
+    await expectScreenGolden(
+      tester,
+      screen: 'settings',
+      name: 'app_icon',
+      themeName: themeName,
+    );
+
+    await tester.tap(find.text('Wink'));
+    await pumpFor(tester, const Duration(milliseconds: 300));
+    await expectScreenGolden(
+      tester,
+      screen: 'settings',
+      name: 'app_icon_wink',
       themeName: themeName,
     );
   });

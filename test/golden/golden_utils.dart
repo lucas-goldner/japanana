@@ -15,6 +15,7 @@ import 'package:japanana/core/data/shared_preferences_repository_impl.dart';
 import 'package:japanana/core/domain/lecture.dart';
 import 'package:japanana/core/l10n/app_localizations.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
+import 'package:japanana/features/settings/data/app_icon_service.dart';
 import 'package:japanana/features/settings/data/backup_storage.dart';
 import 'package:japanana/features/settings/data/external_actions.dart';
 import 'package:japanana/features/settings/data/purchases_service.dart';
@@ -87,6 +88,7 @@ Future<void> pumpGoldenScreen(
   PurchasesService? purchases,
   BackupStorage? backupStorage,
   ReminderService? reminders,
+  AppIconService? appIcons,
   Locale locale = const Locale('en'),
 }) async {
   // Cached asset futures belong to the previous test's fake async zone and
@@ -125,6 +127,8 @@ Future<void> pumpGoldenScreen(
         reminderServiceProvider
             .overrideWithValue(reminders ?? FakeReminderService()),
         externalActionsProvider.overrideWithValue(FakeExternalActions()),
+        appIconServiceProvider
+            .overrideWithValue(appIcons ?? FakeAppIconService()),
         sharedPreferencesProvider.overrideWithValue(
           SharedPreferencesRepositoryImpl(prefs),
         ),

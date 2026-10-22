@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:japanana/features/settings/data/app_icon_service.dart';
 import 'package:japanana/features/settings/data/backup_storage.dart';
 import 'package:japanana/features/settings/data/external_actions.dart';
 import 'package:japanana/features/settings/data/purchases_service.dart';
@@ -149,4 +150,20 @@ class FakeExternalActions implements ExternalActions {
     Rect? shareOrigin,
   }) async =>
       opened.add('share file:$path');
+}
+
+class FakeAppIconService implements AppIconService {
+  FakeAppIconService({this.supported = true, this.name});
+
+  final bool supported;
+  String? name;
+
+  @override
+  Future<bool> isSupported() async => supported;
+
+  @override
+  Future<String?> current() async => name;
+
+  @override
+  Future<void> set(String? name) async => this.name = name;
 }

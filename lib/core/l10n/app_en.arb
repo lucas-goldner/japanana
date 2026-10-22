@@ -1220,5 +1220,41 @@
   "recapFailed": "Couldn't make the video. Try again.",
   "@recapFailed": {
     "description": "Review game modes"
+  },
+  "settingAppIcon": "App Icon",
+  "@settingAppIcon": {
+    "description": "App icon setting"
+  },
+  "appIconDescription": "Pick the Nana that suits you. Your home screen icon changes right away.",
+  "@appIconDescription": {
+    "description": "App icon setting"
+  },
+  "appIconSparkle": "Sparkle",
+  "@appIconSparkle": {
+    "description": "App icon setting"
+  },
+  "appIconFocusLines": "Focus lines",
+  "@appIconFocusLines": {
+    "description": "App icon setting"
+  },
+  "appIconDon": "ドン!",
+  "@appIconDon": {
+    "description": "App icon setting"
+  },
+  "appIconTalk": "ば!",
+  "@appIconTalk": {
+    "description": "App icon setting"
+  },
+  "appIconSticker": "Wink",
+  "@appIconSticker": {
+    "description": "App icon setting"
+  },
+  "appIconSensei": "Sensei",
+  "@appIconSensei": {
+    "description": "App icon setting"
+  },
+  "appIconFailed": "Couldn't change the icon. Try again.",
+  "@appIconFailed": {
+    "description": "App icon setting"
   }
 }

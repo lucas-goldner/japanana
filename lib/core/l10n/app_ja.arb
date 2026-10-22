@@ -292,5 +292,14 @@
   "recapShareImage": "画像をシェア",
   "recapRendering": "動画を作成中… {percent}%",
   "recapShareText": "Japananaで日本語を勉強：文法カード{cards}枚、一発正解率{firstTry}% 🍌",
-  "recapFailed": "動画を作れませんでした。もう一度試してね。"
+  "recapFailed": "動画を作れませんでした。もう一度試してね。",
+  "settingAppIcon": "アプリアイコン",
+  "appIconDescription": "好きなNanaを選んでね。ホーム画面のアイコンがすぐに変わります。",
+  "appIconSparkle": "キラキラ",
+  "appIconFocusLines": "集中線",
+  "appIconDon": "ドン!",
+  "appIconTalk": "ば!",
+  "appIconSticker": "ウインク",
+  "appIconSensei": "先生",
+  "appIconFailed": "アイコンを変更できませんでした。もう一度試してね。"
 }
