@@ -94,7 +94,7 @@
   "backupSaved": "バックアップを保存しました。",
   "backupRestored": "バックアップを復元しました。",
   "backupFailed": "うまくいきませんでした。ファイルまたはiCloudの接続を確認して、もう一度お試しください。",
-  "subscriptionDescription": "Japananaサポーターになって、アプリの成長を応援してください。お礼にサポーターバッジが付きます。",
+  "subscriptionDescription": "Japananaサポーターになってアプリの成長を応援してね。お礼にサポーターバッジ、すべてのNanaアプリアイコン、ホーム画面ウィジェットが使えます。",
   "subscriptionActive": "Japananaサポーターです。ありがとうございます！",
   "subscriptionMonthly": "月額",
   "subscriptionYearly": "年額",
@@ -301,5 +301,13 @@
   "appIconTalk": "ば!",
   "appIconSticker": "ウインク",
   "appIconSensei": "先生",
-  "appIconFailed": "アイコンを変更できませんでした。もう一度試してね。"
+  "appIconFailed": "アイコンを変更できませんでした。もう一度試してね。",
+  "appIconSupporterPerk": "デフォルトのNanaは無料。ほかのアイコンはサポーター特典です。",
+  "widgetDayStreak": "日連続",
+  "widgetCardsToday": "枚・今日",
+  "widgetStudyToday": "今日も勉強して記録をキープ！",
+  "widgetGrammarOfDay": "今日の文法",
+  "widgetThisWeek": "今週",
+  "widgetSupporterPerk": "サポーター特典",
+  "widgetOpenToUnlock": "Japananaでサポーターになるとウィジェットが使えます。"
 }

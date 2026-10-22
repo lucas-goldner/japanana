@@ -298,7 +298,7 @@
   "@backupFailed": {
     "description": "Shown when backup or restore failed"
   },
-  "subscriptionDescription": "Become a Japanana Supporter to help keep the app growing. You get a supporter badge as a thank you.",
+  "subscriptionDescription": "Become a Japanana Supporter to help keep the app growing. As a thank you, you get a supporter badge, every Nana app icon and the home screen widgets.",
   "@subscriptionDescription": {
     "description": "Explains the supporter subscription"
   },
@@ -1256,5 +1256,37 @@
   "appIconFailed": "Couldn't change the icon. Try again.",
   "@appIconFailed": {
     "description": "App icon setting"
+  },
+  "appIconSupporterPerk": "The default Nana is free. The other icons come with the supporter subscription.",
+  "@appIconSupporterPerk": {
+    "description": "App icon setting"
+  },
+  "widgetDayStreak": "day streak",
+  "@widgetDayStreak": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetCardsToday": "cards today",
+  "@widgetCardsToday": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetStudyToday": "Study today to keep it!",
+  "@widgetStudyToday": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetGrammarOfDay": "Grammar of the day",
+  "@widgetGrammarOfDay": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetThisWeek": "This week",
+  "@widgetThisWeek": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetSupporterPerk": "Supporter perk",
+  "@widgetSupporterPerk": {
+    "description": "iOS home screen widgets"
+  },
+  "widgetOpenToUnlock": "Become a supporter in Japanana to unlock widgets.",
+  "@widgetOpenToUnlock": {
+    "description": "iOS home screen widgets"
   }
 }

@@ -617,7 +617,7 @@ abstract class AppLocalizations {
   /// Explains the supporter subscription
   ///
   /// In en, this message translates to:
-  /// **'Become a Japanana Supporter to help keep the app growing. You get a supporter badge as a thank you.'**
+  /// **'Become a Japanana Supporter to help keep the app growing. As a thank you, you get a supporter badge, every Nana app icon and the home screen widgets.'**
   String get subscriptionDescription;
 
   /// Shown when the subscription is active
@@ -1861,6 +1861,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t change the icon. Try again.'**
   String get appIconFailed;
+
+  /// App icon setting
+  ///
+  /// In en, this message translates to:
+  /// **'The default Nana is free. The other icons come with the supporter subscription.'**
+  String get appIconSupporterPerk;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'day streak'**
+  String get widgetDayStreak;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'cards today'**
+  String get widgetCardsToday;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Study today to keep it!'**
+  String get widgetStudyToday;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Grammar of the day'**
+  String get widgetGrammarOfDay;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get widgetThisWeek;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Supporter perk'**
+  String get widgetSupporterPerk;
+
+  /// iOS home screen widgets
+  ///
+  /// In en, this message translates to:
+  /// **'Become a supporter in Japanana to unlock widgets.'**
+  String get widgetOpenToUnlock;
 }
 
 class _AppLocalizationsDelegate

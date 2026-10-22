@@ -18,6 +18,9 @@ enum AppIcon {
 
   String get preview => 'assets/images/app_icons/$_preview.png';
 
+  /// Alternate icons are a supporter perk.
+  bool get isPerk => this != AppIcon.sparkle;
+
   static AppIcon fromIosName(String? name) =>
       values.firstWhere((icon) => icon.iosName == name, orElse: () => sparkle);
 

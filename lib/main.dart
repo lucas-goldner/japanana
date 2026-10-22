@@ -9,6 +9,7 @@ import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/core/router.dart';
 import 'package:japanana/features/onboarding/application/onboarding_provider.dart';
 import 'package:japanana/features/settings/application/app_settings_provider.dart';
+import 'package:japanana/features/widgets/application/widget_sync_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
@@ -43,6 +44,7 @@ class JapananaApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final settings = ref.watch(appSettingsProvider);
+    ref.watch(widgetSyncProvider);
     return MaterialApp.router(
       routerConfig: router,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

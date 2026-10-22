@@ -123,8 +123,7 @@ void main() {
     );
   });
 
-  goldenTest('App icon sheet', (tester, theme, themeName) async {
-    await pumpSheet(tester, theme, SettingType.appIcon);
+  Future<void> precacheIcons(WidgetTester tester) async {
     // Asset images decode outside the fake clock.
     await tester.runAsync(() async {
       for (final icon in AppIcon.values) {
@@ -135,12 +134,27 @@ void main() {
       }
     });
     await tester.pump();
+  }
+
+  goldenTest('App icon sheet', (tester, theme, themeName) async {
+    await pumpSheet(tester, theme, SettingType.appIcon);
+    await precacheIcons(tester);
     await expectScreenGolden(
       tester,
       screen: 'settings',
       name: 'app_icon',
       themeName: themeName,
     );
+  });
+
+  goldenTest('App icon sheet as supporter', (tester, theme, themeName) async {
+    await pumpSheet(
+      tester,
+      theme,
+      SettingType.appIcon,
+      purchases: FakePurchasesService(isSupporter: true),
+    );
+    await precacheIcons(tester);
 
     await tester.tap(find.text('Wink'));
     await pumpFor(tester, const Duration(milliseconds: 300));

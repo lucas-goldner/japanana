@@ -282,7 +282,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get subscriptionDescription =>
-      'Become a Japanana Supporter to help keep the app growing. You get a supporter badge as a thank you.';
+      'Become a Japanana Supporter to help keep the app growing. As a thank you, you get a supporter badge, every Nana app icon and the home screen widgets.';
 
   @override
   String get subscriptionActive => 'You are a Japanana Supporter. Thank you!';
@@ -994,4 +994,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appIconFailed => 'Couldn\'t change the icon. Try again.';
+
+  @override
+  String get appIconSupporterPerk =>
+      'The default Nana is free. The other icons come with the supporter subscription.';
+
+  @override
+  String get widgetDayStreak => 'day streak';
+
+  @override
+  String get widgetCardsToday => 'cards today';
+
+  @override
+  String get widgetStudyToday => 'Study today to keep it!';
+
+  @override
+  String get widgetGrammarOfDay => 'Grammar of the day';
+
+  @override
+  String get widgetThisWeek => 'This week';
+
+  @override
+  String get widgetSupporterPerk => 'Supporter perk';
+
+  @override
+  String get widgetOpenToUnlock =>
+      'Become a supporter in Japanana to unlock widgets.';
 }

@@ -4,7 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/presentation/style/japanana_theme.dart';
 import 'package:japanana/features/settings/application/app_icon_provider.dart';
+import 'package:japanana/features/settings/application/store_provider.dart';
 import 'package:japanana/features/settings/domain/app_icon.dart';
+import 'package:japanana/features/settings/domain/setting_type.dart';
+import 'package:japanana/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:japanana/features/settings/presentation/widgets/sheet_parts.dart';
 
 /// Corner radius of an icon preview relative to its size, like iOS.
@@ -17,10 +20,22 @@ class AppIconSheet extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
     final selected = ref.watch(appIconProvider).value ?? AppIcon.sparkle;
+    final isSupporter = ref.watch(storeProvider).value?.isSupporter ?? false;
     final failed = useState(false);
 
     Future<void> pick(AppIcon icon) async {
       failed.value = false;
+      if (icon.isPerk && !isSupporter) {
+        // Alternate icons come with the supporter subscription.
+        final navigator = Navigator.of(context);
+        final root = Navigator.of(context, rootNavigator: true).context;
+        navigator.pop();
+        await SettingsModal.show(
+          context: root,
+          settingType: SettingType.subscription,
+        );
+        return;
+      }
       try {
         await ref.read(appIconProvider.notifier).select(icon);
       } on Exception {
@@ -31,6 +46,11 @@ class AppIconSheet extends HookConsumerWidget {
     return SheetColumn(
       children: [
         SheetDescription(l10n.appIconDescription),
+        if (!isSupporter)
+          SheetMessage(
+            l10n.appIconSupporterPerk,
+            tone: SheetMessageTone.success,
+          ),
         GridView.count(
           crossAxisCount: 3,
           shrinkWrap: true,
@@ -42,6 +62,7 @@ class AppIconSheet extends HookConsumerWidget {
             for (final icon in AppIcon.values)
               _IconChoice(
                 icon: icon,
+                locked: icon.isPerk && !isSupporter,
                 selected: icon == selected,
                 onTap: () => pick(icon),
               ),
@@ -57,11 +78,13 @@ class AppIconSheet extends HookConsumerWidget {
 class _IconChoice extends StatelessWidget {
   const _IconChoice({
     required this.icon,
+    required this.locked,
     required this.selected,
     required this.onTap,
   });
 
   final AppIcon icon;
+  final bool locked;
   final bool selected;
   final VoidCallback onTap;
 
@@ -71,7 +94,9 @@ class _IconChoice extends StatelessWidget {
     return Semantics(
       button: true,
       selected: selected,
-      label: icon.label(context),
+      label: locked
+          ? '${icon.label(context)}, ${context.l10n.settingSubscription}'
+          : icon.label(context),
       child: GestureDetector(
         onTap: onTap,
         child: Column(
@@ -108,9 +133,32 @@ class _IconChoice extends StatelessWidget {
                           ),
                           child: ClipRRect(
                             borderRadius: radius,
-                            child: Image.asset(icon.preview, fit: BoxFit.cover),
+                            child: Opacity(
+                              opacity: locked ? 0.55 : 1,
+                              child: Image.asset(
+                                icon.preview,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
+                        if (locked)
+                          Positioned(
+                            top: -8,
+                            right: -8,
+                            child: Container(
+                              width: 28,
+                              height: 28,
+                              decoration: neo.decoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.lock,
+                                size: 15,
+                                color: neo.onCard,
+                              ),
+                            ),
+                          ),
                         if (selected)
                           Positioned(
                             top: -8,

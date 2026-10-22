@@ -3,11 +3,13 @@ import Accelerate
 import Flutter
 import UIKit
 import UserNotifications
+import WidgetKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
   private var recapVideoEncoder: RecapVideoEncoder?
   private var appIconSwitcher: AppIconSwitcher?
+  private var widgetBridge: WidgetBridge?
 
   override func application(
     _ application: UIApplication,
@@ -25,6 +27,36 @@ import UserNotifications
     }
     if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "AppIconSwitcher") {
       appIconSwitcher = AppIconSwitcher(messenger: registrar.messenger())
+    }
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "WidgetBridge") {
+      widgetBridge = WidgetBridge(messenger: registrar.messenger())
+    }
+  }
+}
+
+/// Hands the widgets' data to the widget extension through the App Group.
+final class WidgetBridge {
+  private static let appGroup = "group.com.lucas-goldner.hikou"
+  private static let snapshotKey = "widget_snapshot"
+
+  init(messenger: FlutterBinaryMessenger) {
+    let channel = FlutterMethodChannel(name: "japanana/widgets", binaryMessenger: messenger)
+    channel.setMethodCallHandler { call, result in
+      guard call.method == "update" else {
+        result(FlutterMethodNotImplemented)
+        return
+      }
+      guard let json = call.arguments as? String,
+        let defaults = UserDefaults(suiteName: WidgetBridge.appGroup)
+      else {
+        result(FlutterError(code: "widgets", message: "App Group unavailable", details: nil))
+        return
+      }
+      if defaults.string(forKey: WidgetBridge.snapshotKey) != json {
+        defaults.set(json, forKey: WidgetBridge.snapshotKey)
+        WidgetCenter.shared.reloadAllTimelines()
+      }
+      result(nil)
     }
   }
 }
