@@ -1525,6 +1525,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Maybe later'**
   String get onbMaybeLater;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Pick one'**
+  String get reviewModeChoose;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe it'**
+  String get reviewModeSwipe;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Fill the gap'**
+  String get reviewModeGap;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'What does it mean?'**
+  String get reviewModeMeaning;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Which one is it?'**
+  String get reviewModePairs;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Memory break'**
+  String get reviewModeMemory;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Lightning round'**
+  String get reviewModeLightning;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Does this usage fit {title}?'**
+  String reviewSwipePrompt(String title);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Fits'**
+  String get reviewSwipeFits;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Nope'**
+  String get reviewSwipeNope;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe right if it fits, left if it doesn\'t'**
+  String get reviewSwipeHint;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'{title} is used for: {usage}'**
+  String reviewSwipeActual(String title, String usage);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Which grammar completes the sentence?'**
+  String get reviewGapPrompt;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Tap or drag a chip into the gap'**
+  String get reviewGapHint;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'What does this sentence mean?'**
+  String get reviewMeaningPrompt;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'You mix these up'**
+  String get reviewPairsBadge;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Which grammar would you use to say this?'**
+  String get reviewPairsPrompt;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Match each grammar point from your last cards to its usage.'**
+  String get reviewMemorySubtitle;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Moves'**
+  String get reviewMemoryMoves;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get reviewMemoryTime;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Pairs'**
+  String get reviewMemoryPairs;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Not a pair. Try again!'**
+  String get reviewMemoryMismatch;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'All {pairs} pairs in {moves} moves'**
+  String reviewMemoryDone(int pairs, int moves);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect'**
+  String get reviewPerfect;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get reviewSkip;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get reviewContinue;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'30 seconds. Swipe as many as you can.'**
+  String get reviewLightningSubtitle;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get reviewLightningStart;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Score'**
+  String get reviewLightningScore;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Best {score}'**
+  String reviewLightningBest(int score);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'{right} right · score {score}'**
+  String reviewLightningResult(int right, int score);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'New best!'**
+  String get reviewLightningNewBest;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Cards'**
+  String get reviewSummaryCards;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'First try'**
+  String get reviewSummaryFirstTry;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Best combo'**
+  String get reviewSummaryBestCombo;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Your mistakes'**
+  String get reviewSummaryMistakes;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Tap one to jump back to it.'**
+  String get reviewSummaryMistakesHint;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'No mistakes. Perfect session!'**
+  String get reviewSummaryNoMistakes;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Share my recap'**
+  String get reviewShareRecap;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Session recap'**
+  String get recapTitle;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'What I learned'**
+  String get recapHighlights;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese beyond textbooks'**
+  String get recapTagline;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Share video'**
+  String get recapShareVideo;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Share image'**
+  String get recapShareImage;
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Making your video… {percent}%'**
+  String recapRendering(int percent);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'My Japanese session on Japanana: {cards} grammar cards, {firstTry}% right on the first try 🍌'**
+  String recapShareText(int cards, int firstTry);
+
+  /// Review game modes
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t make the video. Try again.'**
+  String get recapFailed;
 }
 
 class _AppLocalizationsDelegate

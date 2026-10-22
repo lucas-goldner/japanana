@@ -985,5 +985,240 @@
   "onbMaybeLater": "Maybe later",
   "@onbMaybeLater": {
     "description": "Onboarding"
+  },
+  "reviewModeChoose": "Pick one",
+  "@reviewModeChoose": {
+    "description": "Review game modes"
+  },
+  "reviewModeSwipe": "Swipe it",
+  "@reviewModeSwipe": {
+    "description": "Review game modes"
+  },
+  "reviewModeGap": "Fill the gap",
+  "@reviewModeGap": {
+    "description": "Review game modes"
+  },
+  "reviewModeMeaning": "What does it mean?",
+  "@reviewModeMeaning": {
+    "description": "Review game modes"
+  },
+  "reviewModePairs": "Which one is it?",
+  "@reviewModePairs": {
+    "description": "Review game modes"
+  },
+  "reviewModeMemory": "Memory break",
+  "@reviewModeMemory": {
+    "description": "Review game modes"
+  },
+  "reviewModeLightning": "Lightning round",
+  "@reviewModeLightning": {
+    "description": "Review game modes"
+  },
+  "reviewSwipePrompt": "Does this usage fit {title}?",
+  "@reviewSwipePrompt": {
+    "description": "Review game modes",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewSwipeFits": "Fits",
+  "@reviewSwipeFits": {
+    "description": "Review game modes"
+  },
+  "reviewSwipeNope": "Nope",
+  "@reviewSwipeNope": {
+    "description": "Review game modes"
+  },
+  "reviewSwipeHint": "Swipe right if it fits, left if it doesn't",
+  "@reviewSwipeHint": {
+    "description": "Review game modes"
+  },
+  "reviewSwipeActual": "{title} is used for: {usage}",
+  "@reviewSwipeActual": {
+    "description": "Review game modes",
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "usage": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewGapPrompt": "Which grammar completes the sentence?",
+  "@reviewGapPrompt": {
+    "description": "Review game modes"
+  },
+  "reviewGapHint": "Tap or drag a chip into the gap",
+  "@reviewGapHint": {
+    "description": "Review game modes"
+  },
+  "reviewMeaningPrompt": "What does this sentence mean?",
+  "@reviewMeaningPrompt": {
+    "description": "Review game modes"
+  },
+  "reviewPairsBadge": "You mix these up",
+  "@reviewPairsBadge": {
+    "description": "Review game modes"
+  },
+  "reviewPairsPrompt": "Which grammar would you use to say this?",
+  "@reviewPairsPrompt": {
+    "description": "Review game modes"
+  },
+  "reviewMemorySubtitle": "Match each grammar point from your last cards to its usage.",
+  "@reviewMemorySubtitle": {
+    "description": "Review game modes"
+  },
+  "reviewMemoryMoves": "Moves",
+  "@reviewMemoryMoves": {
+    "description": "Review game modes"
+  },
+  "reviewMemoryTime": "Time",
+  "@reviewMemoryTime": {
+    "description": "Review game modes"
+  },
+  "reviewMemoryPairs": "Pairs",
+  "@reviewMemoryPairs": {
+    "description": "Review game modes"
+  },
+  "reviewMemoryMismatch": "Not a pair. Try again!",
+  "@reviewMemoryMismatch": {
+    "description": "Review game modes"
+  },
+  "reviewMemoryDone": "All {pairs} pairs in {moves} moves",
+  "@reviewMemoryDone": {
+    "description": "Review game modes",
+    "placeholders": {
+      "pairs": {
+        "type": "int"
+      },
+      "moves": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewPerfect": "Perfect",
+  "@reviewPerfect": {
+    "description": "Review game modes"
+  },
+  "reviewSkip": "Skip",
+  "@reviewSkip": {
+    "description": "Review game modes"
+  },
+  "reviewContinue": "Continue",
+  "@reviewContinue": {
+    "description": "Review game modes"
+  },
+  "reviewLightningSubtitle": "30 seconds. Swipe as many as you can.",
+  "@reviewLightningSubtitle": {
+    "description": "Review game modes"
+  },
+  "reviewLightningStart": "Start",
+  "@reviewLightningStart": {
+    "description": "Review game modes"
+  },
+  "reviewLightningScore": "Score",
+  "@reviewLightningScore": {
+    "description": "Review game modes"
+  },
+  "reviewLightningBest": "Best {score}",
+  "@reviewLightningBest": {
+    "description": "Review game modes",
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewLightningResult": "{right} right · score {score}",
+  "@reviewLightningResult": {
+    "description": "Review game modes",
+    "placeholders": {
+      "right": {
+        "type": "int"
+      },
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewLightningNewBest": "New best!",
+  "@reviewLightningNewBest": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryCards": "Cards",
+  "@reviewSummaryCards": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryFirstTry": "First try",
+  "@reviewSummaryFirstTry": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryBestCombo": "Best combo",
+  "@reviewSummaryBestCombo": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryMistakes": "Your mistakes",
+  "@reviewSummaryMistakes": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryMistakesHint": "Tap one to jump back to it.",
+  "@reviewSummaryMistakesHint": {
+    "description": "Review game modes"
+  },
+  "reviewSummaryNoMistakes": "No mistakes. Perfect session!",
+  "@reviewSummaryNoMistakes": {
+    "description": "Review game modes"
+  },
+  "reviewShareRecap": "Share my recap",
+  "@reviewShareRecap": {
+    "description": "Review game modes"
+  },
+  "recapTitle": "Session recap",
+  "@recapTitle": {
+    "description": "Review game modes"
+  },
+  "recapHighlights": "What I learned",
+  "@recapHighlights": {
+    "description": "Review game modes"
+  },
+  "recapTagline": "Japanese beyond textbooks",
+  "@recapTagline": {
+    "description": "Review game modes"
+  },
+  "recapShareVideo": "Share video",
+  "@recapShareVideo": {
+    "description": "Review game modes"
+  },
+  "recapShareImage": "Share image",
+  "@recapShareImage": {
+    "description": "Review game modes"
+  },
+  "recapRendering": "Making your video… {percent}%",
+  "@recapRendering": {
+    "description": "Review game modes",
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "recapShareText": "My Japanese session on Japanana: {cards} grammar cards, {firstTry}% right on the first try 🍌",
+  "@recapShareText": {
+    "description": "Review game modes",
+    "placeholders": {
+      "cards": {
+        "type": "int"
+      },
+      "firstTry": {
+        "type": "int"
+      }
+    }
+  },
+  "recapFailed": "Couldn't make the video. Try again.",
+  "@recapFailed": {
+    "description": "Review game modes"
   }
 }

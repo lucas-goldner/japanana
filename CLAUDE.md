@@ -79,7 +79,7 @@ Each feature follows the same structure:
 - **presentation/**: UI screens and widgets
 
 Key features:
-- **in_review/**: Main review screen with card animations and chat-style interface
+- **in_review/**: Main review screen: one scrolling chat with mixed question types, game breaks and a shareable recap
 - **review_setup/**: Configuration screen for review options
 - **lecture_list/**: Display and management of grammar lectures
 - **statistics/**: User progress tracking with mistake analytics
@@ -151,6 +151,16 @@ Every user starts on `/onboarding` once (`features/onboarding/`), existing learn
 - **Motion** (`presentation/widgets/motion.dart`): `Reveal`, `BlurWords`, `RollingNumber`, `Float`, `Pulse`, `useDelayedProgress`; keep blur wrappers in the tree (`ImageFiltered(enabled:)`) so finishing an animation doesn't remount children
 - Each step paints its own tinted graph paper (`StepTint`); the reminder step is always night themed. The approved motion prototype was the reference for timings and copy
 - Golden tests start at any step with `OnboardingScreen(initialStep: ...)`
+
+### Review Session
+The review (`features/in_review/`) is one scrolling history; every lecture and game is a section that stays on screen, so mistakes can be read again at the end:
+- **Question types** (`QuestionMode`, built by `QuestionBuilder` in `domain/question_builder.dart`): pick one of four (the classic), swipe whether a usage fits, fill the gap (grammar cut out of an example; needs the title's Japanese in the sentence), what does it mean (pick the translation) and which one is it (two lectures the learner mixed up, from the study log's `pickedLectureId`). Unseen lectures only get pick one or meaning; mixed-up lectures get pairs; the same type never repeats twice in a row. Gap and pairs hide the title until answered
+- After the question the lecture's examples follow as before (try to guess, translations, extras), skipping the example the question already used
+- **Breaks** every `kBreakEvery` (10) lectures alternate a memory game (title ↔ usage pairs from the last cards) and a 30 second lightning round (best score in `lightning_best_score`)
+- **Scrolling**: new sections scroll to just below the app bar; when the user stops scrolling it snaps to a section start nearby and briefly shows a small topic label; a combo meter (right first tries in a row) sits in the app bar
+- **Summary** at the end: cards, first-try %, best combo, missed lectures (tap to jump back) and **Share my recap**
+- **Recap video** (`presentation/recap/`): `RecapFrame` is a pure function of progress; `RecapShareScreen` renders 240 frames at 720×1280 and encodes them through `RecapVideoEncoder` (method channel `japanana/recap_video`, AVFoundation code in `ios/Runner/AppDelegate.swift` and `macos/Runner/MainFlutterWindow.swift`, kept there so the Xcode project needs no new files). Other platforms share a PNG of the stats frame
+- Golden tests force question types with `InReview(..., modeSequence:, breakEvery:)`
 
 ### Statistics and Mistake Tracking
 The statistics screen (`features/statistics/`) is a dashboard built from a local study log:

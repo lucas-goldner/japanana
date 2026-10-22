@@ -553,9 +553,10 @@ class PainsStep extends HookConsumerWidget {
     final drag = useState(Offset.zero);
     final flyTarget = useState<Offset?>(null);
     final fly = useAnimationController(duration: _kCardFlyDuration);
-    final flyProgress = useAnimation(
-      CurvedAnimation(parent: fly, curve: Curves.easeInCubic),
+    final flyCurve = useMemoized(
+      () => CurvedAnimation(parent: fly, curve: Curves.easeInCubic),
     );
+    final flyProgress = useAnimation(flyCurve);
     final width = MediaQuery.sizeOf(context).width;
 
     Future<void> decide({required bool agreed}) async {
