@@ -767,4 +767,159 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get onbMaybeLater => 'あとで';
+
+  @override
+  String get reviewModeChoose => '選んで';
+
+  @override
+  String get reviewModeSwipe => 'スワイプ';
+
+  @override
+  String get reviewModeGap => '穴埋め';
+
+  @override
+  String get reviewModeMeaning => 'どういう意味？';
+
+  @override
+  String get reviewModePairs => 'どっち？';
+
+  @override
+  String get reviewModeMemory => '神経衰弱';
+
+  @override
+  String get reviewModeLightning => 'スピード勝負';
+
+  @override
+  String reviewSwipePrompt(String title) {
+    return 'この使い方は$titleに合う？';
+  }
+
+  @override
+  String get reviewSwipeFits => '合う';
+
+  @override
+  String get reviewSwipeNope => '違う';
+
+  @override
+  String get reviewSwipeHint => '合えば右、違えば左へスワイプ';
+
+  @override
+  String reviewSwipeActual(String title, String usage) {
+    return '$titleの使い方：$usage';
+  }
+
+  @override
+  String get reviewGapPrompt => 'どの文法が入る？';
+
+  @override
+  String get reviewGapHint => 'チップをタップするか、ドラッグして入れてね';
+
+  @override
+  String get reviewMeaningPrompt => 'この文はどういう意味？';
+
+  @override
+  String get reviewPairsBadge => 'よく混同する組み合わせ';
+
+  @override
+  String get reviewPairsPrompt => 'これを言うならどっちの文法？';
+
+  @override
+  String get reviewMemorySubtitle => '直近の文法と使い方をペアにしよう。';
+
+  @override
+  String get reviewMemoryMoves => '手数';
+
+  @override
+  String get reviewMemoryTime => '時間';
+
+  @override
+  String get reviewMemoryPairs => 'ペア';
+
+  @override
+  String get reviewMemoryMismatch => 'ペアじゃないよ。もう一回！';
+
+  @override
+  String reviewMemoryDone(int pairs, int moves) {
+    return '$moves手で$pairsペア完成';
+  }
+
+  @override
+  String get reviewPerfect => 'パーフェクト';
+
+  @override
+  String get reviewSkip => 'スキップ';
+
+  @override
+  String get reviewContinue => '次へ';
+
+  @override
+  String get reviewLightningSubtitle => '30秒でできるだけたくさん答えよう。';
+
+  @override
+  String get reviewLightningStart => 'スタート';
+
+  @override
+  String get reviewLightningScore => 'スコア';
+
+  @override
+  String reviewLightningBest(int score) {
+    return 'ベスト $score';
+  }
+
+  @override
+  String reviewLightningResult(int right, int score) {
+    return '$right問正解・スコア $score';
+  }
+
+  @override
+  String get reviewLightningNewBest => '自己ベスト更新！';
+
+  @override
+  String get reviewSummaryCards => 'カード';
+
+  @override
+  String get reviewSummaryFirstTry => '一発正解';
+
+  @override
+  String get reviewSummaryBestCombo => '最高コンボ';
+
+  @override
+  String get reviewSummaryMistakes => '間違えた文法';
+
+  @override
+  String get reviewSummaryMistakesHint => 'タップするとその問題に戻れます。';
+
+  @override
+  String get reviewSummaryNoMistakes => 'ミスなし。完璧！';
+
+  @override
+  String get reviewShareRecap => '振り返りをシェア';
+
+  @override
+  String get recapTitle => '今日の振り返り';
+
+  @override
+  String get recapHighlights => '学んだこと';
+
+  @override
+  String get recapTagline => '教科書の先の日本語へ';
+
+  @override
+  String get recapShareVideo => '動画をシェア';
+
+  @override
+  String get recapShareImage => '画像をシェア';
+
+  @override
+  String recapRendering(int percent) {
+    return '動画を作成中… $percent%';
+  }
+
+  @override
+  String recapShareText(int cards, int firstTry) {
+    return 'Japananaで日本語を勉強：文法カード$cards枚、一発正解率$firstTry% 🍌';
+  }
+
+  @override
+  String get recapFailed => '動画を作れませんでした。もう一度試してね。';
 }

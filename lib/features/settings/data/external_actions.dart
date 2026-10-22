@@ -28,6 +28,14 @@ abstract interface class ExternalActions {
 
   /// Opens the share sheet with [text].
   Future<void> shareText(String text, {Rect? shareOrigin});
+
+  /// Opens the share sheet with the file at [path].
+  Future<void> shareFile(
+    String path, {
+    required String mimeType,
+    String? text,
+    Rect? shareOrigin,
+  });
 }
 
 class DeviceExternalActions implements ExternalActions {
@@ -81,5 +89,20 @@ class DeviceExternalActions implements ExternalActions {
   Future<void> shareText(String text, {Rect? shareOrigin}) =>
       SharePlus.instance.share(
         ShareParams(text: text, sharePositionOrigin: shareOrigin),
+      );
+
+  @override
+  Future<void> shareFile(
+    String path, {
+    required String mimeType,
+    String? text,
+    Rect? shareOrigin,
+  }) =>
+      SharePlus.instance.share(
+        ShareParams(
+          files: [XFile(path, mimeType: mimeType)],
+          text: text,
+          sharePositionOrigin: shareOrigin,
+        ),
       );
 }

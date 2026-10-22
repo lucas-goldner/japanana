@@ -810,4 +810,160 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onbMaybeLater => 'Maybe later';
+
+  @override
+  String get reviewModeChoose => 'Pick one';
+
+  @override
+  String get reviewModeSwipe => 'Swipe it';
+
+  @override
+  String get reviewModeGap => 'Fill the gap';
+
+  @override
+  String get reviewModeMeaning => 'What does it mean?';
+
+  @override
+  String get reviewModePairs => 'Which one is it?';
+
+  @override
+  String get reviewModeMemory => 'Memory break';
+
+  @override
+  String get reviewModeLightning => 'Lightning round';
+
+  @override
+  String reviewSwipePrompt(String title) {
+    return 'Does this usage fit $title?';
+  }
+
+  @override
+  String get reviewSwipeFits => 'Fits';
+
+  @override
+  String get reviewSwipeNope => 'Nope';
+
+  @override
+  String get reviewSwipeHint => 'Swipe right if it fits, left if it doesn\'t';
+
+  @override
+  String reviewSwipeActual(String title, String usage) {
+    return '$title is used for: $usage';
+  }
+
+  @override
+  String get reviewGapPrompt => 'Which grammar completes the sentence?';
+
+  @override
+  String get reviewGapHint => 'Tap or drag a chip into the gap';
+
+  @override
+  String get reviewMeaningPrompt => 'What does this sentence mean?';
+
+  @override
+  String get reviewPairsBadge => 'You mix these up';
+
+  @override
+  String get reviewPairsPrompt => 'Which grammar would you use to say this?';
+
+  @override
+  String get reviewMemorySubtitle =>
+      'Match each grammar point from your last cards to its usage.';
+
+  @override
+  String get reviewMemoryMoves => 'Moves';
+
+  @override
+  String get reviewMemoryTime => 'Time';
+
+  @override
+  String get reviewMemoryPairs => 'Pairs';
+
+  @override
+  String get reviewMemoryMismatch => 'Not a pair. Try again!';
+
+  @override
+  String reviewMemoryDone(int pairs, int moves) {
+    return 'All $pairs pairs in $moves moves';
+  }
+
+  @override
+  String get reviewPerfect => 'Perfect';
+
+  @override
+  String get reviewSkip => 'Skip';
+
+  @override
+  String get reviewContinue => 'Continue';
+
+  @override
+  String get reviewLightningSubtitle => '30 seconds. Swipe as many as you can.';
+
+  @override
+  String get reviewLightningStart => 'Start';
+
+  @override
+  String get reviewLightningScore => 'Score';
+
+  @override
+  String reviewLightningBest(int score) {
+    return 'Best $score';
+  }
+
+  @override
+  String reviewLightningResult(int right, int score) {
+    return '$right right · score $score';
+  }
+
+  @override
+  String get reviewLightningNewBest => 'New best!';
+
+  @override
+  String get reviewSummaryCards => 'Cards';
+
+  @override
+  String get reviewSummaryFirstTry => 'First try';
+
+  @override
+  String get reviewSummaryBestCombo => 'Best combo';
+
+  @override
+  String get reviewSummaryMistakes => 'Your mistakes';
+
+  @override
+  String get reviewSummaryMistakesHint => 'Tap one to jump back to it.';
+
+  @override
+  String get reviewSummaryNoMistakes => 'No mistakes. Perfect session!';
+
+  @override
+  String get reviewShareRecap => 'Share my recap';
+
+  @override
+  String get recapTitle => 'Session recap';
+
+  @override
+  String get recapHighlights => 'What I learned';
+
+  @override
+  String get recapTagline => 'Japanese beyond textbooks';
+
+  @override
+  String get recapShareVideo => 'Share video';
+
+  @override
+  String get recapShareImage => 'Share image';
+
+  @override
+  String recapRendering(int percent) {
+    return 'Making your video… $percent%';
+  }
+
+  @override
+  String recapShareText(int cards, int firstTry) {
+    return 'My Japanese session on Japanana: $cards grammar cards, $firstTry% right on the first try 🍌';
+  }
+
+  @override
+  String get recapFailed => 'Couldn\'t make the video. Try again.';
 }

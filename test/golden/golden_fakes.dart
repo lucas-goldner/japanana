@@ -140,4 +140,13 @@ class FakeExternalActions implements ExternalActions {
   @override
   Future<void> shareText(String text, {Rect? shareOrigin}) async =>
       opened.add('share:$text');
+
+  @override
+  Future<void> shareFile(
+    String path, {
+    required String mimeType,
+    String? text,
+    Rect? shareOrigin,
+  }) async =>
+      opened.add('share file:$path');
 }
