@@ -46,8 +46,8 @@ Future<void> loadAppFonts() async {
   for (final font in fonts.cast<Map<String, dynamic>>()) {
     final family = (font['family'] as String).replaceFirst('packages/', '');
     final loader = FontLoader(family);
-    for (final asset in (font['fonts'] as List<dynamic>)
-        .cast<Map<String, dynamic>>()) {
+    for (final asset
+        in (font['fonts'] as List<dynamic>).cast<Map<String, dynamic>>()) {
       loader.addFont(rootBundle.load(asset['asset'] as String));
     }
     await loader.load();
@@ -62,13 +62,12 @@ class _FixtureLectureRepository implements LectureRepository {
   Future<List<Lecture>> fetchLectures({
     String? assetsPath,
     List<String>? lecturesToRememberIds,
-  }) async =>
-      lectures;
+  }) async => lectures;
 }
 
 class _FixtureLectureNotifier extends LectureNotifier {
   _FixtureLectureNotifier(this.lectures)
-      : super(_FixtureLectureRepository(lectures));
+    : super(_FixtureLectureRepository(lectures));
   final List<Lecture> lectures;
 
   @override
@@ -90,6 +89,9 @@ Future<void> pumpGoldenScreen(
   ReminderService? reminders,
   AppIconService? appIcons,
   Locale locale = const Locale('en'),
+  Size size = kGoldenScreenSize,
+  double pixelRatio = _kGoldenPixelRatio,
+  EdgeInsets safeArea = const EdgeInsets.only(top: 59, bottom: 34),
 }) async {
   // Cached asset futures belong to the previous test's fake async zone and
   // never complete in this one.
@@ -97,38 +99,37 @@ Future<void> pumpGoldenScreen(
   SharedPreferences.setMockInitialValues(preferences);
   final prefs = await SharedPreferences.getInstance();
 
+  final padding = FakeViewPadding(
+    top: safeArea.top * pixelRatio,
+    bottom: safeArea.bottom * pixelRatio,
+  );
   tester.view
-    ..physicalSize = kGoldenScreenSize * _kGoldenPixelRatio
-    ..devicePixelRatio = _kGoldenPixelRatio
-    ..padding = const FakeViewPadding(
-      top: 59 * _kGoldenPixelRatio,
-      bottom: 34 * _kGoldenPixelRatio,
-    )
-    ..viewPadding = const FakeViewPadding(
-      top: 59 * _kGoldenPixelRatio,
-      bottom: 34 * _kGoldenPixelRatio,
-    );
+    ..physicalSize = size * pixelRatio
+    ..devicePixelRatio = pixelRatio
+    ..padding = padding
+    ..viewPadding = padding;
   addTearDown(tester.view.reset);
 
   final fixtureLectures = lectures ?? goldenLectures;
-  final rememberedIds = prefs.getStringList(
-        'needToRememberLectures',
-      ) ??
-      [];
+  final rememberedIds = prefs.getStringList('needToRememberLectures') ?? [];
 
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
         preferencesProvider.overrideWithValue(prefs),
-        purchasesServiceProvider
-            .overrideWithValue(purchases ?? FakePurchasesService()),
-        backupStorageProvider
-            .overrideWithValue(backupStorage ?? FakeBackupStorage()),
-        reminderServiceProvider
-            .overrideWithValue(reminders ?? FakeReminderService()),
+        purchasesServiceProvider.overrideWithValue(
+          purchases ?? FakePurchasesService(),
+        ),
+        backupStorageProvider.overrideWithValue(
+          backupStorage ?? FakeBackupStorage(),
+        ),
+        reminderServiceProvider.overrideWithValue(
+          reminders ?? FakeReminderService(),
+        ),
         externalActionsProvider.overrideWithValue(FakeExternalActions()),
-        appIconServiceProvider
-            .overrideWithValue(appIcons ?? FakeAppIconService()),
+        appIconServiceProvider.overrideWithValue(
+          appIcons ?? FakeAppIconService(),
+        ),
         sharedPreferencesProvider.overrideWithValue(
           SharedPreferencesRepositoryImpl(prefs),
         ),
@@ -178,11 +179,10 @@ Future<void> expectScreenGolden(
   required String screen,
   required String name,
   required String themeName,
-}) =>
-    expectLater(
-      find.byType(MaterialApp),
-      matchesGoldenFile('goldens/$screen/${name}_$themeName.png'),
-    );
+}) => expectLater(
+  find.byType(MaterialApp),
+  matchesGoldenFile('goldens/$screen/${name}_$themeName.png'),
+);
 
 /// Runs [body] once per entry of [goldenThemes].
 ///
@@ -190,7 +190,7 @@ Future<void> expectScreenGolden(
 void goldenTest(
   String description,
   Future<void> Function(WidgetTester tester, ThemeData theme, String themeName)
-      body,
+  body,
 ) {
   for (final MapEntry(key: themeName, value: theme) in goldenThemes.entries) {
     testWidgets(
