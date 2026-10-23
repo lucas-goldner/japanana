@@ -4,6 +4,7 @@ import 'package:japanana/core/app_config.dart';
 import 'package:japanana/core/extensions.dart';
 import 'package:japanana/core/hooks/use_widget_canvas_controller.dart';
 import 'package:japanana/core/presentation/widgets/widget_canvas.dart';
+import 'package:japanana/features/settings/application/app_icon_provider.dart';
 import 'package:japanana/features/settings/application/store_provider.dart';
 import 'package:japanana/features/settings/data/external_actions.dart';
 import 'package:japanana/features/settings/domain/setting_type.dart';
@@ -15,6 +16,8 @@ const settingsLayout = [
   // Core App Settings (Top-Left)
   (SettingType.language, Offset(-180, -380)),
   (SettingType.theme, Offset(-50, -240)),
+  // Only where the home screen icon can be switched.
+  (SettingType.appIcon, Offset(90, -170)),
   (SettingType.notifications, Offset(-250, -100)), // Bridge to center
   (SettingType.reminder, Offset(-280, 20)),
 
@@ -37,8 +40,25 @@ const settingsLayout = [
   (SettingType.followOnX, Offset(30, 300)),
 ];
 
-class Settings extends HookConsumerWidget {
+class Settings extends ConsumerWidget {
   const Settings({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final canSwitchIcon = ref.watch(appIconProvider).value != null;
+    // The canvas lays its items out once, so it's rebuilt when the app icon
+    // item appears.
+    return _SettingsView(
+      key: ValueKey(canSwitchIcon),
+      canSwitchIcon: canSwitchIcon,
+    );
+  }
+}
+
+class _SettingsView extends HookConsumerWidget {
+  const _SettingsView({required this.canSwitchIcon, super.key});
+
+  final bool canSwitchIcon;
 
   Future<void> _onSettingTap(
     BuildContext context,
@@ -79,7 +99,11 @@ class Settings extends HookConsumerWidget {
       context: context,
       centerOffset: const Offset(0, -150),
       scale: 0.8,
-      children: settingsLayout.map((setting) {
+      children: settingsLayout
+          .where(
+            (setting) => setting.$1 != SettingType.appIcon || canSwitchIcon,
+          )
+          .map((setting) {
         final (settingType, offset) = setting;
         return WidgetCanvasChild(
           key: ValueKey(settingType),

@@ -133,15 +133,21 @@ const _kButtonSlideDistance = 80.0;
 ### Settings
 Each item on the settings canvas (`features/settings/`) opens a sheet or an external action:
 - **Language** (System / English / 日本語) and **Theme** (System / Light / Dark): `appSettingsProvider`, persisted in SharedPreferences and applied in `main.dart`
+- **App Icon** (iOS only, hidden elsewhere): the default icon is Nana "Sparkle" (free); the alternates are a supporter perk (locked tiles open the Subscription sheet; a lapsed supporter is switched back to Sparkle). The alternates (`AppIcon` in `settings/domain/app_icon.dart`) are icon sets `AppIcon-<Name>.appiconset` in `ios/Runner/Assets.xcassets`, listed in `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` in the Xcode project, and switched through `AppIconService` (method channel `japanana/app_icon`, `AppIconSwitcher` in `AppDelegate.swift`); previews live in `assets/images/app_icons/`. To add an icon: add the icon set, its name to that build setting, an `AppIcon` value and a preview
 - **Notifications** and **Daily Reminder**: local notifications through `ReminderService` (flutter_local_notifications)
 - **Reset Progress** and **Export & Sync**: `ProgressController` + `ProgressBackup` (JSON backup file on every platform, iCloud on iOS/macOS via icloud_storage_plus)
-- **Subscription** (supporter badge) and **Donation** (tips): RevenueCat via `PurchasesService` and `storeProvider`
+- **Subscription** (supporter badge, alternate app icons, home screen widgets) and **Donation** (tips): RevenueCat via `PurchasesService` and `storeProvider`
 - **Send Feedback**, **Rate the App** and the link items: `ExternalActions` (url_launcher, in_app_review)
 - **See Changelog**: `assets/changelog/changelog.json` with English and Japanese entries; add an entry for every release
 - Platform services sit behind providers so tests override them with the fakes in `test/golden/golden_fakes.dart`
 - `SharedPreferences` is loaded in `main()` and provided at the root `ProviderScope` (`preferencesProvider`); don't add nested scopes with overrides, providers without declared dependencies can't see them
 - Links, the support email, the App Store id and the iCloud container live in `core/app_config.dart` (placeholders marked TODO)
 - RevenueCat keys are passed at build time: `--dart-define=REVENUECAT_APPLE_API_KEY=... --dart-define=REVENUECAT_GOOGLE_API_KEY=...`; without them the store sheets show "store unavailable"
+
+### iOS Widgets (supporter perk)
+- Widget extension target `JapananaWidgets` (`ios/JapananaWidgets/`, SwiftUI, iOS 17+, bundle id `com.lucas-goldner.hikou.widgets`): Streak (small + lock screen), Grammar of the day (small, medium) and This week (medium, large); non-supporters see a locked Nana
+- Data flows through the App Group `group.com.lucas-goldner.hikou`: `widgetSnapshotProvider` (`features/widgets/`) builds a `WidgetSnapshot` from the study stats, lectures, supporter state and the app language; `widgetSyncProvider` (watched in `main.dart`) sends it as JSON over the `japanana/widgets` channel to `WidgetBridge` in `AppDelegate.swift`, which stores it in the shared `UserDefaults` and reloads the timelines. Keep the JSON fields in sync with `WidgetSnapshot` in `JapananaWidgets.swift`
+- The widgets end the streak and roll today's cards over at midnight by themselves from `lastStudyDate` and the per-day counts
 
 ### Onboarding
 Every user starts on `/onboarding` once (`features/onboarding/`), existing learners included; `main()` picks the start route with `shouldShowOnboarding(prefs)`, which is false once `onboarding_completed` is set:

@@ -4,6 +4,7 @@ import 'package:japanana/core/extensions.dart';
 enum SettingType {
   language,
   theme,
+  appIcon,
   notifications,
   subscription,
   reminder,
@@ -22,6 +23,7 @@ enum SettingType {
   String label(BuildContext context) => switch (this) {
         SettingType.language => context.l10n.settingLanguage,
         SettingType.theme => context.l10n.settingTheme,
+        SettingType.appIcon => context.l10n.settingAppIcon,
         SettingType.notifications => context.l10n.settingNotifications,
         SettingType.subscription => context.l10n.settingSubscription,
         SettingType.reminder => context.l10n.settingReminder,
@@ -41,6 +43,7 @@ enum SettingType {
   IconData get icon => switch (this) {
         SettingType.language => Icons.translate,
         SettingType.theme => Icons.palette,
+        SettingType.appIcon => Icons.auto_awesome,
         SettingType.notifications => Icons.notifications_outlined,
         SettingType.subscription => Icons.workspace_premium,
         SettingType.reminder => Icons.alarm_outlined,
